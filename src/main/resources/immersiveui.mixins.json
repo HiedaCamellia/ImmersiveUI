@@ -1,12 +1,13 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "org.hiedacamellia.immersiveui.mixin",
+  "package": "org.hiedacamellia.immersiveui.client.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "immersiveui.refmap.json",
   "mixins": [
   ],
   "client": [
+    "accessor.GameRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
