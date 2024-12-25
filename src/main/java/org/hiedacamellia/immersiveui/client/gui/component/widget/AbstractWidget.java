@@ -1,6 +1,7 @@
 package org.hiedacamellia.immersiveui.client.gui.component.widget;
 
 import net.minecraft.client.gui.GuiGraphics;
+import org.joml.Vector2i;
 
 public abstract class AbstractWidget {
 
@@ -21,6 +22,10 @@ public abstract class AbstractWidget {
         this.alpha = alpha;
     }
 
+    public float getAlpha() {
+        return alpha;
+    }
+
     public void setX(int x) {
         this.x = x;
     }
@@ -32,6 +37,15 @@ public abstract class AbstractWidget {
     public void setPos(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void setPos(Vector2i pos) {
+        this.x = pos.x;
+        this.y = pos.y;
+    }
+
+    public Vector2i getPos() {
+        return new Vector2i(x, y);
     }
 
     public void setCenter(int x, int y) {
