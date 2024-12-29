@@ -11,9 +11,10 @@ public abstract class AbstractWidget {
     protected int x,y;
     protected int centerX,centerY;
     protected float alpha = 1.0f;
+    protected float renderHeight,renderWidth;
 
-    public AbstractWidget(int length, int width) {
-        this.height = length;
+    public AbstractWidget(int height, int width) {
+        this.height = height;
         this.width = width;
         this.renderScale = 1.0f;
     }
@@ -70,6 +71,12 @@ public abstract class AbstractWidget {
     }
 
     public abstract void render(GuiGraphics guiGraphics, float x, float y);
+
+    public void render(GuiGraphics guiGraphics, float x, float y, float width, float height){
+        this.renderWidth = width;
+        this.renderHeight = height;
+        render(guiGraphics,x,y);
+    }
 
     public abstract void hover(boolean hover);
 
