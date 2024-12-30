@@ -1,6 +1,7 @@
 package org.hiedacamellia.immersiveui.client.gui.layout;
 
 import net.minecraft.client.gui.GuiGraphics;
+import org.hiedacamellia.immersiveui.client.gui.component.screen.ScreenComponent;
 
 import java.util.Map;
 
@@ -31,4 +32,8 @@ public interface ILayoutElement {
     void size(int width, int height);
 
     void position(float x, float y);
+
+    void bind(ScreenComponent component);
+
+    int collides(float x, float y);
 }

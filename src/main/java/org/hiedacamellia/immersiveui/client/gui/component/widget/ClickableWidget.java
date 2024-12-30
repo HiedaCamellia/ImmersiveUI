@@ -7,4 +7,6 @@ public abstract class ClickableWidget extends AbstractWidget{
     }
 
     public abstract void click(boolean click);
+
+    public abstract boolean click();
 }

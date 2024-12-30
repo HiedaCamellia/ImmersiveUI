@@ -171,6 +171,15 @@ public class LinearLayout extends Layout {
         }
     }
 
+    @Override
+    public int collides(float x, float y){
+        for(int i = 0; i < children.size(); i++){
+            if(children.get(i).collides(x,y) != -1){
+                return children.get(i).getIndex();
+            }
+        }
+        return -1;
+    }
 
     public enum Orientation {
         HORIZONTAL,

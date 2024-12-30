@@ -1,5 +1,6 @@
 package org.hiedacamellia.immersiveui.client.gui.component.w2s;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -18,6 +19,8 @@ import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetL
 public abstract class World2ScreenComponent extends World2ScreenWidget {
 
     protected ScreenComponent screenComponent;
+    public int ScreenWidth = Minecraft.getInstance().getWindow().getScreenWidth();
+    public int ScreenHeight = Minecraft.getInstance().getWindow().getScreenHeight();
 
     protected World2ScreenComponent(ScreenComponent screenComponent) {
         this.screenComponent = screenComponent;
@@ -32,5 +35,10 @@ public abstract class World2ScreenComponent extends World2ScreenWidget {
 
     public abstract void getWorldPos(Vector3f out);
 
-    public abstract boolean click();
+    public boolean click(){
+        if(screenComponent != null) {
+            return screenComponent.click(ScreenWidth-x,ScreenHeight-y);
+        }
+        return false;
+    }
 }

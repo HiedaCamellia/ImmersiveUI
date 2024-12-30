@@ -1,7 +1,9 @@
 package org.hiedacamellia.immersiveui.client.gui.layout;
 
 import net.minecraft.client.gui.GuiGraphics;
+import org.hiedacamellia.immersiveui.client.gui.component.screen.ScreenComponent;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +12,8 @@ public abstract class Layout implements ILayoutElement{
     protected int width, height;
     protected float x, y;
     protected int index;
+    @Nullable
+    protected ScreenComponent parent;
 
     public Layout(int index){
         this.index = index;
@@ -79,5 +83,15 @@ public abstract class Layout implements ILayoutElement{
             objects.putAll(get(i).getObjects());
         }
         return objects;
+    }
+
+    @Override
+    public int collides(float x, float y){
+        return (x >= this.x && x <= this.x + width && y >= this.y && y <= this.y + height)?index:-1;
+    }
+
+    @Override
+    public void bind(ScreenComponent component) {
+        this.parent = component;
     }
 }
