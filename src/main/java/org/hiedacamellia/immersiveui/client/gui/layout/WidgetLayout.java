@@ -7,12 +7,13 @@ public class WidgetLayout extends Layout {
 
     private final AbstractWidget widget;
 
-    public WidgetLayout(AbstractWidget widget) {
+    public WidgetLayout(AbstractWidget widget, int index) {
+        super(index);
         this.widget = widget;
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, float x, float y, float width, float height) {
+    public void render(GuiGraphics guiGraphics, float width, float height) {
         widget.render(guiGraphics, x, y, width, height);
     }
 
@@ -25,4 +26,5 @@ public class WidgetLayout extends Layout {
     public int getHeight() {
         return widget.getHeight();
     }
+
 }

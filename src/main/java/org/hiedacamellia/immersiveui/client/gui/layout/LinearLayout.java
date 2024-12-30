@@ -13,16 +13,14 @@ public class LinearLayout extends Layout {
 
     private Orientation orientation;
     private boolean flex;
-
-    private int width;
-    private int height;
     //缓存每个子控件的宽度
     private List<Integer> childWidths;
     private boolean built;
 
-    public LinearLayout() {
-        children = new ArrayList<>();
-        weights = new ArrayList<>();
+    public LinearLayout(int index) {
+        super(index);
+        this.children = new ArrayList<>();
+        this.weights = new ArrayList<>();
         this.flex = false;
         this.built = false;
     }
@@ -35,10 +33,6 @@ public class LinearLayout extends Layout {
         this.orientation = Orientation.VERTICAL;
     }
 
-    public void size(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
 
     public void flex() {
         this.flex = true;
@@ -46,18 +40,27 @@ public class LinearLayout extends Layout {
 
     @Override
     public void add(ILayoutElement layout) {
-        children.add(layout);
-        weights.add(1);
+        add(layout, 1);
+    }
+
+    @Override
+    public int size() {
+        return children.size();
+    }
+
+    @Override
+    public ILayoutElement get(int index) {
+        return children.get(index);
     }
 
     public void add(ILayoutElement layout, int weight) {
-        children.add(layout);
-        weights.add(weight);
+        this.children.add(layout);
+        this.weights.add(weight);
     }
 
+
     public void remove(ILayoutElement layout) {
-        weights.remove(children.indexOf(layout));
-        children.remove(layout);
+        remove(children.indexOf(layout));
     }
 
     public void remove(int index) {
@@ -78,13 +81,13 @@ public class LinearLayout extends Layout {
         return weights;
     }
 
-    public void add(AbstractWidget widget) {
-        children.add(new WidgetLayout(widget));
+    public void add(AbstractWidget widget,int index) {
+        children.add(new WidgetLayout(widget,index));
         weights.add(1);
     }
 
-    public void add(AbstractWidget widget, int weight) {
-        children.add(new WidgetLayout(widget));
+    public void add(AbstractWidget widget, int weight, int index) {
+        children.add(new WidgetLayout(widget,index));
         weights.add(weight);
     }
 
@@ -148,7 +151,7 @@ public class LinearLayout extends Layout {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, float x, float y, float width, float height) {
+    public void render(GuiGraphics guiGraphics, float width, float height) {
         if (!built) {
             build();
         }
@@ -156,25 +159,18 @@ public class LinearLayout extends Layout {
         for (int i = 0; i < children.size(); i++) {
             switch (orientation) {
                 case HORIZONTAL:
-                    children.get(i).render(guiGraphics, x + nx, y, childWidths.get(i), height);
+                    children.get(i).position(x+nx, y);
+                    children.get(i).render(guiGraphics, childWidths.get(i), height);
                     break;
                 case VERTICAL:
-                    children.get(i).render(guiGraphics, x, y + nx, width, childWidths.get(i));
+                    children.get(i).position(x, y + nx);
+                    children.get(i).render(guiGraphics, width, childWidths.get(i));
                     break;
             }
             nx += childWidths.get(i);
         }
     }
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
 
     public enum Orientation {
         HORIZONTAL,
