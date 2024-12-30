@@ -6,6 +6,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.hiedacamellia.immersiveui.client.gui.animate.AnimateUtils;
 import org.hiedacamellia.immersiveui.client.gui.layout.Layout;
+import org.hiedacamellia.immersiveui.client.gui.layout.LayoutRenderer;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -21,12 +22,12 @@ public abstract class ScreenComponent {
     public boolean selectable = false;
     protected boolean shouldRemove = false;
     protected float alpha = 0;
-    protected Layout layout;
+    protected LayoutRenderer layoutRenderer;
 
-    protected ScreenComponent() {
+    public void render(GuiGraphics guiGraphics, float deltaTicks){
+        if(layoutRenderer != null)
+            layoutRenderer.render(guiGraphics, deltaTicks);
     }
-
-    public abstract void render(GuiGraphics guiGraphics, float deltaTicks);
 
     public void setScreenPos(float x, float y) {
         this.x = x;
