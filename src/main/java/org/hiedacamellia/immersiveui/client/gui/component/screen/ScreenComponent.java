@@ -1,22 +1,14 @@
 package org.hiedacamellia.immersiveui.client.gui.component.screen;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.hiedacamellia.immersiveui.client.gui.animate.AnimateUtils;
 import org.hiedacamellia.immersiveui.client.gui.layout.ILayoutElement;
-import org.hiedacamellia.immersiveui.client.gui.layout.Layout;
 import org.hiedacamellia.immersiveui.client.gui.layout.LayoutRenderer;
 import org.hiedacamellia.immersiveui.client.gui.layout.WidgetLayout;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.util.Map;
-
-import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer.FADE_BEGIN_DISTANCE;
-import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer.FADE_DISTANCE;
 
 @OnlyIn(Dist.CLIENT)
 public class ScreenComponent {
@@ -27,7 +19,7 @@ public class ScreenComponent {
     public boolean selectable = false;
     protected boolean shouldRemove = false;
     protected float alpha = 0;
-    protected ILayoutElement layoutElement;
+    public ILayoutElement layout;
     protected LayoutRenderer layoutRenderer;
 
     public void render(GuiGraphics guiGraphics, float deltaTicks){
@@ -36,14 +28,15 @@ public class ScreenComponent {
     }
 
     public void setLayoutElement(ILayoutElement layoutElement) {
-        this.layoutElement = layoutElement;
-        this.layoutElement.bind(this);
+        this.layout = layoutElement;
+        this.layout.bind(this);
         this.layoutRenderer = new LayoutRenderer((int)x, (int)y, layoutElement);
     }
 
     public void setScreenPos(float x, float y) {
         this.x = x;
         this.y = y;
+        layoutRenderer.position((int)x, (int)y);
     }
 
     public void updateAlpha() {
@@ -70,8 +63,8 @@ public class ScreenComponent {
     }
 
     public boolean click(float x,float y){
-        int collides = layoutElement.collides(x, y);
-        Map<Integer, ILayoutElement> objects = layoutElement.getObjects();
+        int collides = layout.collides(x, y);
+        Map<Integer, ILayoutElement> objects = layout.getObjects();
         if(objects.get(collides)instanceof WidgetLayout widgetLayout){
             return widgetLayout.click();
         }

@@ -24,6 +24,11 @@ public class ArrowWidget extends ClickableWidget{
     }
 
     @Override
+    public boolean click() {
+        return false;
+    }
+
+    @Override
     public void render(GuiGraphics guiGraphics, float x, float y) {
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();

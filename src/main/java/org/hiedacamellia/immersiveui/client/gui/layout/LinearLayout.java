@@ -94,6 +94,7 @@ public class LinearLayout extends Layout {
     //计算每个子控件的宽度
     @Override
     public void build() {
+        this.children.forEach(ILayoutElement::build);
         switch (orientation) {
             case HORIZONTAL:
                 buildHorizontal();
@@ -102,20 +103,24 @@ public class LinearLayout extends Layout {
                 buildVertical();
                 break;
         }
-        this.children.forEach(ILayoutElement::build);
         built = true;
     }
 
     private void buildHorizontal() {
         if (flex) {
             int totalWidth = 0;
+            int maxHeight = 0;
             this.childWidths = new ArrayList<>();
             for (int i = 0; i < children.size(); i++) {
                 int j = children.get(i).getWidth();
+                if (children.get(i).getHeight() > maxHeight) {
+                    maxHeight = children.get(i).getHeight();
+                }
                 totalWidth += j;
                 this.childWidths.add(j);
             }
             this.width = totalWidth;
+            this.height = maxHeight;
         } else {
             childWidths = new ArrayList<>();
             int totalWeight = 0;
@@ -131,13 +136,18 @@ public class LinearLayout extends Layout {
     private void buildVertical() {
         if (flex) {
             int totalHeight = 0;
+            int maxWidth = 0;
             this.childWidths = new ArrayList<>();
             for (int i = 0; i < children.size(); i++) {
                 int j = children.get(i).getHeight();
+                if (children.get(i).getWidth() > maxWidth) {
+                    maxWidth = children.get(i).getWidth();
+                }
                 totalHeight += j;
                 this.childWidths.add(j);
             }
             this.height = totalHeight;
+            this.width = maxWidth;
         } else {
             childWidths = new ArrayList<>();
             int totalWeight = 0;
