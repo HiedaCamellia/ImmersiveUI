@@ -7,7 +7,7 @@
  */
 
 
-package org.hiedacamellia.immersiveui.client.shader;
+package org.hiedacamellia.immersiveui.client.graphic.shader;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.renderer.ShaderInstance;

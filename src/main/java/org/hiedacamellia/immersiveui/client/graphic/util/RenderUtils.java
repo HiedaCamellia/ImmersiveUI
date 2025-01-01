@@ -6,7 +6,7 @@
  * This code is under the MIT License.
  */
 
-package org.hiedacamellia.immersiveui.client.util;
+package org.hiedacamellia.immersiveui.client.graphic.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.hiedacamellia.immersiveui.client.shader.Shaders;
+import org.hiedacamellia.immersiveui.client.graphic.shader.Shaders;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 

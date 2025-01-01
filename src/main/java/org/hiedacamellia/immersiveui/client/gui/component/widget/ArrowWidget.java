@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
-import org.hiedacamellia.immersiveui.client.util.RenderUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.RenderUtils;
 import org.joml.Quaternionf;
 
 public class ArrowWidget extends ClickableWidget{
