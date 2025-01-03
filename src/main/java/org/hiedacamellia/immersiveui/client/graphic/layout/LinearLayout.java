@@ -2,6 +2,7 @@ package org.hiedacamellia.immersiveui.client.graphic.layout;
 
 import org.hiedacamellia.immersiveui.client.graphic.layout.interfaces.ICacheable;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class LinearLayout extends Layout implements ICacheable {
     private Orientation orientation;
 
     private List<Vector2f> cachedPositions;
+    private Vector2f cachedPosition;
 
     public LinearLayout() {
         this.children = new ArrayList<>();
@@ -54,12 +56,61 @@ public class LinearLayout extends Layout implements ICacheable {
     }
 
     @Override
-    public void cache(float x,float y) {
-        cachedPositions=new ArrayList<>();
-        for(int i = 0; i < children.size(); i++) {
-            if(children.get(i) instanceof ICacheable cacheable) {
-                if(cacheable.shouldCache()) {
-                    cacheable.cache(x,y);
+    public void cache(float x, float y) {
+        if(isCached()){
+            cachedPositions.forEach(vector2f -> {
+                vector2f.add(cachedPosition.negate(new Vector2f(x,y)));
+            });
+            for(int i = 0; i < children.size(); i++){
+                Layout layout = children.get(i);
+                if(layout instanceof ICacheable cacheable){
+                    if(cacheable.shouldCache()){
+                        Vector2f f = cachedPositions.get(i);
+                        cacheable.cache(f.x,f.y);
+                    }
+                }
+            }
+            cachedPosition = new Vector2f(x, y);
+            return;
+        }
+        cachedPosition = new Vector2f(x, y);
+        cachedPositions = new ArrayList<>();
+        float current = switch (this.orientation) {
+            case HORIZONTAL -> x;
+            case VERTICAL -> y;
+        };
+        float step = switch (this.orientation) {
+            case HORIZONTAL -> (float) getMaxWidth() / children.size();
+            case VERTICAL -> (float) getMaxHeight() / children.size();
+        };
+        for (int i = 0; i < children.size(); i++) {
+            Layout layout = children.get(i);
+            switch (layout.getAlign()) {
+                case LEFT -> {
+                    switch (this.orientation) {
+                        case HORIZONTAL -> cachedPositions.add(new Vector2f(current, y));
+                        case VERTICAL -> cachedPositions.add(new Vector2f(x, current));
+                    }
+                }
+                case CENTER -> {
+                    switch (this.orientation) {
+                        case HORIZONTAL -> cachedPositions.add(new Vector2f(current - (float) layout.getMaxWidth() / 2, y));
+                        case VERTICAL -> cachedPositions.add(new Vector2f(x, current - (float) layout.getMaxHeight() / 2));
+                    }
+                }
+                case RIGHT -> {
+                    switch (this.orientation) {
+                        case HORIZONTAL -> cachedPositions.add(new Vector2f(current - (float) layout.getMaxWidth(), y));
+                        case VERTICAL -> cachedPositions.add(new Vector2f(x, current - (float) layout.getMaxHeight()));
+                    }
+                }
+                case null, default -> cachedPositions.add(new Vector2f());
+            }
+            current += step;
+            if (children.get(i) instanceof ICacheable cacheable) {
+                if (cacheable.shouldCache()) {
+                    Vector2f f = cachedPositions.get(i);
+                    cacheable.cache(f.x, f.y);
                 }
             }
         }
@@ -72,7 +123,7 @@ public class LinearLayout extends Layout implements ICacheable {
 
     @Override
     public boolean isCached() {
-        return cachedPositions!=null;
+        return cachedPositions != null;
     }
 
     public enum Orientation {

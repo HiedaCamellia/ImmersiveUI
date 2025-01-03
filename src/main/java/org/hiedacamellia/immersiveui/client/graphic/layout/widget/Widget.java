@@ -6,16 +6,17 @@ import org.hiedacamellia.immersiveui.client.graphic.element.LayoutElements;
 import org.hiedacamellia.immersiveui.client.graphic.layout.Layout;
 import org.hiedacamellia.immersiveui.client.graphic.layout.interfaces.ICacheable;
 import org.hiedacamellia.immersiveui.client.graphic.layout.interfaces.IWidget;
+import org.hiedacamellia.immersiveui.client.graphic.util.RenderUtils;
 
 @SuppressWarnings("unused")
 public class Widget extends Layout implements IWidget, ICacheable {
 
     private int widgetWidth;
     private int widgetHeight;
-    private int x;
-    private int y;
-    private int widgetX;
-    private int widgetY;
+    private float x;
+    private float y;
+    private float widgetX;
+    private float widgetY;
 
 
     private boolean cached;
@@ -32,17 +33,12 @@ public class Widget extends Layout implements IWidget, ICacheable {
 
     @Override
     public int x() {
-        return switch (this.getAlign()) {
-            case LEFT -> x;
-            case CENTER -> x - width() / 2;
-            case RIGHT -> x - width();
-            default -> x;
-        };
+        return (int) x;
     }
 
     @Override
     public int y() {
-        return y;
+        return (int)y;
     }
 
     @Override
@@ -63,11 +59,13 @@ public class Widget extends Layout implements IWidget, ICacheable {
 
     @Override
     public void render(GuiGraphics guiGraphics, float deltaTicks) {
-        guiGraphics.fill(RenderType.GUI, widgetX, widgetY, widgetX + widgetWidth, widgetY + widgetHeight, this.getBackgroundColor().toRGBInt());
+        RenderUtils.fill(guiGraphics, widgetX, widgetY, widgetX + widgetWidth, widgetY + widgetHeight, this.getBackgroundColor().toRGBInt());
     }
 
     @Override
     public void cache(float x, float y) {
+        this.x = x;
+        this.y = y;
 
         LayoutElements.Padding padding = this.getPadding();
         LayoutElements.Border border = this.getBorder();

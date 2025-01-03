@@ -37,7 +37,15 @@ public class RenderUtils {
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
-
+    public static void fill(GuiGraphics guiGraphics,float x,float y ,float width,float height,int color){
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        bufferbuilder.addVertex(matrix4f, x, y, 0).setUv(0, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f, x, y+height, 0).setUv(0, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f, x+width, y+height, 0).setUv(1, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f, x+width, y, 0).setUv(1, 0).setColor(color);
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
 
     public static void fillCenteredRoundRect(GuiGraphics guiGraphics, int width, int height, float radius, int color) {
         fillRoundRect(guiGraphics, -width / 2, -height / 2, width, height, radius, color);
