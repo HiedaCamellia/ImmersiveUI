@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.client.graphic.layout;
+package org.hiedacamellia.immersiveui.client.graphic.layout.interfaces;
 
 import org.hiedacamellia.immersiveui.client.graphic.element.LayoutElements;
 import org.hiedacamellia.immersiveui.client.graphic.element.LayoutColor;

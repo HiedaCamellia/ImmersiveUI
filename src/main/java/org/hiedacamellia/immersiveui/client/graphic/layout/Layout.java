@@ -2,6 +2,7 @@ package org.hiedacamellia.immersiveui.client.graphic.layout;
 
 import org.hiedacamellia.immersiveui.client.graphic.element.LayoutElements;
 import org.hiedacamellia.immersiveui.client.graphic.element.LayoutColor;
+import org.hiedacamellia.immersiveui.client.graphic.layout.interfaces.ILayoutElement;
 import org.joml.Vector3f;
 
 @SuppressWarnings("unused")
