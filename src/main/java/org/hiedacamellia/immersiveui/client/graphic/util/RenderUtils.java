@@ -51,11 +51,11 @@ public class RenderUtils {
         fillRoundRect(guiGraphics, -width / 2, -height / 2, width, height, radius, color);
     }
 
-    public static void fillRoundRect(PoseStack poseStack, int x, int y, int width, int height, float radius, int color) {
-        int x2 = x + width;
-        int y2 = y + height;
+    public static void fillRoundRect(PoseStack poseStack, float x, float y, float width, float height, float radius, int color) {
+        float x2 = x + width;
+        float y2 = y + height;
 
-        final float ratio = (float) height / (float) width;
+        final float ratio =  height /  width;
 
         RenderSystem.setShader(Shaders::getRoundRectShader);
         ShaderInstance shader = Shaders.getRoundRectShader();
@@ -64,10 +64,10 @@ public class RenderUtils {
 
         Matrix4f matrix4f = poseStack.last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferbuilder.addVertex(matrix4f, (float)x, (float)y, 0).setUv(0, 0).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float)x, (float)y2, 0).setUv(0, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float)x2, (float)y2, 0).setUv(1, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float)x2, (float)y, 0).setUv(1, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f, x, y, 0).setUv(0, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f, x, y2, 0).setUv(0, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f, x2, y2, 0).setUv(1, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f, x2, y, 0).setUv(1, 0).setColor(color);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
@@ -81,11 +81,11 @@ public class RenderUtils {
     public static void borderRoundRect(GuiGraphics guiGraphics, int x, int y, int width, int height, float radius, int color ,float borderThickness,int borderColor) {
         borderRoundRect(guiGraphics.pose(), x, y, width, height, radius, color, borderThickness, borderColor);
     }
-    public static void borderRoundRect(PoseStack poseStack, int x, int y, int width, int height, float radius, int color ,float borderThickness,int borderColor) {
-        int x2 = x + width;
-        int y2 = y + height;
+    public static void borderRoundRect(PoseStack poseStack, float x, float y, float width, float height, float radius, int color ,float borderThickness,int borderColor) {
+        float x2 = x + width;
+        float y2 = y + height;
 
-        final float ratio = (float) height / (float) width;
+        final float ratio = height / width;
 
         RenderSystem.setShader(Shaders::getBorderRoundRectShader);
         ShaderInstance shader = Shaders.getBorderRoundRectShader();
@@ -97,10 +97,10 @@ public class RenderUtils {
 
         Matrix4f matrix4f = poseStack.last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferbuilder.addVertex(matrix4f, (float)x, (float)y, 0).setUv(0, 0).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float)x, (float)y2, 0).setUv(0, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float)x2, (float)y2, 0).setUv(1, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float)x2, (float)y, 0).setUv(1, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f,x,y, 0).setUv(0, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f,x,y2, 0).setUv(0, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,x2,y2, 0).setUv(1, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,x2,y, 0).setUv(1, 0).setColor(color);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
