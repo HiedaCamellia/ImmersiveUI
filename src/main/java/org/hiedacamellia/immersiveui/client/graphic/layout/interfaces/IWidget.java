@@ -1,6 +1,6 @@
 package org.hiedacamellia.immersiveui.client.graphic.layout.interfaces;
 
-public interface IWidget extends IRenderable {
+public interface IWidget  {
 
     int width();
 

@@ -7,13 +7,49 @@ public class LayoutElements {
 
     public static class Margin extends Vec4 {
 
+        public Margin(int left, int top, int right, int bottom) {
+            super(left, top, right, bottom);
+        }
+
+        public Margin(int value) {
+            super(value);
+        }
+
+        public Margin() {
+            super(0, 0, 0, 0);
+        }
+
     }
 
     public static class Padding extends Vec4 {
 
+        public Padding(int left, int top, int right, int bottom) {
+            super(left, top, right, bottom);
+        }
+
+        public Padding(int value) {
+            super(value);
+        }
+
+        public Padding() {
+            super(0, 0, 0, 0);
+        }
+
     }
 
     public static class Border extends Vec4 {
+
+        public Border(int left, int top, int right, int bottom) {
+            super(left, top, right, bottom);
+        }
+
+        public Border(int value) {
+            super(value);
+        }
+
+        public Border() {
+            super(0, 0, 0, 0);
+        }
 
     }
 
@@ -42,7 +78,7 @@ public class LayoutElements {
     }
 
     //鼠标行为
-    public enum Cursor{
+    public enum Cursor {
         AUTO,//根据元素内容自动判断鼠标行为
         CAPTURE,//捕获鼠标输入
         PENETRATE,//穿透鼠标输入

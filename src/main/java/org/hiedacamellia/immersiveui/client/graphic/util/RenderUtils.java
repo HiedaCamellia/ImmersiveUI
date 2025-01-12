@@ -12,6 +12,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
@@ -38,13 +39,15 @@ public class RenderUtils {
     }
 
     public static void fill(GuiGraphics guiGraphics,float x,float y ,float width,float height,int color){
+        RenderSystem.enableBlend();
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferbuilder.addVertex(matrix4f, x, y, 0).setUv(0, 0).setColor(color);
-        bufferbuilder.addVertex(matrix4f, x, y+height, 0).setUv(0, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, x+width, y+height, 0).setUv(1, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, x+width, y, 0).setUv(1, 0).setColor(color);
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+        VertexConsumer vertexconsumer = guiGraphics.bufferSource().getBuffer(RenderType.GUI);
+        vertexconsumer.addVertex(matrix4f, x, y, (float)0).setColor(color);
+        vertexconsumer.addVertex(matrix4f, x, y +height, (float)0).setColor(color);
+        vertexconsumer.addVertex(matrix4f, x +width, y+height, (float)0).setColor(color);
+        vertexconsumer.addVertex(matrix4f, x +width, y, (float)0).setColor(color);
+        guiGraphics.flush();
+        RenderSystem.disableBlend();
     }
 
     public static void fillCenteredRoundRect(GuiGraphics guiGraphics, int width, int height, float radius, int color) {

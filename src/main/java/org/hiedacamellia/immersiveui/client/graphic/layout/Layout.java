@@ -1,12 +1,14 @@
 package org.hiedacamellia.immersiveui.client.graphic.layout;
 
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.network.chat.Component;
 import org.hiedacamellia.immersiveui.client.graphic.element.LayoutElements;
 import org.hiedacamellia.immersiveui.client.graphic.element.LayoutColor;
 import org.hiedacamellia.immersiveui.client.graphic.layout.interfaces.ILayoutElement;
 import org.joml.Vector3f;
 
 @SuppressWarnings("unused")
-public class Layout implements ILayoutElement {
+public abstract class Layout extends AbstractWidget implements ILayoutElement {
 
     private LayoutElements.Margin margin;
     private LayoutElements.Padding padding;
@@ -24,6 +26,7 @@ public class Layout implements ILayoutElement {
     private LayoutElements.Cursor cursor;
 
     public Layout(){
+        super(0,0,0,0, Component.empty());
         this.minHeight = 0;
         this.minWidth = 0;
         this.maxHeight = Integer.MAX_VALUE;
@@ -40,59 +43,59 @@ public class Layout implements ILayoutElement {
         this.cursor = LayoutElements.Cursor.AUTO;
     }
 
-    void setMargin(LayoutElements.Margin margin) {
+    public void setMargin(LayoutElements.Margin margin) {
         this.margin = margin;
     }
 
-    void setPadding(LayoutElements.Padding padding) {
+    public void setPadding(LayoutElements.Padding padding) {
         this.padding = padding;
     }
 
-    void setBorder(LayoutElements.Border border) {
+    public void setBorder(LayoutElements.Border border) {
         this.border = border;
     }
 
-    void setColor(LayoutColor color) {
+    public void setColor(LayoutColor color) {
         this.color = color;
     }
 
-    void setBackgroundColor(LayoutColor color) {
+    public void setBackgroundColor(LayoutColor color) {
         this.backgroundColor = color;
     }
 
-    void setBorderColor(LayoutColor color) {
+    public void setBorderColor(LayoutColor color) {
         this.borderColor = color;
     }
 
-    void setTranslate(Vector3f translate) {
+    public void setTranslate(Vector3f translate) {
         this.translate = translate;
     }
 
-    void setMinWidth(int minWidth) {
+    public void setMinWidth(int minWidth) {
         this.minWidth = minWidth;
     }
 
-    void setMinHeight(int minHeight) {
+    public void setMinHeight(int minHeight) {
         this.minHeight = minHeight;
     }
 
-    void setMaxWidth(int maxWidth) {
+    public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
     }
 
-    void setMaxHeight(int maxHeight) {
+    public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
     }
 
-    void setDisplay(LayoutElements.Display display) {
+    public void setDisplay(LayoutElements.Display display) {
         this.display = display;
     }
 
-    void setAlign(LayoutElements.Align align) {
+    public void setAlign(LayoutElements.Align align) {
         this.align = align;
     }
 
-    void setCursor(LayoutElements.Cursor cursor) {
+    public void setCursor(LayoutElements.Cursor cursor) {
         this.cursor = cursor;
     }
 

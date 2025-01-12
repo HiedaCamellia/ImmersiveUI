@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 @Mod(ImmersiveUI.MODID)
 public class ImmersiveUI {
     public static final String MODID = "immersiveui";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public ImmersiveUI(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, ClientConfig.SPEC);

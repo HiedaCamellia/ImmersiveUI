@@ -1,8 +1,10 @@
 package org.hiedacamellia.immersiveui.client.graphic.layout;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.layout.interfaces.ICacheable;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +58,23 @@ public class LinearLayout extends Layout implements ICacheable {
     }
 
     @Override
+    public void setMaxWidth(int maxWidth) {
+        super.setMaxWidth(maxWidth);
+        for(Layout layout : children){
+            layout.setMaxWidth(maxWidth);
+        }
+    }
+    @Override
+    public void setMaxHeight(int maxHeight) {
+        super.setMaxHeight(maxHeight);
+        for (Layout layout : children) {
+            layout.setMaxHeight(maxHeight);
+        }
+    }
+
+    @Override
     public void cache(float x, float y) {
-        if(isCached()){
+        if(!isCached()){
             cachedPositions.forEach(vector2f -> {
                 vector2f.add(cachedPosition.negate(new Vector2f(x,y)));
             });
@@ -124,6 +141,19 @@ public class LinearLayout extends Layout implements ICacheable {
     @Override
     public boolean isCached() {
         return cachedPositions != null;
+    }
+
+    @Override
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        for (Layout layout : children) {
+            layout.render(guiGraphics, mouseX, mouseY, partialTick);
+        }
+        //ImmersiveUI.LOGGER.info("rendered");
+    }
+
+    @Override
+    protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+
     }
 
     public enum Orientation {
