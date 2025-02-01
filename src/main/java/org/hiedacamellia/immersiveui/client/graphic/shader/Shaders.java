@@ -41,6 +41,7 @@ public class Shaders {
     }
 
 
+
     @SubscribeEvent
     public static void onRegisterShaders(RegisterShadersEvent event) throws IOException {
         ResourceProvider provider = event.getResourceProvider();

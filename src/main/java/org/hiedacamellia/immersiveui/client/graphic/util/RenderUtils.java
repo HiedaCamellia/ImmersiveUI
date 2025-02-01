@@ -130,4 +130,5 @@ public class RenderUtils {
         bufferbuilder.addVertex(matrix4f, (float)x2, (float)y, 0).setUv(1, 0);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
+
 }
