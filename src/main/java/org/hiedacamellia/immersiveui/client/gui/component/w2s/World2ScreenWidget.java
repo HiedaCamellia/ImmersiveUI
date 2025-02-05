@@ -14,7 +14,7 @@ import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetL
 import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer.FADE_DISTANCE;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class World2ScreenWidget {
+public abstract class World2ScreenWidget implements W2SWidget{
     protected static final ResourceLocation TEXTURE_NORMAL = ImmersiveUI.rl("textures/gui/w2s_button_normal.png");
     protected static final ResourceLocation TEXTURE_HIGHLIGHT = ImmersiveUI.rl("textures/gui/w2s_button_highlight.png");
     protected final Vector3f worldPos = new Vector3f();
@@ -34,21 +34,20 @@ public abstract class World2ScreenWidget {
     protected World2ScreenWidget() {
     }
 
-    public abstract void render(GuiGraphics guiGraphics, boolean highlight, float value, float deltaTicks);
-
-    public abstract void getWorldPos(Vector3f out);
-
+    @Override
     public void setScreenPos(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
+    @Override
     public void calculateRenderScale(float distance) {
         this.scale = (float) AnimateUtils.Lerp.smooth(0, 1, 1.0f - Math.max(distance - FADE_BEGIN_DISTANCE, 0) / FADE_DISTANCE);
     }
 
     public void invoke() {}
 
+    @Override
     public void updateAlpha() {
         if(shouldRemove)
             alpha -= 0.05f;
@@ -56,14 +55,17 @@ public abstract class World2ScreenWidget {
             alpha += 0.05f;
     }
 
+    @Override
     public boolean shouldBeRemoved() {
         return alpha <= 0.0f;
     }
 
+    @Override
     public boolean shouldRemove() {
         return this.shouldRemove;
     }
 
+    @Override
     public void setRemoved() {
         this.shouldRemove = true;
     }
@@ -87,37 +89,93 @@ public abstract class World2ScreenWidget {
         }
     }
 
+    @Override
     public void setComputed() {
         this.computed = true;
     }
 
+    @Override
     public boolean isComputed() {
         return computed;
     }
 
+    @Override
     public boolean limitInScreen() {
         return this.limitInScreen;
     }
 
+    @Override
     public boolean shouldRender() {
         return this.inScreen && this.scale > 0f;
     }
 
+    @Override
     public boolean shouldSmoothPosition() {
         return this.smoothPosition;
     }
 
+    @Override
     public boolean shouldSkip() {
         return false;
     }
 
+    @Override
     public void setInScreen(boolean inScreen) {
         this.inScreen = inScreen;
     }
 
+    @Override
     public boolean isInScreen() {
         return inScreen;
     }
 
-    public abstract boolean click();
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    @Override
+    public float getY() {
+        return y;
+    }
+
+    @Override
+    public float getXO() {
+        return xO;
+    }
+
+    @Override
+    public float getYO() {
+        return yO;
+    }
+
+    @Override
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    @Override
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    @Override
+    public void setXO(float xO) {
+        this.xO = xO;
+    }
+
+    @Override
+    public void setYO(float yO) {
+        this.yO = yO;
+    }
+
+    @Override
+    public float getScale() {
+        return scale;
+    }
+
+    @Override
+    public boolean isSelectable() {
+        return selectable;
+    }
 }

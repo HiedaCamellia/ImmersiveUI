@@ -27,6 +27,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.gui.animate.AnimateUtils;
 import org.hiedacamellia.immersiveui.client.gui.animate.LerpNumberAnimation;
+import org.hiedacamellia.immersiveui.client.gui.component.w2s.W2SWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenWidget;
 import org.hiedacamellia.immersiveui.client.gui.holder.FloatHolder;
 import org.hiedacamellia.immersiveui.client.mixin.accessor.GameRendererAccessor;
@@ -46,16 +47,16 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
     public static final int FADE_DISTANCE = 8;
 
     private final Minecraft minecraft = Minecraft.getInstance();
-    private final Map<UUID, World2ScreenWidget> objects = new Object2ObjectOpenHashMap<>();
-    private final Map<UUID, World2ScreenWidget> onRemoving = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, W2SWidget> objects = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, W2SWidget> onRemoving = new Object2ObjectOpenHashMap<>();
     private final Set<UUID> toRemove = new ObjectOpenHashSet<>();
-    private final List<World2ScreenWidget> inRange = new ObjectArrayList<>();
+    private final List<W2SWidget> inRange = new ObjectArrayList<>();
     //private final World2ScreenButton[] grid = new World2ScreenButton[64 * 64];
     private final FloatHolder click = new FloatHolder(0.0f);
     private final LerpNumberAnimation animation = new LerpNumberAnimation(this.click, AnimateUtils.Lerp::smooth, 0, 1, 0.5f);
 
-    private World2ScreenWidget highlight;
-    private World2ScreenWidget locked;
+    private W2SWidget highlight;
+    private W2SWidget locked;
     private double scroll = 0;
     World2ScreenWidgetLayer() {
         reset();
@@ -76,8 +77,8 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         update(deltaTicks);
 
         //Arrays.fill(grid, null);
-        for (Iterator<World2ScreenWidget> iterator = objects.values().iterator(); iterator.hasNext(); ) {
-            World2ScreenWidget object = iterator.next();
+        for (Iterator<W2SWidget> iterator = objects.values().iterator(); iterator.hasNext(); ) {
+            W2SWidget object = iterator.next();
             if (!object.isComputed())
                 continue;
 
@@ -94,16 +95,16 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 iterator.remove();
                 continue;
             }
-            float d0 = object.x;
-            float d1 = object.y;
+            float d0 = object.getX();
+            float d1 = object.getY();
 
             if (object.shouldSmoothPosition()) {
-                d0 = Mth.lerp(deltaTicks, object.xO, object.x);
-                d1 = Mth.lerp(deltaTicks, object.yO, object.y);
+                d0 = Mth.lerp(deltaTicks, object.getXO(), object.getX());
+                d1 = Mth.lerp(deltaTicks, object.getYO(), object.getY());
             }
 
-            object.xO = d0;
-            object.yO = d1;
+            object.setXO(d0);
+            object.setYO(d1);
 
             if (highlight1) {
                 object.render(guiGraphics, true, this.click.getValue(), deltaTicks);
@@ -112,8 +113,8 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
             }
         }
 
-        for (Iterator<World2ScreenWidget> iterator = onRemoving.values().iterator(); iterator.hasNext(); ) {
-            World2ScreenWidget object = iterator.next();
+        for (Iterator<W2SWidget> iterator = onRemoving.values().iterator(); iterator.hasNext(); ) {
+            W2SWidget object = iterator.next();
             object.updateAlpha();
             if (object.shouldBeRemoved()) {
                 iterator.remove();
@@ -128,16 +129,16 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
 
             boolean highlight1 = locked != null ? object == locked : object == highlight;
-            float d0 = object.x;
-            float d1 = object.y;
+            float d0 = object.getX();
+            float d1 = object.getY();
 
             if (object.shouldSmoothPosition()) {
-                d0 = Mth.lerp(deltaTicks, object.xO, object.x);
-                d1 = Mth.lerp(deltaTicks, object.yO, object.y);
+                d0 = Mth.lerp(deltaTicks, object.getXO(), object.getX());
+                d1 = Mth.lerp(deltaTicks, object.getYO(), object.getY());
             }
 
-            object.xO = d0;
-            object.yO = d1;
+            object.setXO(d0);
+            object.setYO(d1);
 
             if (highlight1) {
                 object.render(guiGraphics, true, this.click.getValue(), deltaTicks);
@@ -156,7 +157,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
         if (!this.toRemove.isEmpty()) {
             this.toRemove.forEach(e->{
-                World2ScreenWidget widget = this.objects.get(e);
+                W2SWidget widget = this.objects.get(e);
                 if (widget == null)
                     return;
                 widget.setRemoved();
@@ -188,7 +189,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         //Arrays.fill(grid, null);
 
         final Vector3f pos = new Vector3f();
-        for (World2ScreenWidget object : objects.values()) {
+        for (W2SWidget object : objects.values()) {
             if (object.shouldSkip())
                 continue;
 
@@ -222,10 +223,10 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
             float distance = Vector3f.distanceSquared(pos.x, pos.y, pos.z, (float) cameraPos.x, (float) cameraPos.y, (float) cameraPos.z);
             object.calculateRenderScale(distance);
-            if (object.scale < 1.0f)
+            if (object.getScale() < 1.0f)
                 continue;
 
-            if (locked == null && object.x > left && object.x < right && object.selectable) {
+            if (locked == null && object.getX() > left && object.getX() < right && object.isSelectable()) {
                 inRange.add(object);
             }
         }
@@ -270,8 +271,8 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
             return false;
 
         boolean consumed = false;
-        for (Iterator<World2ScreenWidget> iterator = objects.values().iterator(); iterator.hasNext(); ) {
-            World2ScreenWidget object = iterator.next();
+        for (Iterator<W2SWidget> iterator = objects.values().iterator(); iterator.hasNext(); ) {
+            W2SWidget object = iterator.next();
 
             if(object.click()){
                 consumed = true;
