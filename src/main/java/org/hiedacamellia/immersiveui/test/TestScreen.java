@@ -1,6 +1,7 @@
 package org.hiedacamellia.immersiveui.test;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,8 +16,13 @@ public class TestScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         RenderSystem.enableBlend();
-        guiGraphics.fill(0, 0, 200, 100, 0xFFFFFFFF);
+        guiGraphics.drawString(Minecraft.getInstance().font, "Hello World", 10, 10, 0xFFFFFF);
 
         RenderSystem.disableBlend();
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick){
+
     }
 }

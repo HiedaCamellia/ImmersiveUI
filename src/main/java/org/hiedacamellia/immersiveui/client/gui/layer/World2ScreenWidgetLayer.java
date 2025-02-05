@@ -28,6 +28,7 @@ import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.gui.animate.AnimateUtils;
 import org.hiedacamellia.immersiveui.client.gui.animate.LerpNumberAnimation;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.W2SWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenScreen;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenWidget;
 import org.hiedacamellia.immersiveui.client.gui.holder.FloatHolder;
 import org.hiedacamellia.immersiveui.client.mixin.accessor.GameRendererAccessor;
@@ -57,6 +58,9 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
     private W2SWidget highlight;
     private W2SWidget locked;
+
+    public World2ScreenScreen screen;
+
     private double scroll = 0;
     World2ScreenWidgetLayer() {
         reset();
@@ -266,7 +270,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         }
     }
 
-    public boolean click() {
+    public boolean click(int button) {
         if (this.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR)
             return false;
 
@@ -274,7 +278,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         for (Iterator<W2SWidget> iterator = objects.values().iterator(); iterator.hasNext(); ) {
             W2SWidget object = iterator.next();
 
-            if(object.click()){
+            if(object.click(button)){
                 consumed = true;
             }
 

@@ -1,6 +1,5 @@
 package org.hiedacamellia.immersiveui.client.gui.component.w2s;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;

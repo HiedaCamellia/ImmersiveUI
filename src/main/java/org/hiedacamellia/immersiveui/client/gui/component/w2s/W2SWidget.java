@@ -21,7 +21,7 @@ public interface W2SWidget {
 
     boolean shouldSkip();
 
-    boolean click();
+    boolean click(int button);
 
     boolean limitInScreen();
 
