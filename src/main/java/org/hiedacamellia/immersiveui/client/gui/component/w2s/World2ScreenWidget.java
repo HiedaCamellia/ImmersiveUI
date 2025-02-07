@@ -9,6 +9,8 @@ import org.hiedacamellia.immersiveui.client.gui.animate.AnimateUtils;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.util.UUID;
+
 import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer.FADE_BEGIN_DISTANCE;
 import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer.FADE_DISTANCE;
 
@@ -29,8 +31,10 @@ public abstract class World2ScreenWidget implements W2SWidget{
     private boolean inScreen = false;
     protected boolean shouldRemove = false;
     protected float alpha = 0;
+    protected UUID uuid;
 
-    protected World2ScreenWidget() {
+    protected World2ScreenWidget(UUID uuid) {
+        this.uuid = uuid;
     }
 
     @Override

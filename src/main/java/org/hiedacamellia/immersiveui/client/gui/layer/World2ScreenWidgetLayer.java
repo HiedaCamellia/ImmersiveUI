@@ -59,7 +59,8 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
     private W2SWidget highlight;
     private W2SWidget locked;
 
-    public World2ScreenScreen screen;
+    public World2ScreenScreen activeScreen;
+    public UUID screenUUID;
 
     private double scroll = 0;
     World2ScreenWidgetLayer() {
@@ -282,6 +283,11 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 consumed = true;
             }
 
+        }
+
+        if(!consumed){
+            this.activeScreen = null;
+            this.screenUUID = null;
         }
 
         return consumed;

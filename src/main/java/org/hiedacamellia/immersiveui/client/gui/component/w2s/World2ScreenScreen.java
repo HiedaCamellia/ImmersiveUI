@@ -7,43 +7,68 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
 import org.joml.Vector3f;
 
+import java.util.UUID;
+
 public class World2ScreenScreen extends World2ScreenWidget{
 
+    protected Minecraft minecraft = Minecraft.getInstance();
     protected Screen screen;
     protected Player player;
     protected int w;
     protected int h;
-    private BlockPos pos;
+    private Vec3 pos;
 
     public void setScreen(Screen screen) {
         this.screen = screen;
-        screen.init(Minecraft.getInstance(), w, h);
+        screen.init(minecraft, w, h);
     }
 
-    public World2ScreenScreen(Screen screen, Player player) {
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void keyPressed(int keyCode, int scanCode, int modifiers){
+        this.screen.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    public World2ScreenScreen(UUID uuid, Screen screen, Player player) {
+        this(uuid,screen, player, getPlayerEye(player));
+    }
+
+    private static Vec3 getPlayerEye(Player player){
+        Vec3 eyePosition = player.getEyePosition();
+        Vec3 lookAngle = player.getLookAngle();
+        Vec3 normalizedLookAngle = lookAngle.normalize();
+        return eyePosition.add(normalizedLookAngle);
+    }
+
+    public World2ScreenScreen(UUID uuid,Screen screen, Player player,Vec3 pos) {
+        super(uuid);
+        this.w = minecraft.getWindow().getGuiScaledWidth();
+        this.h = minecraft.getWindow().getGuiScaledHeight();
         this.screen = screen;
+        this.screen.init(minecraft, w, h);
         this.player = player;
-        this.w = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-        this.h = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-        this.pos = player.getOnPos();
-        this.screen.init(Minecraft.getInstance(), w, h);
+        this.pos = pos;
         this.scale = 1;
     }
 
     @Override
     public boolean click(int button) {
-        int mX = (int)(((float) w /2-x)/scale);
-        int mY = (int)(((float) h /2-y)/scale);
-        World2ScreenWidgetLayer.INSTANCE.screen = this;
+        int mX = (int)(((float) w - x)/scale);
+        int mY = (int)(((float) h - y)/scale);
+        World2ScreenWidgetLayer.INSTANCE.activeScreen = this;
+        World2ScreenWidgetLayer.INSTANCE.screenUUID = uuid;
         return screen.mouseClicked(mX, mY, button);
     }
 
     @Override
     public void getWorldPos(Vector3f out) {
-        out.set(pos.getX(), pos.getY(), pos.getZ());
+        out.set(pos.toVector3f());
     }
 
     @Override
@@ -52,20 +77,23 @@ public class World2ScreenScreen extends World2ScreenWidget{
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();
         guiGraphics.fill(0,0,0,0,0xFFFFFFFF);
-        pose.translate(x ,y, 0);
+        pose.translate(x- (float) w /2 ,y- (float) h /2, 0);
         pose.scale(scale, scale, 1);
-        int mX = (int)(((float) w /2-x)/scale);
-        int mY = (int)(((float) h /2-y)/scale);
+        int mX = (int)(((float) w - x)/scale);
+        int mY = (int)(((float) h - y)/scale);
         screen.render(guiGraphics, mX, mY, deltaTicks);
-        //guiGraphics.fill(mX,mY,mX+5,mY+5,0xFFFFFFFF);
         pose.popPose();
     }
 
     @Override
     public void calculateRenderScale(float distanceSqr) {
-        if(distanceSqr>16)
-            this.scale = 16/distanceSqr;
-        else
+        this.scale = (float) (2 * Math.atan2(1.0, Math.sqrt(distanceSqr)));
+        if(this.scale>1){
             this.scale = 1;
+        }
+
+        if(distanceSqr>64 && !shouldRemove){
+            World2ScreenWidgetLayer.INSTANCE.remove(uuid);
+        }
     }
 }
