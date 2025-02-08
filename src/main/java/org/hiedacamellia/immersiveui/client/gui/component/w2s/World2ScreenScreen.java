@@ -1,17 +1,20 @@
 package org.hiedacamellia.immersiveui.client.gui.component.w2s;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
 import org.joml.Vector3f;
 
 import java.util.UUID;
+
+import static net.minecraft.client.Minecraft.ON_OSX;
 
 public class World2ScreenScreen extends World2ScreenWidget{
 
@@ -21,6 +24,7 @@ public class World2ScreenScreen extends World2ScreenWidget{
     protected int w;
     protected int h;
     private Vec3 pos;
+    private final RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
 
     public void setScreen(Screen screen) {
         this.screen = screen;
@@ -73,6 +77,14 @@ public class World2ScreenScreen extends World2ScreenWidget{
 
     @Override
     public void render(GuiGraphics guiGraphics, boolean highlight, float value, float deltaTicks) {
+
+        ScreenTempTarget.INSTANCE.setClearColor(0,0,0,0);
+        ScreenTempTarget.INSTANCE.clear(ON_OSX);
+
+        mainRenderTarget.unbindWrite();
+        ScreenTempTarget.INSTANCE.bindWrite(true);
+
+
         RenderSystem.enableBlend();
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();
@@ -82,6 +94,14 @@ public class World2ScreenScreen extends World2ScreenWidget{
         int mX = (int)(((float) w - x)/scale);
         int mY = (int)(((float) h - y)/scale);
         screen.render(guiGraphics, mX, mY, deltaTicks);
+        guiGraphics.flush();
+
+        ScreenTempTarget.INSTANCE.unbindWrite();
+        mainRenderTarget.bindWrite(true);
+
+        ScreenTempTarget.INSTANCE.blitToScreen();
+
+
         pose.popPose();
     }
 

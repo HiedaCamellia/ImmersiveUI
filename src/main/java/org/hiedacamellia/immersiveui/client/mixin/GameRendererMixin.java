@@ -13,7 +13,7 @@ public class GameRendererMixin {
     @Inject(method = "processBlurEffect(F)V",at=@At("HEAD"),cancellable = true)
     private void processBlurEffect(float partialTick, CallbackInfo ci) {
         if(World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
-            ci.cancel();
+//            ci.cancel();
         }
     }
 }
