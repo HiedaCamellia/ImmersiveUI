@@ -1,14 +1,10 @@
 package org.hiedacamellia.immersiveui.client.graphic.target;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.joml.Matrix4f;
 
 import static net.minecraft.client.Minecraft.ON_OSX;
 

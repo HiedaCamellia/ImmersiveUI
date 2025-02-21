@@ -30,6 +30,10 @@ public class Shaders {
     private static ShaderInstance roundRect;
     @Nullable
     private static ShaderInstance borderRoundRect;
+    @Nullable
+    private static ShaderInstance positionTexShader;
+    @Nullable
+    private static ShaderInstance blurShader;
 
     
     public static ShaderInstance getRoundRectShader() {
@@ -38,6 +42,14 @@ public class Shaders {
 
     public static ShaderInstance getBorderRoundRectShader() {
         return Objects.requireNonNull(borderRoundRect, "Attempted to call getBorderRoundRectShader before shaders have finished loading.");
+    }
+
+    public static ShaderInstance getPositionTexShader() {
+        return Objects.requireNonNull(positionTexShader, "Attempted to call getPositionTexShader before shaders have finished loading.");
+    }
+
+    public static ShaderInstance getBlurShader() {
+        return Objects.requireNonNull(blurShader, "Attempted to call getBlurShader before shaders have finished loading.");
     }
 
 
@@ -60,6 +72,22 @@ public class Shaders {
                         DefaultVertexFormat.POSITION_TEX_COLOR
                 ),
                 (shader) -> borderRoundRect = shader
+        );
+        event.registerShader(
+                new ShaderInstance(
+                        provider,
+                        ImmersiveUI.rl("position_tex"),
+                        DefaultVertexFormat.POSITION_TEX
+                ),
+                (shader) -> positionTexShader = shader
+        );
+        event.registerShader(
+                new ShaderInstance(
+                        provider,
+                        ImmersiveUI.rl("blur"),
+                        DefaultVertexFormat.POSITION_TEX
+                ),
+                (shader) -> blurShader = shader
         );
     }
 }

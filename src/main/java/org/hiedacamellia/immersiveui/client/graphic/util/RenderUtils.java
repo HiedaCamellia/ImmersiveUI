@@ -104,23 +104,13 @@ public class RenderUtils {
     public static void blit(PoseStack poseStack, ResourceLocation location, int x, int y, int width, int height) {
         int x2 = x + width;
         int y2 = y + height;
-
-        Matrix4f matrix4f = poseStack.last().pose();
-        RenderSystem.setShaderTexture(0, location);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.addVertex(matrix4f, (float)x, (float)y, 0).setUv(0, 0);
-        bufferbuilder.addVertex(matrix4f, (float)x, (float)y2, 0).setUv(0, 1);
-        bufferbuilder.addVertex(matrix4f, (float)x2, (float)y2, 0).setUv(1, 1);
-        bufferbuilder.addVertex(matrix4f, (float)x2, (float)y, 0).setUv(1, 0);
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+        blit(poseStack, location, x, y, x2, y2);
     }
 
     public static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, int x, int y, int width, int height) {
         blit(guiGraphics.pose(), atlasLocation, x, y, width, height);
     }
-    public static void blitWithUv(PoseStack poseStack,  int textureId, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
-
+    public static void blit(PoseStack poseStack,  int textureId, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
         RenderSystem.setShaderTexture(0, textureId);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         Matrix4f matrix4f = poseStack.last().pose();
@@ -131,23 +121,61 @@ public class RenderUtils {
         bufferbuilder.addVertex(matrix4f, x2, y1, 0).setUv(u1, v0);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
-    public static void blit(PoseStack poseStack,  int textureId, float x1, float y1, float x2, float y2) {
+    public static void blitWithUv(PoseStack poseStack,  int textureId, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
 
         RenderSystem.setShaderTexture(0, textureId);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(Shaders::getPositionTexShader);
+        ShaderInstance shaderInstance = Shaders.getPositionTexShader();
+        shaderInstance.safeGetUniform("uvCoords").set(u0, v0, u1, v1);
         Matrix4f matrix4f = poseStack.last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.addVertex(matrix4f, x1,y1, 0).setUv(0, 0);
-        bufferbuilder.addVertex(matrix4f, x1, y2, 0).setUv(0, 1);
-        bufferbuilder.addVertex(matrix4f, x2, y2, 0).setUv(1, 1);
-        bufferbuilder.addVertex(matrix4f, x2, y1, 0).setUv(1, 0);
+        bufferbuilder.addVertex(matrix4f, x1,y1, 0).setUv(0, 1);
+        bufferbuilder.addVertex(matrix4f, x1, y2, 0).setUv(0, 0);
+        bufferbuilder.addVertex(matrix4f, x2, y2, 0).setUv(1, 0);
+        bufferbuilder.addVertex(matrix4f, x2, y1, 0).setUv(1, 1);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
+    public static void blit(PoseStack poseStack,  int textureId, float x1, float y1, float x2, float y2) {
+        blit(poseStack, textureId, x1, y1, x2, y2, 0, 0, 1, 1);
     }
     public static void blit(PoseStack poseStack,  int textureId, int x, int y, int width, int height) {
         blit(poseStack, textureId, (float)x, (float)y, (float)(x+width), (float)(y+height));
     }
     public static void blit(GuiGraphics guiGraphics,  int textureId, int x, int y, int width, int height) {
         blit(guiGraphics.pose(), textureId, x, y, width, height);
+    }
+
+    private static void _blur(PoseStack poseStack,float x1, float y1, float x2, float y2,float radius, float u0, float v0, float u1, float v1) {
+        RenderSystem.setShader(Shaders::getBlurShader);
+        ShaderInstance shaderInstance = Shaders.getBlurShader();
+        shaderInstance.safeGetUniform("Radius").set(radius);
+        Matrix4f matrix4f = poseStack.last().pose();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.addVertex(matrix4f, x1,y1, 0).setUv(u0, v0);
+        bufferbuilder.addVertex(matrix4f, x1, y2, 0).setUv(u0, v1);
+        bufferbuilder.addVertex(matrix4f, x2, y2, 0).setUv(u1, v1);
+        bufferbuilder.addVertex(matrix4f, x2, y1, 0).setUv(u1, v0);
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
+    public static void blur(PoseStack poseStack, ResourceLocation atlasLocation, float x1, float y1, float x2, float y2,float radius, float u0, float v0, float u1, float v1) {
+        RenderSystem.setShaderTexture(0, atlasLocation);
+        _blur(poseStack, x1, y1, x2, y2,radius, u0, v0, u1, v1);
+    }
+    public static void blur(PoseStack poseStack,  int textureId, float x1, float y1, float x2, float y2,float radius, float u0, float v0, float u1, float v1) {
+        RenderSystem.setShaderTexture(0, textureId);
+        _blur(poseStack, x1, y1, x2, y2,radius, u0, v0, u1, v1);
+    }
+    public static void blur(PoseStack poseStack,  int textureId, float x1, float y1, float x2, float y2,float radius) {
+        blur(poseStack, textureId, x1, y1, x2, y2,radius,0,0,1,1);
+    }
+    public static void blur(PoseStack poseStack, ResourceLocation atlasLocation, float x1, float y1, float x2, float y2,float radius) {
+        blur(poseStack, atlasLocation, x1, y1, x2, y2,radius,0,0,1,1);
+    }
+    public static void blur(GuiGraphics guiGraphics,  int textureId, float x1, float y1, float x2, float y2,float radius) {
+        blur(guiGraphics.pose(), textureId, x1, y1, x2, y2,radius,0,0,1,1);
+    }
+    public static void blur(GuiGraphics guiGraphics,  ResourceLocation atlasLocation, float x1, float y1, float x2, float y2,float radius) {
+        blur(guiGraphics.pose(), atlasLocation, x1, y1, x2, y2,radius,0,0,1,1);
     }
 
 }

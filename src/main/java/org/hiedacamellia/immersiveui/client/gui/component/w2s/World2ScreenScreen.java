@@ -18,7 +18,7 @@ import java.util.UUID;
 
 import static net.minecraft.client.Minecraft.ON_OSX;
 
-public class World2ScreenScreen extends World2ScreenWidget{
+public class World2ScreenScreen extends World2ScreenWidget {
 
     protected Minecraft minecraft = Minecraft.getInstance();
     protected Screen screen;
@@ -33,7 +33,7 @@ public class World2ScreenScreen extends World2ScreenWidget{
         screen.init(minecraft, w, h);
     }
 
-    public boolean isSameScreen(Screen screen){
+    public boolean isSameScreen(Screen screen) {
         return this.screen == screen;
     }
 
@@ -41,22 +41,22 @@ public class World2ScreenScreen extends World2ScreenWidget{
         return uuid;
     }
 
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers){
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         return this.screen.keyPressed(keyCode, scanCode, modifiers);
     }
 
     public World2ScreenScreen(UUID uuid, Screen screen, Player player) {
-        this(uuid,screen, player, getPlayerEye(player));
+        this(uuid, screen, player, getPlayerEye(player));
     }
 
-    private static Vec3 getPlayerEye(Player player){
+    private static Vec3 getPlayerEye(Player player) {
         Vec3 eyePosition = player.getEyePosition();
         Vec3 lookAngle = player.getLookAngle();
         Vec3 normalizedLookAngle = lookAngle.normalize();
         return eyePosition.add(normalizedLookAngle);
     }
 
-    public World2ScreenScreen(UUID uuid,Screen screen, Player player,Vec3 pos) {
+    public World2ScreenScreen(UUID uuid, Screen screen, Player player, Vec3 pos) {
         super(uuid);
         this.w = minecraft.getWindow().getGuiScaledWidth();
         this.h = minecraft.getWindow().getGuiScaledHeight();
@@ -69,8 +69,8 @@ public class World2ScreenScreen extends World2ScreenWidget{
 
     @Override
     public boolean click(int button) {
-        int mX = (int)(((float) w - x)/scale);
-        int mY = (int)(((float) h - y)/scale);
+        int mX = (int) (((float) w - x) / scale);
+        int mY = (int) (((float) h - y) / scale);
         World2ScreenWidgetLayer.INSTANCE.activeScreen = this;
         World2ScreenWidgetLayer.INSTANCE.screenUUID = uuid;
         return screen.mouseClicked(mX, mY, button);
@@ -84,7 +84,7 @@ public class World2ScreenScreen extends World2ScreenWidget{
     @Override
     public void render(GuiGraphics guiGraphics, boolean highlight, float value, float deltaTicks) {
 
-        ScreenTempTarget.INSTANCE.setClearColor(0,0,0,0);
+        ScreenTempTarget.INSTANCE.setClearColor(0, 0, 0, 0);
         ScreenTempTarget.INSTANCE.clear(ON_OSX);
 
         PoseStack pose = guiGraphics.pose();
@@ -95,46 +95,58 @@ public class World2ScreenScreen extends World2ScreenWidget{
         float y1 = y - (float) h / 2;
         float x2 = scale * w + x1;
         float y2 = scale * h + y1;
-        int mX = (int)(((float) w - x)/scale);
-        int mY = (int)(((float) h - y)/scale);
+        int mX = (int) (((float) w - x) / scale);
+        int mY = (int) (((float) h - y) / scale);
 
         mainRenderTarget.unbindWrite();
         ScreenTempTarget.INSTANCE.bindWrite(true);
-        ScreenTempTarget.INSTANCE.use=true;
-        RenderSystem.enableDepthTest();
+        ScreenTempTarget.INSTANCE.use = true;
+        RenderSystem.disableDepthTest();
+
         pose.pushPose();
-        pose.translate(0 ,0, -10);
-        RenderUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w, h);
+        RenderUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w, h, 0, 1, 1, 0);
         pose.popPose();
 
 
         RenderSystem.enableBlend();
+        //guiGraphics.fill(0, 0, w, h, 0xFFFFFFFF);
 
-
-        pose.translate(x- (float) w /2 ,y- (float) h /2, 100);
+        pose.translate(x - (float) w / 2, y - (float) h / 2, 100);
         pose.scale(scale, scale, 1);
+
         screen.render(guiGraphics, mX, mY, deltaTicks);
+
         guiGraphics.flush();
 
 
         ScreenTempTarget.INSTANCE.unbindWrite();
-        ScreenTempTarget.INSTANCE.use=false;
+        ScreenTempTarget.INSTANCE.use = false;
         mainRenderTarget.bindWrite(true);
 
 
-        RenderUtils.blitWithUv(pose, ScreenTempTarget.INSTANCE.getColorTextureId(), 0, 0, w, h, x1/w, y1/h, x2/w, y2/h);
+        pose.popPose();
 
+        pose.pushPose();
+        float u0 = x1 / w;
+        float v0 = y2 / h;
+        float u1 = x2 / w;
+        float v1 = y1 / h;
+
+        //ImmersiveUI.LOGGER.debug("u0: " + u0 + " v0: " + v0 + " u1: " + u1 + " v1: " + v1);
+
+        RenderSystem.enableBlend();
+        RenderUtils.blitWithUv(pose, ScreenTempTarget.INSTANCE.getColorTextureId(), 0, 0, w, h, u0, 1-v1, u1, 1-v0);
         pose.popPose();
     }
 
     @Override
     public void calculateRenderScale(float distanceSqr) {
         this.scale = (float) (2 * Math.atan2(1.0, Math.sqrt(distanceSqr)));
-        if(this.scale>1){
+        if (this.scale > 1) {
             this.scale = 1;
         }
 
-        if(distanceSqr>64 && !shouldRemove){
+        if (distanceSqr > 64 && !shouldRemove) {
             World2ScreenWidgetLayer.INSTANCE.remove(uuid);
         }
     }
