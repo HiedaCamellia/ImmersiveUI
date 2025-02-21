@@ -9,6 +9,7 @@
 package org.hiedacamellia.immersiveui.client.gui.layer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -73,6 +74,10 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         highlight = null;
     }
 
+    public void resize() {
+        objects.values().forEach(W2SWidget::resize);
+    }
+
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
         if (this.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR)
@@ -112,9 +117,9 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
             object.setYO(d1);
 
             if (highlight1) {
-                object.render(guiGraphics, true, this.click.getValue(), deltaTicks);
+                object.render(guiGraphics, true, this.click.getValue(), deltaTracker);
             } else {
-                object.render(guiGraphics, false, 0, deltaTicks);
+                object.render(guiGraphics, false, 0, deltaTracker);
             }
         }
 
@@ -146,12 +151,11 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
             object.setYO(d1);
 
             if (highlight1) {
-                object.render(guiGraphics, true, this.click.getValue(), deltaTicks);
+                object.render(guiGraphics, true, this.click.getValue(), deltaTracker);
             } else {
-                object.render(guiGraphics, false, 0, deltaTicks);
+                object.render(guiGraphics, false, 0, deltaTracker);
             }
         }
-
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.disableBlend();
     }
@@ -263,12 +267,22 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         this.toRemove.add(other);
     }
 
-    public void scroll(double mouseY) {
+    public boolean scroll(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (this.inRange.isEmpty()) {
             this.scroll = 0;
         } else {
             this.scroll = (this.scroll + mouseY) % this.inRange.size();
         }
+        boolean consumed = false;
+        for (Iterator<W2SWidget> iterator = objects.values().iterator(); iterator.hasNext(); ) {
+            W2SWidget object = iterator.next();
+
+            if(object.scroll(mouseX, mouseY, scrollX, scrollY)){
+                consumed = true;
+            }
+
+        }
+        return consumed;
     }
 
     public boolean click(int button) {

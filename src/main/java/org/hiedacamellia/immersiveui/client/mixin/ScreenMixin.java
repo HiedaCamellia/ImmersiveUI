@@ -1,7 +1,6 @@
 package org.hiedacamellia.immersiveui.client.mixin;
 
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screens.Screen;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,8 +13,10 @@ public class ScreenMixin {
 
     @Inject(method = "renderBlurredBackground", at = @At(target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V", value = "INVOKE"), cancellable = true)
     private void onBindWrite(float partialTick, CallbackInfo ci){
-        if(ScreenTempTarget.INSTANCE.use) {
-            RenderSystem.enableDepthTest();
+        if(ScreenTempTarget.SCREEN_INSTANCE ==null)return;
+        if(ScreenTempTarget.SCREEN_INSTANCE.use) {
+            ScreenTempTarget.BLUR_INSTANCE.unbindWrite();
+            ScreenTempTarget.SCREEN_INSTANCE.bindWrite(false);
             ci.cancel();
         }
     }

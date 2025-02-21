@@ -11,14 +11,14 @@ import static net.minecraft.client.Minecraft.ON_OSX;
 public class ScreenTempTarget extends RenderTarget {
 
     protected int width, height;
-    private PostChain blurEffect;
-    private Minecraft minecraft = Minecraft.getInstance();
+    private static PostChain blurEffect;
 
     public boolean use;
 
     private static final ResourceLocation BLUR_LOCATION = ResourceLocation.withDefaultNamespace("shaders/post/blur.json");
 
-    public static ScreenTempTarget INSTANCE;
+    public static ScreenTempTarget SCREEN_INSTANCE;
+    public static ScreenTempTarget BLUR_INSTANCE;
 
     public ScreenTempTarget(int width, int height) {
         super(true);
@@ -27,15 +27,16 @@ public class ScreenTempTarget extends RenderTarget {
         this.height = height;
         this.use=false;
         try {
-            this.blurEffect = new PostChain(this.minecraft.getTextureManager(), minecraft.getResourceManager(), this, BLUR_LOCATION);
-            this.blurEffect.resize(this.width, this.height);
+            Minecraft minecraft = Minecraft.getInstance();
+            blurEffect = new PostChain(minecraft.getTextureManager(), minecraft.getResourceManager(), this, BLUR_LOCATION);
+            blurEffect.resize(this.width, this.height);
         }
         catch (Exception e){
             ImmersiveUI.LOGGER.error("Failed to create blur effect", e);
         }
     }
 
-    public PostChain getBlurEffect() {
+    public static PostChain getBlurEffect() {
         return blurEffect;
     }
 }

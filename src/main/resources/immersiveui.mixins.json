@@ -11,7 +11,7 @@
     "KeyboardHandlerMixin",
     "MinecraftMixin",
     "ScreenMixin",
-    "accessor.GameRendererAccessor"
+    "accessor.GameRendererAccessor",
   ],
   "injectors": {
     "defaultRequire": 1

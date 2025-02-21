@@ -1,5 +1,6 @@
 package org.hiedacamellia.immersiveui.client.gui.component.w2s;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Vector3f;
 
@@ -23,7 +24,11 @@ public interface W2SWidget {
 
     boolean click(int button);
 
+    boolean scroll(double mouseX, double mouseY, double scrollX, double scrollY);
+
     boolean limitInScreen();
+
+    void resize();
 
     void calculateRenderScale(float distance);
 
@@ -57,6 +62,6 @@ public interface W2SWidget {
 
     void setYO(float yO);
 
-    void render(GuiGraphics guiGraphics, boolean highlight, float value, float deltaTicks);
+    void render(GuiGraphics guiGraphics, boolean highlight, float value, DeltaTracker deltaTracker);
 
 }

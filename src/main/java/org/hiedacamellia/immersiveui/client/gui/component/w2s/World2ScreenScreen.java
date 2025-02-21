@@ -3,12 +3,12 @@ package org.hiedacamellia.immersiveui.client.gui.component.w2s;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.graphic.util.RenderUtils;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
@@ -25,12 +25,22 @@ public class World2ScreenScreen extends World2ScreenWidget {
     protected Player player;
     protected int w;
     protected int h;
+    protected int ww;
+    protected int wh;
     private Vec3 pos;
     private final RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
 
     public void setScreen(Screen screen) {
         this.screen = screen;
         screen.init(minecraft, w, h);
+    }
+
+    @Override
+    public void resize(){
+        this.w = minecraft.getWindow().getGuiScaledWidth();
+        this.h = minecraft.getWindow().getGuiScaledHeight();
+        this.ww = minecraft.getWindow().getWidth();
+        this.wh = minecraft.getWindow().getHeight();
     }
 
     public boolean isSameScreen(Screen screen) {
@@ -60,6 +70,8 @@ public class World2ScreenScreen extends World2ScreenWidget {
         super(uuid);
         this.w = minecraft.getWindow().getGuiScaledWidth();
         this.h = minecraft.getWindow().getGuiScaledHeight();
+        this.ww = minecraft.getWindow().getWidth();
+        this.wh = minecraft.getWindow().getHeight();
         this.screen = screen;
         this.screen.init(minecraft, w, h);
         this.player = player;
@@ -77,15 +89,24 @@ public class World2ScreenScreen extends World2ScreenWidget {
     }
 
     @Override
+    public boolean scroll(double mouseX, double mouseY, double scrollX, double scrollY) {
+        double mX =  (((float) w - x) / scale);
+        double mY =  (((float) h - y) / scale);
+        return screen.mouseScrolled(mX, mY ,scrollX, scrollY);
+    }
+
+    @Override
     public void getWorldPos(Vector3f out) {
         out.set(pos.toVector3f());
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, boolean highlight, float value, float deltaTicks) {
+    public void render(GuiGraphics guiGraphics, boolean highlight, float value, DeltaTracker deltaTracker) {
 
-        ScreenTempTarget.INSTANCE.setClearColor(0, 0, 0, 0);
-        ScreenTempTarget.INSTANCE.clear(ON_OSX);
+        ScreenTempTarget.SCREEN_INSTANCE.setClearColor(0, 0, 0, 0);
+        ScreenTempTarget.SCREEN_INSTANCE.clear(ON_OSX);
+        ScreenTempTarget.BLUR_INSTANCE.setClearColor(0, 0, 0, 0);
+        ScreenTempTarget.BLUR_INSTANCE.clear(ON_OSX);
 
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();
@@ -99,32 +120,26 @@ public class World2ScreenScreen extends World2ScreenWidget {
         int mY = (int) (((float) h - y) / scale);
 
         mainRenderTarget.unbindWrite();
-        ScreenTempTarget.INSTANCE.bindWrite(true);
-        ScreenTempTarget.INSTANCE.use = true;
-        RenderSystem.disableDepthTest();
-
-        pose.pushPose();
-        RenderUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w, h, 0, 1, 1, 0);
-        pose.popPose();
+        ScreenTempTarget.BLUR_INSTANCE.bindWrite(true);
+        ScreenTempTarget.BLUR_INSTANCE.use = true;
 
 
-        RenderSystem.enableBlend();
-        //guiGraphics.fill(0, 0, w, h, 0xFFFFFFFF);
+        RenderUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w,h, 0, 1, 1, 0);
+
 
         pose.translate(x - (float) w / 2, y - (float) h / 2, 100);
         pose.scale(scale, scale, 1);
 
-        screen.render(guiGraphics, mX, mY, deltaTicks);
+        screen.render(guiGraphics, mX, mY, deltaTracker.getGameTimeDeltaTicks());
 
         guiGraphics.flush();
 
-
-        ScreenTempTarget.INSTANCE.unbindWrite();
-        ScreenTempTarget.INSTANCE.use = false;
-        mainRenderTarget.bindWrite(true);
-
-
         pose.popPose();
+
+        ScreenTempTarget.SCREEN_INSTANCE.unbindWrite();
+        ScreenTempTarget.BLUR_INSTANCE.use = false;
+        ScreenTempTarget.SCREEN_INSTANCE.use = false;
+        mainRenderTarget.bindWrite(true);
 
         pose.pushPose();
         float u0 = x1 / w;
@@ -132,11 +147,18 @@ public class World2ScreenScreen extends World2ScreenWidget {
         float u1 = x2 / w;
         float v1 = y1 / h;
 
-        //ImmersiveUI.LOGGER.debug("u0: " + u0 + " v0: " + v0 + " u1: " + u1 + " v1: " + v1);
-
         RenderSystem.enableBlend();
-        RenderUtils.blitWithUv(pose, ScreenTempTarget.INSTANCE.getColorTextureId(), 0, 0, w, h, u0, 1-v1, u1, 1-v0);
+        RenderUtils.blitWithUv(pose, ScreenTempTarget.BLUR_INSTANCE.getColorTextureId(), 0, 0, w, h,u0, 1-v1, u1, 1-v0);
+        RenderUtils.blitWithUv(pose, ScreenTempTarget.SCREEN_INSTANCE.getColorTextureId(), 0, 0, w, h, u0, 1-v1, u1, 1-v0);
         pose.popPose();
+        if(mX>=0&&mY>=0&&mX<=w&&mY<=h){
+            pose.pushPose();
+            pose.translate(0, 0, 200);
+            Minecraft.getInstance().gui.renderCrosshair(guiGraphics,deltaTracker);
+            pose.popPose();
+            pose.pushPose();
+        }
+
     }
 
     @Override

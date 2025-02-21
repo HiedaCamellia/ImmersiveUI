@@ -48,6 +48,8 @@ public abstract class World2ScreenWidget implements W2SWidget{
         this.scale = (float) AnimateUtils.Lerp.smooth(0, 1, 1.0f - Math.max(distance - FADE_BEGIN_DISTANCE, 0) / FADE_DISTANCE);
     }
 
+    public void resize() {}
+
     public void invoke() {}
 
     @Override

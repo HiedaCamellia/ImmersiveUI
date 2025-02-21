@@ -20,10 +20,11 @@ public class GameRendererMixin {
     @Inject(method = "processBlurEffect(F)V",at = @At("HEAD"),cancellable = true)
     private void processBlurEffect(float partialTick, CallbackInfo ci){
         float f = (float)this.minecraft.options.getMenuBackgroundBlurriness();
-        if(ScreenTempTarget.INSTANCE.use){
-            if (ScreenTempTarget.INSTANCE.getBlurEffect() != null && f >= 1.0F) {
-                ScreenTempTarget.INSTANCE.getBlurEffect().setUniform("Radius", f);
-                ScreenTempTarget.INSTANCE.getBlurEffect().process(partialTick);
+        if(ScreenTempTarget.BLUR_INSTANCE ==null)return;
+        if(ScreenTempTarget.BLUR_INSTANCE.use){
+            if (ScreenTempTarget.getBlurEffect() != null && f >= 1.0F) {
+                ScreenTempTarget.getBlurEffect().setUniform("Radius", f);
+                ScreenTempTarget.getBlurEffect().process(partialTick);
                 ci.cancel();
             }
         }

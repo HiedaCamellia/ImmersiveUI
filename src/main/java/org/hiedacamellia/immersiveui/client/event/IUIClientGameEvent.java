@@ -23,7 +23,8 @@ public class IUIClientGameEvent {
 
     public static void onClientSetup(final FMLClientSetupEvent event){
         event.enqueueWork(() -> {
-            ScreenTempTarget.INSTANCE = new ScreenTempTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
+            ScreenTempTarget.SCREEN_INSTANCE = new ScreenTempTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
+            ScreenTempTarget.BLUR_INSTANCE = new ScreenTempTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
         });
     }
 
@@ -51,7 +52,7 @@ public class IUIClientGameEvent {
         if(Minecraft.getInstance().level==null)return;
 
 
-        World2ScreenWidgetLayer.INSTANCE.scroll(event.getScrollDeltaY());
+        event.setCanceled(World2ScreenWidgetLayer.INSTANCE.scroll(event.getMouseX(), event.getMouseY(), event.getScrollDeltaX(), event.getScrollDeltaY()));
 
 
     }
