@@ -3,7 +3,7 @@ package org.hiedacamellia.immersiveui.client.gui.animate;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.hiedacamellia.immersiveui.client.gui.holder.NumberHolder;
+import org.hiedacamellia.immersiveui.client.util.holder.NumberHolder;
 
 @OnlyIn(Dist.CLIENT)
 public class LerpNumberAnimation extends AbstractScreenAnimation {

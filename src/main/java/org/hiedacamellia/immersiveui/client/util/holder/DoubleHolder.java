@@ -1,26 +1,27 @@
-package org.hiedacamellia.immersiveui.client.gui.holder;
+package org.hiedacamellia.immersiveui.client.util.holder;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class IntHolder implements NumberHolder {
-    private int value;
+public class DoubleHolder implements NumberHolder {
+    private double value;
 
-    public IntHolder(int value) {
+    public DoubleHolder(double value) {
         this.value = value;
     }
+
     @Override
     public double get() {
-        return value;
+        return this.value;
     }
 
     @Override
     public void set(double v) {
-        this.value = (int) v;
+        this.value = v;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 }

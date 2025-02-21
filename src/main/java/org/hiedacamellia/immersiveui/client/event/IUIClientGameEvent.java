@@ -46,6 +46,16 @@ public class IUIClientGameEvent {
     }
 
     @SubscribeEvent
+    public static void onMouseScroll(final InputEvent.MouseScrollingEvent event) {
+        if(Minecraft.getInstance().level==null)return;
+
+
+        World2ScreenWidgetLayer.INSTANCE.scroll(event.getScrollDeltaY());
+
+
+    }
+
+    @SubscribeEvent
     public static void onScreen(ScreenEvent.Opening event) {
         if(World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
             World2ScreenWidgetLayer.INSTANCE.activeScreen.setScreen(event.getNewScreen());
@@ -55,8 +65,8 @@ public class IUIClientGameEvent {
                 UUID uuid = UUID.randomUUID();
                 World2ScreenScreen screenScreen = new World2ScreenScreen(uuid, pauseScreen, Minecraft.getInstance().player);
                 World2ScreenWidgetLayer.INSTANCE.addWorldPositionObject(uuid, screenScreen);
-//                World2ScreenWidgetLayer.INSTANCE.activeScreen = screenScreen;
-//                World2ScreenWidgetLayer.INSTANCE.screenUUID = uuid;
+                World2ScreenWidgetLayer.INSTANCE.activeScreen = screenScreen;
+                World2ScreenWidgetLayer.INSTANCE.screenUUID = uuid;
                 event.setCanceled(true);
             }
         }

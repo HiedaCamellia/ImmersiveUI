@@ -30,7 +30,7 @@ import org.hiedacamellia.immersiveui.client.gui.animate.LerpNumberAnimation;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.W2SWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenScreen;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenWidget;
-import org.hiedacamellia.immersiveui.client.gui.holder.FloatHolder;
+import org.hiedacamellia.immersiveui.client.util.holder.FloatHolder;
 import org.hiedacamellia.immersiveui.client.mixin.accessor.GameRendererAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;

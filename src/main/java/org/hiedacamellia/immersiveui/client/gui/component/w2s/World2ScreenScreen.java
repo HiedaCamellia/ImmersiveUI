@@ -8,7 +8,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
+import org.hiedacamellia.immersiveui.client.graphic.util.RenderUtils;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
 import org.joml.Vector3f;
 
@@ -31,12 +33,16 @@ public class World2ScreenScreen extends World2ScreenWidget{
         screen.init(minecraft, w, h);
     }
 
+    public boolean isSameScreen(Screen screen){
+        return this.screen == screen;
+    }
+
     public UUID getUuid() {
         return uuid;
     }
 
-    public void keyPressed(int keyCode, int scanCode, int modifiers){
-        this.screen.keyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers){
+        return this.screen.keyPressed(keyCode, scanCode, modifiers);
     }
 
     public World2ScreenScreen(UUID uuid, Screen screen, Player player) {
@@ -81,25 +87,49 @@ public class World2ScreenScreen extends World2ScreenWidget{
         ScreenTempTarget.INSTANCE.setClearColor(0,0,0,0);
         ScreenTempTarget.INSTANCE.clear(ON_OSX);
 
+        PoseStack pose = guiGraphics.pose();
+        pose.pushPose();
+
+
+        float x1 = x - (float) w / 2;
+        float y1 = y - (float) h / 2;
+        float x2 = scale * w + x1;
+        float y2 = scale * h + y1;
+        int mX = (int)(((float) w - x)/scale);
+        int mY = (int)(((float) h - y)/scale);
+
         mainRenderTarget.unbindWrite();
         ScreenTempTarget.INSTANCE.bindWrite(true);
+        ScreenTempTarget.INSTANCE.use=true;
+        RenderSystem.enableDepthTest();
+        pose.pushPose();
+        pose.translate(0 ,0, -10);
+        RenderUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w, h);
+        pose.popPose();
 
 
         RenderSystem.enableBlend();
-        PoseStack pose = guiGraphics.pose();
-        pose.pushPose();
-        guiGraphics.fill(0,0,0,0,0xFFFFFFFF);
-        pose.translate(x- (float) w /2 ,y- (float) h /2, 0);
+
+
+        pose.translate(x- (float) w /2 ,y- (float) h /2, 100);
         pose.scale(scale, scale, 1);
-        int mX = (int)(((float) w - x)/scale);
-        int mY = (int)(((float) h - y)/scale);
         screen.render(guiGraphics, mX, mY, deltaTicks);
         guiGraphics.flush();
 
+
         ScreenTempTarget.INSTANCE.unbindWrite();
+        ScreenTempTarget.INSTANCE.use=false;
         mainRenderTarget.bindWrite(true);
 
-        ScreenTempTarget.INSTANCE.blitToScreen();
+
+
+//        ScreenTempTarget.INSTANCE.setTextureUV(x1/w, y1/h, x2/w, y2/h);
+//        ScreenTempTarget.INSTANCE.size(x1/w, y1/h, x2/w, y2/h);
+//        ScreenTempTarget.INSTANCE.pose(pose);
+
+        RenderUtils.blitWithUv(pose, ScreenTempTarget.INSTANCE.getColorTextureId(), 0, 0, w, h, x1/w, y1/h, x2/w, y2/h);
+
+//        ScreenTempTarget.INSTANCE.blitToScreen();
 
 
         pose.popPose();

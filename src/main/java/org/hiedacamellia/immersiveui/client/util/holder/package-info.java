@@ -5,4 +5,4 @@
  * This code is under the MIT License.
  */
 
-package org.hiedacamellia.immersiveui.client.gui.holder;
+package org.hiedacamellia.immersiveui.client.util.holder;

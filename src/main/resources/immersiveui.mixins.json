@@ -10,6 +10,7 @@
     "GameRendererMixin",
     "KeyboardHandlerMixin",
     "MinecraftMixin",
+    "ScreenMixin",
     "accessor.GameRendererAccessor"
   ],
   "injectors": {

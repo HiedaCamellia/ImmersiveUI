@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.client.gui.holder;
+package org.hiedacamellia.immersiveui.client.util.holder;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
