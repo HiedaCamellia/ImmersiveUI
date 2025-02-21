@@ -122,15 +122,7 @@ public class World2ScreenScreen extends World2ScreenWidget{
         mainRenderTarget.bindWrite(true);
 
 
-
-//        ScreenTempTarget.INSTANCE.setTextureUV(x1/w, y1/h, x2/w, y2/h);
-//        ScreenTempTarget.INSTANCE.size(x1/w, y1/h, x2/w, y2/h);
-//        ScreenTempTarget.INSTANCE.pose(pose);
-
         RenderUtils.blitWithUv(pose, ScreenTempTarget.INSTANCE.getColorTextureId(), 0, 0, w, h, x1/w, y1/h, x2/w, y2/h);
-
-//        ScreenTempTarget.INSTANCE.blitToScreen();
-
 
         pose.popPose();
     }

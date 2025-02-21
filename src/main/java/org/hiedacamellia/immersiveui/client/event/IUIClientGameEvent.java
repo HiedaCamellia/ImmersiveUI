@@ -7,6 +7,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
@@ -57,6 +58,8 @@ public class IUIClientGameEvent {
 
     @SubscribeEvent
     public static void onScreen(ScreenEvent.Opening event) {
+        if(FMLEnvironment.production) return;
+
         if(World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
             World2ScreenWidgetLayer.INSTANCE.activeScreen.setScreen(event.getNewScreen());
             event.setCanceled(true);
