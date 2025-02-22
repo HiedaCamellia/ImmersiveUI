@@ -25,8 +25,6 @@ public class World2ScreenScreen extends World2ScreenWidget {
     protected Player player;
     protected int w;
     protected int h;
-    protected int ww;
-    protected int wh;
     private Vec3 pos;
     private final RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
 
@@ -39,8 +37,6 @@ public class World2ScreenScreen extends World2ScreenWidget {
     public void resize(){
         this.w = minecraft.getWindow().getGuiScaledWidth();
         this.h = minecraft.getWindow().getGuiScaledHeight();
-        this.ww = minecraft.getWindow().getWidth();
-        this.wh = minecraft.getWindow().getHeight();
     }
 
     public boolean isSameScreen(Screen screen) {
@@ -70,8 +66,6 @@ public class World2ScreenScreen extends World2ScreenWidget {
         super(uuid);
         this.w = minecraft.getWindow().getGuiScaledWidth();
         this.h = minecraft.getWindow().getGuiScaledHeight();
-        this.ww = minecraft.getWindow().getWidth();
-        this.wh = minecraft.getWindow().getHeight();
         this.screen = screen;
         this.screen.init(minecraft, w, h);
         this.player = player;
@@ -83,8 +77,7 @@ public class World2ScreenScreen extends World2ScreenWidget {
     public boolean click(int button) {
         int mX = (int) (((float) w - x) / scale);
         int mY = (int) (((float) h - y) / scale);
-        World2ScreenWidgetLayer.INSTANCE.activeScreen = this;
-        World2ScreenWidgetLayer.INSTANCE.screenUUID = uuid;
+        World2ScreenWidgetLayer.INSTANCE.setActiveScreen(this);
         return screen.mouseClicked(mX, mY, button);
     }
 
@@ -122,18 +115,14 @@ public class World2ScreenScreen extends World2ScreenWidget {
         mainRenderTarget.unbindWrite();
         ScreenTempTarget.BLUR_INSTANCE.bindWrite(true);
         ScreenTempTarget.BLUR_INSTANCE.use = true;
+        ScreenTempTarget.SCREEN_INSTANCE.use = true;
 
-
+        //将屏幕渲染到临时纹理
         RenderUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w,h, 0, 1, 1, 0);
 
-
-        pose.translate(x - (float) w / 2, y - (float) h / 2, 100);
-        pose.scale(scale, scale, 1);
-
+        //渲染屏幕
         screen.render(guiGraphics, mX, mY, deltaTracker.getGameTimeDeltaTicks());
-
         guiGraphics.flush();
-
         pose.popPose();
 
         ScreenTempTarget.SCREEN_INSTANCE.unbindWrite();
@@ -141,16 +130,24 @@ public class World2ScreenScreen extends World2ScreenWidget {
         ScreenTempTarget.SCREEN_INSTANCE.use = false;
         mainRenderTarget.bindWrite(true);
 
+        //将blur纹理渲染到屏幕
         pose.pushPose();
         float u0 = x1 / w;
         float v0 = y2 / h;
         float u1 = x2 / w;
         float v1 = y1 / h;
-
         RenderSystem.enableBlend();
         RenderUtils.blitWithUv(pose, ScreenTempTarget.BLUR_INSTANCE.getColorTextureId(), 0, 0, w, h,u0, 1-v1, u1, 1-v0);
-        RenderUtils.blitWithUv(pose, ScreenTempTarget.SCREEN_INSTANCE.getColorTextureId(), 0, 0, w, h, u0, 1-v1, u1, 1-v0);
         pose.popPose();
+
+        //渲染屏幕组件
+        pose.pushPose();
+        pose.translate(x - (float) w / 2, y - (float) h / 2, 100);
+        pose.scale(scale, scale, 1);
+        RenderUtils.blit(pose, ScreenTempTarget.SCREEN_INSTANCE.getColorTextureId(), 0, 0, w, h, 0, 1, 1, 0);
+        pose.popPose();
+
+        //渲染指针
         if(mX>=0&&mY>=0&&mX<=w&&mY<=h){
             pose.pushPose();
             pose.translate(0, 0, 200);

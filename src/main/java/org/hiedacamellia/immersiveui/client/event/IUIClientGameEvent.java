@@ -69,8 +69,7 @@ public class IUIClientGameEvent {
                 UUID uuid = UUID.randomUUID();
                 World2ScreenScreen screenScreen = new World2ScreenScreen(uuid, pauseScreen, Minecraft.getInstance().player);
                 World2ScreenWidgetLayer.INSTANCE.addWorldPositionObject(uuid, screenScreen);
-                World2ScreenWidgetLayer.INSTANCE.activeScreen = screenScreen;
-                World2ScreenWidgetLayer.INSTANCE.screenUUID = uuid;
+                World2ScreenWidgetLayer.INSTANCE.setActiveScreen(screenScreen);
                 event.setCanceled(true);
             }
         }

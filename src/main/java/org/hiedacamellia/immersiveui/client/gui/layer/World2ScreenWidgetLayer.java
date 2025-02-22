@@ -44,7 +44,7 @@ import java.util.*;
 @OnlyIn(Dist.CLIENT)
 public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
     public static final World2ScreenWidgetLayer INSTANCE = new World2ScreenWidgetLayer();
-    public static final ResourceLocation LOCATION = ImmersiveUI.rl("world_screen_grid");
+    public static final ResourceLocation LOCATION = ImmersiveUI.rl("world_screen_layer");
     public static final int FADE_BEGIN_DISTANCE = 32 * 32;
     public static final int FADE_DISTANCE = 8;
 
@@ -66,6 +66,11 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
     private double scroll = 0;
     World2ScreenWidgetLayer() {
         reset();
+    }
+
+    public void setActiveScreen(World2ScreenScreen activeScreen) {
+        this.activeScreen = activeScreen;
+        this.screenUUID = activeScreen.getUuid();
     }
 
     public void reset() {
