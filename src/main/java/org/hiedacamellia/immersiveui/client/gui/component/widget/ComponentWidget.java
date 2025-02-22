@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.client.gui.widget;
+package org.hiedacamellia.immersiveui.client.gui.component.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

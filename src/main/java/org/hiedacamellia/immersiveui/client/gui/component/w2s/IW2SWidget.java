@@ -4,7 +4,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Vector3f;
 
-public interface W2SWidget {
+public interface IW2SWidget {
 
     boolean isComputed();
 

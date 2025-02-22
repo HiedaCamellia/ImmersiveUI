@@ -15,7 +15,7 @@ import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetL
 import static org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer.FADE_DISTANCE;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class World2ScreenWidget implements W2SWidget{
+public abstract class World2ScreenWidget implements IW2SWidget {
     protected static final ResourceLocation TEXTURE_NORMAL = ImmersiveUI.rl("textures/gui/w2s_button_normal.png");
     protected static final ResourceLocation TEXTURE_HIGHLIGHT = ImmersiveUI.rl("textures/gui/w2s_button_highlight.png");
     protected final Vector3f worldPos = new Vector3f();

@@ -25,7 +25,7 @@ import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT, modid = ImmersiveUI.MODID, bus = EventBusSubscriber.Bus.MOD)
-public class Shaders {
+public class IUIShaders {
     @Nullable
     private static ShaderInstance roundRect;
     @Nullable

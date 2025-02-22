@@ -1,9 +1,9 @@
-package org.hiedacamellia.immersiveui.client.gui.widget;
+package org.hiedacamellia.immersiveui.client.gui.component.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import org.hiedacamellia.immersiveui.client.graphic.util.RenderUtils;
+import org.hiedacamellia.immersiveui.client.graphic.gui.IUIGuiUtils;
 
 public class UnderLineComponentWidget extends ComponentWidget{
 
@@ -31,7 +31,7 @@ public class UnderLineComponentWidget extends ComponentWidget{
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         RenderSystem.enableBlend();
-        RenderUtils.fillRoundRect(guiGraphics, this.getX(), this.getY()+this.height-lineHeight, this.width, lineHeight, 0.02f, lineColor);
+        IUIGuiUtils.fillRoundRect(guiGraphics, this.getX(), this.getY()+this.height-lineHeight, this.width, lineHeight, 0.02f, lineColor);
         RenderSystem.disableBlend();
         super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
     }

@@ -4,7 +4,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class DoubleHolder implements NumberHolder {
+public class DoubleHolder implements IValueHolder<Double> {
     private double value;
 
     public DoubleHolder(double value) {
@@ -12,16 +12,12 @@ public class DoubleHolder implements NumberHolder {
     }
 
     @Override
-    public double get() {
-        return this.value;
+    public void set(Double value) {
+        this.value = value;
     }
 
     @Override
-    public void set(double v) {
-        this.value = v;
-    }
-
-    public double getValue() {
+    public Double get() {
         return value;
     }
 }

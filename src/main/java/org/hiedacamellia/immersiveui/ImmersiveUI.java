@@ -16,7 +16,6 @@ public class ImmersiveUI {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public ImmersiveUI(IEventBus modEventBus, ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.COMMON, ClientConfig.SPEC);
     }
 
     public static ResourceLocation rl(String path) {
