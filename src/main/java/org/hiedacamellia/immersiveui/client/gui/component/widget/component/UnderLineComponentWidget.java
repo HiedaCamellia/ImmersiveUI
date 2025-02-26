@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.client.gui.component.widget;
+package org.hiedacamellia.immersiveui.client.gui.component.widget.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
