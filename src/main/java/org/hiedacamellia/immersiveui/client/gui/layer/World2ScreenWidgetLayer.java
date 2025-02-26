@@ -49,8 +49,8 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
     private final Minecraft minecraft = Minecraft.getInstance();
     private final Map<UUID, IW2SWidget> objects = new Object2ObjectOpenHashMap<>();
-    private final Map<UUID, IW2SWidget> onRemoving = new Object2ObjectOpenHashMap<>();
     private final Set<UUID> toRemove = new ObjectOpenHashSet<>();
+    private final Set<UUID> onRemoving = new ObjectOpenHashSet<>();
     private final List<IW2SWidget> inRange = new ObjectArrayList<>();
     //private final World2ScreenButton[] grid = new World2ScreenButton[64 * 64];
     private final FloatHolder click = new FloatHolder(0.0f);
@@ -121,45 +121,17 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
             object.setYO(d1);
 
             if (highlight1) {
-                object.render(guiGraphics, true, this.click.getValue(), deltaTracker);
+                object.render(guiGraphics, true, this.click.get(), deltaTracker);
             } else {
                 object.render(guiGraphics, false, 0, deltaTracker);
             }
         }
-
-        for (Iterator<IW2SWidget> iterator = onRemoving.values().iterator(); iterator.hasNext(); ) {
-            IW2SWidget object = iterator.next();
-            object.updateAlpha();
-            if (object.shouldBeRemoved()) {
-                iterator.remove();
-                continue;
-            }
-
-            if (!object.isComputed())
-                continue;
-
-            if (!object.shouldRender())
-                continue;
-
-
-            boolean highlight1 = locked != null ? object == locked : object == highlight;
-            float d0 = object.getX();
-            float d1 = object.getY();
-
-            if (object.shouldSmoothPosition()) {
-                d0 = Mth.lerp(deltaTicks, object.getXO(), object.getX());
-                d1 = Mth.lerp(deltaTicks, object.getYO(), object.getY());
-            }
-
-            object.setXO(d0);
-            object.setYO(d1);
-
-            if (highlight1) {
-                object.render(guiGraphics, true, this.click.getValue(), deltaTracker);
-            } else {
-                object.render(guiGraphics, false, 0, deltaTracker);
+        for (UUID uuid : onRemoving) {
+            if (objects.get(uuid).shouldBeRemoved()) {
+                objects.remove(uuid);
             }
         }
+
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.disableBlend();
     }
@@ -174,7 +146,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 if (widget == null)
                     return;
                 widget.setRemoved();
-                this.onRemoving.put(e, widget);
+                this.onRemoving.add(e);
             });
             this.toRemove.clear();
         }
