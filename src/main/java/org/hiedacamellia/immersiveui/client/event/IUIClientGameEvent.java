@@ -59,7 +59,6 @@ public class IUIClientGameEvent {
 
     @SubscribeEvent
     public static void onScreen(ScreenEvent.Opening event) {
-        if(FMLEnvironment.production) return;
 
         if(World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
             World2ScreenWidgetLayer.INSTANCE.activeScreen.setScreen(event.getNewScreen());

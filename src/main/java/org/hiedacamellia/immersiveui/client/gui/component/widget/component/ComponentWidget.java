@@ -33,7 +33,7 @@ public class ComponentWidget extends AbstractStringWidget {
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-
+        return false;
     }
 
     @Override
