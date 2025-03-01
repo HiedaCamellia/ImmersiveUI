@@ -13,7 +13,7 @@ import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeWidget
 
 public class TestScreen extends Screen {
 
-    private TreeWidget<Component> treeWidget;
+    private TreeWidget<Component,TreeEntryWidget<Component>> treeWidget;
 
 
 

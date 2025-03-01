@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -25,17 +24,17 @@ public class TreeEntryWidget<T> extends AbstractWidget {
 
     private boolean isRoot = false;
 
-    private TreeWidget<T> tree;
+    private TreeWidget<T,TreeEntryWidget<T>> tree;
 
     protected final Component foldComponent = Component.literal("▶ ");
     protected final Component unfoldComponent = Component.literal("▼ ");
 
-    public void tree(TreeWidget<T> tree) {
+    public void tree(TreeWidget<T,TreeEntryWidget<T>> tree) {
         isRoot = true;
         this.tree = tree;
     }
 
-    public TreeWidget<T> getTree(){
+    public TreeWidget<T,TreeEntryWidget<T>> getTree(){
         if(isRoot) return tree;
         return parent.getTree();
     }
