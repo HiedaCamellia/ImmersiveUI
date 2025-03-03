@@ -26,8 +26,10 @@ public class TreeEntryWidget<T> extends AbstractWidget {
 
     private TreeWidget<T,TreeEntryWidget<T>> tree;
 
-    protected final Component foldComponent = Component.literal("▶ ");
-    protected final Component unfoldComponent = Component.literal("▼ ");
+    protected int selfWidth,selfHeight,foldWidth;
+
+    protected final Component foldComponent = Component.literal("▶");
+    protected final Component unfoldComponent = Component.literal("▼");
 
     public void tree(TreeWidget<T,TreeEntryWidget<T>> tree) {
         isRoot = true;
@@ -63,7 +65,7 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     }
 
     public TreeEntryWidget<T> getWidgetAt(double mouseX,double mouseY){
-        int y = this.getY() + font.lineHeight;
+        int y = this.getY() + selfHeight;
         for (TreeEntryWidget<T> child : children) {
             int x0 = this.getX();
             int y0 = y;
@@ -80,9 +82,9 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     public boolean shouldAccept(double mouseX, double mouseY){
         int x0 = this.getX();
         int y0 = this.getY();
-        int x1 = x0 + font.width("▶ ");
-        int y1 = y0 + font.lineHeight;
-        int x2 = x0 + font.width("▶ " + getMessage().getString());
+        int x1 = x0 + foldWidth;
+        int y1 = y0 + selfHeight;
+        int x2 = x0 + foldWidth+selfWidth;
         return mouseX >= x1 && mouseX <= x2 && mouseY >= y0 && mouseY <= y1;
     }
 
@@ -94,13 +96,16 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     public TreeEntryWidget(Component message, Font font) {
         super(0, 0, 0, 0, message);
         this.font = font;
+        this.selfHeight = font.lineHeight;
+        this.selfWidth = font.width(message);
+        this.foldWidth = font.width(foldComponent);
     }
 
     public static <T> TreeEntryWidget<T> of(T data,Component component, Font font){
         TreeEntryWidget<T> widget = new TreeEntryWidget<>(component, font);
         widget.setData(data);
-        widget.width = font.width(component);
-        widget.height = font.lineHeight;
+        widget.width = widget.selfWidth;
+        widget.height = widget.selfHeight;
         return widget;
     }
 
@@ -151,8 +156,8 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     }
 
     public void updateWidget() {
-        int X = this.getX() + font.width(foldComponent);
-        int Y = this.getY() + font.lineHeight;
+        int X = this.getX() + foldWidth;
+        int Y = this.getY() + selfHeight;
         for (TreeEntryWidget<T> child : children) {
             child.setX(X);
             child.setY(Y);
@@ -164,7 +169,7 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     }
 
     private void updateHeight() {
-        int height = font.lineHeight;
+        int height = selfHeight;
         if (fold) {
             this.height = height;
             return;
@@ -179,15 +184,15 @@ public class TreeEntryWidget<T> extends AbstractWidget {
         int width = 0;
         if(hasChild()) {
             if (fold) {
-                this.width = Math.max(width + font.width(foldComponent), font.width(foldComponent.copy().append(getMessage()).getString()));
+                this.width = Math.max(width + foldWidth, foldWidth+selfWidth);
                 return;
             }
             for (AbstractWidget child : children) {
                 width = Math.max(width, child.getWidth());
             }
-            this.width = Math.max(width + font.width(foldComponent), font.width(foldComponent.copy().append(getMessage()).getString()));
+            this.width = Math.max(width + foldWidth, foldWidth+selfWidth);
         }else {
-            this.width = font.width(getMessage());
+            this.width = selfWidth;
         }
     }
 
@@ -196,9 +201,9 @@ public class TreeEntryWidget<T> extends AbstractWidget {
         if(hasChild()) {
             int x0 = this.getX();
             int y0 = this.getY();
-            int x1 = x0 + font.width("▶ ");
-            int y1 = y0 + font.lineHeight;
-            int x2 = x0 + font.width("▶ " + getMessage().getString());
+            int x1 = x0 + foldWidth;
+            int y1 = y0 + selfHeight;
+            int x2 = x0 + foldWidth+selfWidth;
             if (mouseX >= x0 && mouseX <= x1 && mouseY >= y0 && mouseY <= y1) {
                 if (button == 0) {
                     if (fold) {
@@ -253,6 +258,10 @@ public class TreeEntryWidget<T> extends AbstractWidget {
             }
         }
         if(fold) return;
+        renderChildren(guiGraphics, mouseX, mouseY, v);
+    }
+
+    protected void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
         for (TreeEntryWidget<T> child : children) {
             child.renderWidget(guiGraphics, mouseX, mouseY, v);
         }

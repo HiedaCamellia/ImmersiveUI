@@ -24,6 +24,8 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
 
     private boolean showTitle = true;
 
+    protected boolean dragable = true;
+
     public TreeEntryWidget<T> getSelect() {
         return select;
     }
@@ -101,7 +103,7 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
             boolean v = child.mouseClicked(mouseX, mouseY, button);
             ImmersiveUI.LOGGER.info("Clicked: "+v);
             updateWidget();
-            if(!v){
+            if(!v&&dragable){
                 this.setDragging(true);
                 child.fold();
                 this.onDrag = child;
