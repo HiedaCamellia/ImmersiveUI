@@ -14,6 +14,7 @@ import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenScreen;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
+import org.hiedacamellia.immersiveui.test.TestEvent;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.UUID;
@@ -26,6 +27,8 @@ public class IUIClientGameEvent {
             ScreenTempTarget.SCREEN_INSTANCE = new ScreenTempTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             ScreenTempTarget.BLUR_INSTANCE = new ScreenTempTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
         });
+
+        TestEvent.registerTestScreen();
     }
 
 

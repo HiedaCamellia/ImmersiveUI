@@ -25,6 +25,7 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
     private boolean showTitle = true;
 
     protected boolean dragable = true;
+    protected int titleWidth,titleHeight;
 
     public TreeEntryWidget<T> getSelect() {
         return select;
@@ -41,7 +42,7 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
     public void updateWidget() {
         int x = this.getX();
         int y = this.getY();
-        int offset = showTitle?font.lineHeight:0;
+        int offset = showTitle?titleHeight:0;
         int width = 0;
         for (V treeEntryWidget : root) {
             treeEntryWidget.setX(x);
@@ -51,7 +52,7 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
             width = Math.max(width, treeEntryWidget.getWidth());
         }
         this.height = offset;
-        this.width = showTitle?Math.max(width,font.width(getMessage().getString())):width;
+        this.width = showTitle?Math.max(width,titleWidth):width;
     }
 
     public TreeWidget(V root,int x, int y, Component component, Font font) {
@@ -59,6 +60,8 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
         this.font = font;
         this.root = List.of(root);
         root.tree((TreeWidget<T, TreeEntryWidget<T>>) this);
+        this.titleHeight = font.lineHeight;
+        this.titleWidth = font.width(component);
         updateWidget();
     }
 
@@ -69,6 +72,8 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
         for (V treeEntryWidget : root) {
             treeEntryWidget.tree((TreeWidget<T, TreeEntryWidget<T>>) this);
         }
+        this.titleHeight = font.lineHeight;
+        this.titleWidth = font.width(component);
         updateWidget();
     }
 
@@ -152,11 +157,23 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
-        guiGraphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height, 0xFFDDDDDD);
+        renderBg(guiGraphics, mouseX, mouseY, v);
         if(showTitle) {
-            guiGraphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + font.lineHeight, 0xFFAAAAAA);
-            guiGraphics.drawString(font, this.getMessage(), this.getX(), this.getY(), 0x000000, false);
+            renderTitle(guiGraphics, mouseX, mouseY, v);
         }
+        renderChildren(guiGraphics, mouseX, mouseY, v);
+    }
+
+    protected void renderBg(GuiGraphics guiGraphics, int mouseX, int mouseY, float v){
+        guiGraphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height, 0xFFDDDDDD);
+    }
+
+    protected void renderTitle(GuiGraphics guiGraphics, int mouseX, int mouseY, float v){
+        guiGraphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + titleHeight, 0xFFAAAAAA);
+        guiGraphics.drawString(font, this.getMessage(), this.getX(), this.getY(), 0x000000, false);
+    }
+
+    protected void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float v){
         for (V treeEntryWidget : root) {
             treeEntryWidget.render(guiGraphics, mouseX, mouseY, v);
         }

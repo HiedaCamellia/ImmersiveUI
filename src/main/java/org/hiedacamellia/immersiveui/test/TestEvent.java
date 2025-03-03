@@ -2,13 +2,19 @@ package org.hiedacamellia.immersiveui.test;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
+import org.hiedacamellia.camellialib.client.debug.DebugEntry;
+import org.hiedacamellia.camellialib.client.debug.DebugRegistries;
+import org.hiedacamellia.camellialib.client.gui.tree.DebugTreeEntryWidget;
+import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenScreen;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
 import org.lwjgl.glfw.GLFW;
@@ -34,14 +40,11 @@ public class TestEvent {
 //        }
     }
 
-    @SubscribeEvent
-    public static void onKey(final InputEvent.Key event) {
-
-        if(FMLEnvironment.production) return;
-
-        if(event.getKey() == GLFW.GLFW_KEY_J){
-            Minecraft.getInstance().setScreen(new TestScreen());
-        }
-
+    public static void registerTestScreen(){
+        DebugTreeEntryWidget testScreen = DebugTreeEntryWidget.create(new DebugEntry(ImmersiveUI.MODID, new TestScreen()), Component.literal("Test Screen"), Minecraft.getInstance().font);
+        DebugTreeEntryWidget parent = DebugTreeEntryWidget.create(null, Component.literal(ImmersiveUI.MODID), Minecraft.getInstance().font);
+        parent.addChild(testScreen);
+        DebugRegistries.registerRoot(parent);
     }
+
 }

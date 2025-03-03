@@ -10,16 +10,21 @@ package org.hiedacamellia.immersiveui.client.graphic.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.FormattedCharSequence;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.hiedacamellia.immersiveui.client.graphic.shader.IUIShaders;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
+
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unused")
 @OnlyIn(Dist.CLIENT)
@@ -221,5 +226,26 @@ public class IUIGuiUtils {
         bufferbuilder.addVertex(matrix4f, x2, y2, 0).setUv(u1, v1);
         bufferbuilder.addVertex(matrix4f, x2, y1, 0).setUv(u1, v0);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
+
+    public static void drawCenteredString(GuiGraphics guiGraphics,Font font, String text, int x, int y, int color,boolean dropShadow) {
+        drawString(guiGraphics,font, text, x - (float) font.width(text) / 2, y- (float) font.lineHeight /2, color,dropShadow);
+    }
+
+    public static void drawCenteredString(GuiGraphics guiGraphics,Font font, Component text, int x, int y, int color,boolean dropShadow) {
+        FormattedCharSequence formattedcharsequence = text.getVisualOrderText();
+        drawString(guiGraphics,font, formattedcharsequence, x - (float) font.width(formattedcharsequence) / 2, y- (float) font.lineHeight /2, color,dropShadow);
+    }
+
+    public static void drawCenteredString(GuiGraphics guiGraphics,Font font, FormattedCharSequence text, int x, int y, int color,boolean dropShadow) {
+        drawString(guiGraphics,font, text, x - (float) font.width(text) / 2, y- (float) font.lineHeight /2, color,dropShadow);
+    }
+
+    public static int drawString(GuiGraphics guiGraphics,Font font, FormattedCharSequence text, float x, float y, int color,boolean dropShadow) {
+        return guiGraphics.drawString(font, text, x, y, color, dropShadow);
+    }
+
+    public static int drawString(GuiGraphics guiGraphics,Font font, @Nullable String text, float x, float y, int color,boolean s) {
+        return guiGraphics.drawString(font, text, x, y, color, s);
     }
 }
