@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import org.hiedacamellia.immersiveui.client.graphic.gui.IUIGuiUtils;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.component.ComponentWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeEntryWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeWidget;
@@ -49,6 +50,8 @@ public class TestScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
+
+        //IUIGuiUtils.drawRing(guiGraphics,100,100,20,40,0,720,0xFFFFFFFF);
     }
 
     @Override

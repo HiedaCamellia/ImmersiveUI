@@ -248,4 +248,67 @@ public class IUIGuiUtils {
     public static int drawString(GuiGraphics guiGraphics,Font font, @Nullable String text, float x, float y, int color,boolean s) {
         return guiGraphics.drawString(font, text, x, y, color, s);
     }
+
+
+    /**
+     * 绘制圆环
+     * @param guiGraphics The GuiGraphics object.
+     * @param x 圆环中心x坐标
+     * @param y 圆环中心y坐标
+     * @param innerRadius 内半径
+     * @param outerRadius 外半径
+     * @param startAngle 起始角度
+     * @param endAngle 结束角度
+     * @param color 颜色
+     */
+    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color) {
+        drawRing(guiGraphics, x, y, innerRadius, outerRadius, startAngle, endAngle, color, color);
+    }
+    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color,float smooth) {
+        drawRing(guiGraphics, x, y, innerRadius, outerRadius, startAngle, endAngle, color, color,smooth);
+    }
+    /**
+     * @param innerColor 内圆环颜色
+     * @param outerColor 外圆环颜色
+     */
+    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int innerColor,int outerColor) {
+        drawRing(guiGraphics, x, y, innerRadius, outerRadius, startAngle, endAngle, innerColor, outerColor, 0.5f/outerRadius);
+    }
+    /**
+     * @param smooth 平滑度(抗锯齿)(范围0-1f)(不要给太大的数值)
+     */
+    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int innerColor,int outerColor,float smooth) {
+        float x2 = (int) (x + outerRadius);
+        float y2 = (int) (y + outerRadius);
+        float x1 = (int) (x - outerRadius);
+        float y1 = (int) (y - outerRadius);
+
+
+        RenderSystem.setShader(IUIShaders::getRingShader);
+        ShaderInstance shader = IUIShaders.getRingShader();
+        shader.safeGetUniform("innerRadius").set(innerRadius/outerRadius/2);
+        shader.safeGetUniform("outerRadius").set(0.5f);
+
+        shader.safeGetUniform("innerColor").set(int2vec4(innerColor));
+        shader.safeGetUniform("outerColor").set(int2vec4(outerColor));
+
+        shader.safeGetUniform("startAngle").set(startAngle);
+        shader.safeGetUniform("endAngle").set(endAngle);
+
+        shader.safeGetUniform("Smooth").set(smooth);
+
+        RenderSystem.enableBlend();
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.addVertex(matrix4f, x1, y1, 0).setUv(0, 0);
+        bufferbuilder.addVertex(matrix4f, x1, y2, 0).setUv(0, 1);
+        bufferbuilder.addVertex(matrix4f, x2, y2, 0).setUv(1, 1);
+        bufferbuilder.addVertex(matrix4f, x2, y1, 0).setUv(1, 0);
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
+
+
+    private static Vector4f int2vec4(int color) {
+        return new Vector4f((color >> 16 & 255) / 255.0F, (color >> 8 & 255) / 255.0F, (color & 255) / 255.0F, (color >> 24 & 255) / 255.0F);
+    }
 }

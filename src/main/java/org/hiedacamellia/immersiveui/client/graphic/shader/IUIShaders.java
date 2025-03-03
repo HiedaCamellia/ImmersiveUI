@@ -34,6 +34,8 @@ public class IUIShaders {
     private static ShaderInstance positionTexShader;
     @Nullable
     private static ShaderInstance blurShader;
+    @Nullable
+    private static ShaderInstance ringShader;
 
     
     public static ShaderInstance getRoundRectShader() {
@@ -50,6 +52,10 @@ public class IUIShaders {
 
     public static ShaderInstance getBlurShader() {
         return Objects.requireNonNull(blurShader, "Attempted to call getBlurShader before shaders have finished loading.");
+    }
+
+    public static ShaderInstance getRingShader() {
+        return Objects.requireNonNull(ringShader, "Attempted to call getRingShader before shaders have finished loading.");
     }
 
 
@@ -88,6 +94,14 @@ public class IUIShaders {
                         DefaultVertexFormat.POSITION_TEX
                 ),
                 (shader) -> blurShader = shader
+        );
+        event.registerShader(
+                new ShaderInstance(
+                        provider,
+                        ImmersiveUI.rl("ring"),
+                        DefaultVertexFormat.POSITION_TEX
+                ),
+                (shader) -> ringShader = shader
         );
     }
 }
