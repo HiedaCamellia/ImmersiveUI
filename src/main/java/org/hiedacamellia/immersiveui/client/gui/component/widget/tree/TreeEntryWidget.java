@@ -16,15 +16,15 @@ public class TreeEntryWidget<T> extends AbstractWidget {
 
     protected boolean fold = true;
 
-    private TreeEntryWidget<T> parent;
+    protected TreeEntryWidget<T> parent;
 
-    private List<TreeEntryWidget<T>> children = new ArrayList<>();
+    protected List<TreeEntryWidget<T>> children = new ArrayList<>();
 
-    private T data;
+    protected T data;
 
-    private boolean isRoot = false;
+    protected boolean isRoot = false;
 
-    private TreeWidget<T,TreeEntryWidget<T>> tree;
+    protected TreeWidget<T,TreeEntryWidget<T>> tree;
 
     protected int selfWidth,selfHeight,foldWidth;
 
@@ -65,16 +65,10 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     }
 
     public TreeEntryWidget<T> getWidgetAt(double mouseX,double mouseY){
-        int y = this.getY() + selfHeight;
         for (TreeEntryWidget<T> child : children) {
-            int x0 = this.getX();
-            int y0 = y;
-            int x1 = x0 + this.width;
-            int y1 = y0 + child.getHeight();
-            if (mouseX >= x0 && mouseX <= x1 && mouseY >= y0 && mouseY <= y1) {
+            if (child.isHovered(mouseX,mouseY)) {
                 return child;
             }
-            y += child.getHeight();
         }
         return null;
     }
@@ -219,11 +213,13 @@ public class TreeEntryWidget<T> extends AbstractWidget {
                     return false;
                 }
             }
-            TreeEntryWidget<T> child = getWidgetAt(mouseX, mouseY);
-            if (child != null) {
-                boolean v = child.mouseClicked(mouseX, mouseY, button);
-                updateWidget();
-                return v;
+            if(!fold) {
+                TreeEntryWidget<T> child = getWidgetAt(mouseX, mouseY);
+                if (child != null) {
+                    boolean v = child.mouseClicked(mouseX, mouseY, button);
+                    updateWidget();
+                    return v;
+                }
             }
         }else {
             if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {

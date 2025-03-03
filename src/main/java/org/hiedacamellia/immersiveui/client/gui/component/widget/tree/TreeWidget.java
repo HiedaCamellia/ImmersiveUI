@@ -118,6 +118,8 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
                 this.dragOriginY = child.getY();
             }
             return true;
+        }else {
+            updateWidget();
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
