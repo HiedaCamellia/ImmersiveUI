@@ -4,13 +4,14 @@
         "srcrgb": "srcalpha",
         "dstrgb": "1-srcalpha"
     },
-    "vertex": "immersiveui:uv_color",
-    "fragment": "immersiveui:round_rect",
+    "vertex": "immersiveui:uv",
+    "fragment": "immersiveui:round",
     "attributes": [
         "Color",
         "UV0"
     ],
     "samplers": [
+        { "name": "Sampler0" }
     ],
     "uniforms": [
         {
@@ -32,13 +33,7 @@
             "values": [ 1.0, 1.0, 1.0, 1.0 ]
         },
         {
-            "name": "Ratio",
-            "type": "float",
-            "count": 1,
-            "values": [ 1.0 ]
-        },
-        {
-            "name": "Radius",
+            "name": "Smooth",
             "type": "float",
             "count": 1,
             "values": [ 0.0 ]

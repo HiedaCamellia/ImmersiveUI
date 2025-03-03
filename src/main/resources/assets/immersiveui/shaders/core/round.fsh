@@ -1,21 +1,23 @@
-#version 330 core
+#version 150
 
-in vec4 vertexColor;
 in vec2 texCoord0;
 
+uniform sampler2D Sampler0;
 uniform vec4 ColorModulator;
-uniform float Radius;
-uniform float Ratio;
+uniform float Smooth;
 
 out vec4 fragColor;
 
 void main() {
-    vec2 p = abs(step(0.5, texCoord0.xy) - texCoord0.xy);
-    float edgeX = step(Radius, p.x);
-    float edgeY = step(Radius, p.y * Ratio);
-    float dist = step(length(vec2(p.x - Radius, p.y * Ratio - Radius)), Radius);
-    float alpha = min(1.0, edgeX + edgeY + dist);
-    vec4 color = vertexColor;
-    color.a *= alpha;
+    vec2 center = vec2(0.5f,0.5f);
+    float dist = distance(center, texCoord0);
+    vec4 color = texture(Sampler0, texCoord0);
+    if (color.a == 0.0) {
+        discard;
+    }
+    float inSector = smoothstep(0, 0 + Smooth, dist) * (0.5 - smoothstep(0.5 - Smooth, 1, dist));
+    if (inSector == 0.0) {
+        discard;
+    }
     fragColor = color * ColorModulator;
 }
