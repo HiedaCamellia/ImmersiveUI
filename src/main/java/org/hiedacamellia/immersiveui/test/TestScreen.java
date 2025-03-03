@@ -1,14 +1,12 @@
 package org.hiedacamellia.immersiveui.test;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.hiedacamellia.immersiveui.client.graphic.gui.IUIGuiUtils;
-import org.hiedacamellia.immersiveui.client.gui.component.widget.component.ComponentWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeEntryWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeWidget;
 
@@ -52,6 +50,7 @@ public class TestScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
         //IUIGuiUtils.drawRing(guiGraphics,100,100,20,40,0,720,0xFFFFFFFF);
+        IUIGuiUtils.blitRoundCentered(guiGraphics, ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),100,100,50,0.2f);
     }
 
     @Override
