@@ -216,6 +216,7 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if(hasChild()) {
             if (shouldChangeFold(mouseX, mouseY, button)) {
+                ImmersiveUI.LOGGER.info("fold");
                 if (fold) {
                     unfold();
                 } else {
