@@ -49,8 +49,8 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
     private final Minecraft minecraft = Minecraft.getInstance();
     private final Map<UUID, IW2SWidget> objects = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, IW2SWidget> onRemoving = new Object2ObjectOpenHashMap<>();
     private final Set<UUID> toRemove = new ObjectOpenHashSet<>();
-    private final Set<UUID> onRemoving = new ObjectOpenHashSet<>();
     private final List<IW2SWidget> inRange = new ObjectArrayList<>();
     //private final World2ScreenButton[] grid = new World2ScreenButton[64 * 64];
     private final FloatHolder click = new FloatHolder(0.0f);
@@ -106,8 +106,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 if (object == locked) {
                     locked = null;
                 }
-                object.setRemoved();
-                onRemoving.add(object.getId());
+                iterator.remove();
                 continue;
             }
             float d0 = object.getX();
@@ -127,18 +126,40 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 object.render(guiGraphics, false, 0, deltaTracker);
             }
         }
-        Iterator<UUID> iterator = onRemoving.iterator();
-        while (iterator.hasNext()) {
-            UUID uuid = iterator.next();
-            IW2SWidget iw2SWidget = objects.get(uuid);
-            if (iw2SWidget == null)
-                continue;
-            if (iw2SWidget.shouldBeRemoved()) {
-                objects.remove(uuid);
+
+        for (Iterator<IW2SWidget> iterator = onRemoving.values().iterator(); iterator.hasNext(); ) {
+            IW2SWidget object = iterator.next();
+            object.updateAlpha();
+            if (object.shouldBeRemoved()) {
                 iterator.remove();
+                continue;
+            }
+
+            if (!object.isComputed())
+                continue;
+
+            if (!object.shouldRender())
+                continue;
+
+
+            boolean highlight1 = locked != null ? object == locked : object == highlight;
+            float d0 = object.getX();
+            float d1 = object.getY();
+
+            if (object.shouldSmoothPosition()) {
+                d0 = Mth.lerp(deltaTicks, object.getXO(), object.getX());
+                d1 = Mth.lerp(deltaTicks, object.getYO(), object.getY());
+            }
+
+            object.setXO(d0);
+            object.setYO(d1);
+
+            if (highlight1) {
+                object.render(guiGraphics, true, this.click.get(), deltaTracker);
+            } else {
+                object.render(guiGraphics, false, 0, deltaTracker);
             }
         }
-
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.disableBlend();
     }
@@ -153,7 +174,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 if (widget == null)
                     return;
                 widget.setRemoved();
-                this.onRemoving.add(e);
+                this.onRemoving.put(e, widget);
             });
             this.toRemove.clear();
         }
