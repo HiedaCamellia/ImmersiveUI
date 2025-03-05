@@ -63,10 +63,11 @@ public class IUIClientGameEvent {
     @SubscribeEvent
     public static void onScreen(ScreenEvent.Opening event) {
 
-//        if(World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
-//            World2ScreenWidgetLayer.INSTANCE.activeScreen.setScreen(event.getNewScreen());
-//            event.setCanceled(true);
-//        }else {
+        if(World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
+            World2ScreenWidgetLayer.INSTANCE.activeScreen.setScreen(event.getNewScreen());
+            event.setCanceled(true);
+        }
+//        else {
 //            if(event.getNewScreen() instanceof PauseScreen pauseScreen){
 //                UUID uuid = UUID.randomUUID();
 //                World2ScreenScreen screenScreen = new World2ScreenScreen(uuid, pauseScreen, Minecraft.getInstance().player);
