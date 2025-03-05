@@ -16,7 +16,7 @@ public class MinecraftMixin {
     @Inject(method = "setScreen",at = @At("HEAD"))
     public void setScreen(Screen guiScreen,CallbackInfo ci){
         if(guiScreen==null&&World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
-            World2ScreenWidgetLayer.INSTANCE.remove(World2ScreenWidgetLayer.INSTANCE.activeScreen.getUuid());
+            World2ScreenWidgetLayer.INSTANCE.remove(World2ScreenWidgetLayer.INSTANCE.activeScreen.getId());
         }
     }
 

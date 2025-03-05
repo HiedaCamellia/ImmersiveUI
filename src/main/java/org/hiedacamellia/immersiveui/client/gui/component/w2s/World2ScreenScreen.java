@@ -43,10 +43,6 @@ public class World2ScreenScreen extends World2ScreenWidget {
         return this.screen == screen;
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         return this.screen.keyPressed(keyCode, scanCode, modifiers);
     }

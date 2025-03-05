@@ -38,6 +38,11 @@ public abstract class World2ScreenWidget implements IW2SWidget {
     }
 
     @Override
+    public UUID getId() {
+        return uuid;
+    }
+
+    @Override
     public void setScreenPos(float x, float y) {
         this.x = x;
         this.y = y;

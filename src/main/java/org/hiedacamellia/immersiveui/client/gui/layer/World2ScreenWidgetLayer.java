@@ -69,7 +69,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
     public void setActiveScreen(World2ScreenScreen activeScreen) {
         this.activeScreen = activeScreen;
-        this.screenUUID = activeScreen.getUuid();
+        this.screenUUID = activeScreen.getId();
     }
 
     public void reset() {
@@ -106,7 +106,8 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 if (object == locked) {
                     locked = null;
                 }
-                iterator.remove();
+                object.setRemoved();
+                onRemoving.add(object.getId());
                 continue;
             }
             float d0 = object.getX();
@@ -126,9 +127,15 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
                 object.render(guiGraphics, false, 0, deltaTracker);
             }
         }
-        for (UUID uuid : onRemoving) {
-            if (objects.get(uuid).shouldBeRemoved()) {
+        Iterator<UUID> iterator = onRemoving.iterator();
+        while (iterator.hasNext()) {
+            UUID uuid = iterator.next();
+            IW2SWidget iw2SWidget = objects.get(uuid);
+            if (iw2SWidget == null)
+                continue;
+            if (iw2SWidget.shouldBeRemoved()) {
                 objects.remove(uuid);
+                iterator.remove();
             }
         }
 

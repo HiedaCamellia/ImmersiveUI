@@ -4,7 +4,11 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Vector3f;
 
+import java.util.UUID;
+
 public interface IW2SWidget {
+
+    UUID getId();
 
     boolean isComputed();
 
