@@ -62,11 +62,7 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     public TreeEntryWidget<T> getAt(double mouseX, double mouseY){
         TreeEntryWidget<T> widget = getWidgetAt(mouseX, mouseY);
         if(widget == null) {
-            if(isHovered(mouseX, mouseY)) {
-                return this;
-            }else {
-                return null;
-            }
+            return isHovered(mouseX, mouseY) ? this : null;
         }
         return widget.getAt(mouseX, mouseY);
     }
@@ -204,8 +200,6 @@ public class TreeEntryWidget<T> extends AbstractWidget {
             int y0 = this.getY();
             int x1 = x0 + foldWidth;
             int y1 = y0 + selfHeight;
-            ImmersiveUI.LOGGER.info("x0: "+x0+" y0: "+y0+" x1: "+x1+" y1: "+y1);
-            ImmersiveUI.LOGGER.info("mouseX: "+mouseX+" mouseY: "+mouseY);
             return mouseX >= x0 && mouseX <= x1 && mouseY >= y0 && mouseY <= y1;
         }
         return false;
@@ -216,7 +210,7 @@ public class TreeEntryWidget<T> extends AbstractWidget {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if(hasChild()) {
             if (shouldChangeFold(mouseX, mouseY, button)) {
-                ImmersiveUI.LOGGER.info("fold");
+                ImmersiveUI.LOGGER.info("fold："+fold);
                 if (fold) {
                     unfold();
                 } else {

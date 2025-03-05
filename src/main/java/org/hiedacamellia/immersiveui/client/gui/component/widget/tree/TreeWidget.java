@@ -89,7 +89,9 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
         TreeEntryWidget<T> widget;
         for(TreeEntryWidget<T> child : root){
             widget = child.getAt(mouseX, mouseY);
-            if(widget != null) return widget;
+            if(widget != null) {
+                return widget;
+            }
         }
         return null;
     }
@@ -101,12 +103,10 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        TreeEntryWidget<T>  child = getAt(mouseX, mouseY);
+        TreeEntryWidget<T> child = getAt(mouseX, mouseY);
         select = child;
         if(child != null && !child.isRoot()){
-            ImmersiveUI.LOGGER.info(child.getMessage().getString());
             boolean v = child.mouseClicked(mouseX, mouseY, button);
-            ImmersiveUI.LOGGER.info("Clicked: "+v);
             updateWidget();
             if(!v&&dragable){
                 this.setDragging(true);
@@ -118,7 +118,14 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
                 this.dragOriginY = child.getY();
             }
             return true;
-        }else {
+        }else if(child != null && child.isRoot()){
+            boolean v = child.mouseClicked(mouseX, mouseY, button);
+            ImmersiveUI.LOGGER.info("Clicked: "+v);
+            ImmersiveUI.LOGGER.info("child: "+child.getMessage().getString());
+            updateWidget();
+            return true;
+        }else
+        {
             updateWidget();
         }
         return super.mouseClicked(mouseX, mouseY, button);
