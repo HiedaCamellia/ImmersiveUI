@@ -118,6 +118,10 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
                 this.dragOriginY = child.getY();
             }
             return true;
+        }else if(child!=null){
+            boolean v = child.mouseClicked(mouseX, mouseY, button);
+            ImmersiveUI.LOGGER.info("Clicked: "+v);
+            updateWidget();
         }else {
             updateWidget();
         }

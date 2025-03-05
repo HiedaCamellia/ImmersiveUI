@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -60,11 +61,18 @@ public class TreeEntryWidget<T> extends AbstractWidget {
 
     public TreeEntryWidget<T> getAt(double mouseX, double mouseY){
         TreeEntryWidget<T> widget = getWidgetAt(mouseX, mouseY);
-        if(widget == null) return this;
+        if(widget == null) {
+            if(isHovered(mouseX, mouseY)) {
+                return this;
+            }else {
+                return null;
+            }
+        }
         return widget.getAt(mouseX, mouseY);
     }
 
     public TreeEntryWidget<T> getWidgetAt(double mouseX,double mouseY){
+        if(fold) return null;
         for (TreeEntryWidget<T> child : children) {
             if (child.isHovered(mouseX,mouseY)) {
                 return child;
@@ -190,28 +198,33 @@ public class TreeEntryWidget<T> extends AbstractWidget {
         }
     }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if(hasChild()) {
+    public boolean shouldChangeFold(double mouseX, double mouseY, int button) {
+        if(button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             int x0 = this.getX();
             int y0 = this.getY();
             int x1 = x0 + foldWidth;
             int y1 = y0 + selfHeight;
-            int x2 = x0 + foldWidth+selfWidth;
-            if (mouseX >= x0 && mouseX <= x1 && mouseY >= y0 && mouseY <= y1) {
-                if (button == 0) {
-                    if (fold) {
-                        unfold();
-                    } else {
-                        fold();
-                    }
-                    return true;
+            ImmersiveUI.LOGGER.info("x0: "+x0+" y0: "+y0+" x1: "+x1+" y1: "+y1);
+            ImmersiveUI.LOGGER.info("mouseX: "+mouseX+" mouseY: "+mouseY);
+            return mouseX >= x0 && mouseX <= x1 && mouseY >= y0 && mouseY <= y1;
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if(hasChild()) {
+            if (shouldChangeFold(mouseX, mouseY, button)) {
+                if (fold) {
+                    unfold();
+                } else {
+                    fold();
                 }
+                return true;
             }
-            if (mouseX >= x1 && mouseX <= x2 && mouseY >= y0 && mouseY <= y1) {
-                if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                    return false;
-                }
+            if (isHovered(mouseX, mouseY) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+                return false;
             }
             if(!fold) {
                 TreeEntryWidget<T> child = getWidgetAt(mouseX, mouseY);
