@@ -2,7 +2,8 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'idea'
-    id 'net.neoforged.moddev' version '2.0.61-beta'
+    id 'net.neoforged.moddev' version '2.0.78'
+    id 'org.jreleaser' version '1.17.0'
 }
 
 version = mod_version
@@ -102,7 +103,8 @@ dependencies {
     // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
     // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
 
-    implementation "org.hiedacamellia:CamelliaWheelMenu:0.0.1"
+    implementation "org.hiedacamellia:camellialib:${camellialib_version}"
+    //implementation "org.hiedacamellia:CamelliaWheelMenu:0.0.1"
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"
@@ -148,13 +150,39 @@ neoForge.ideSyncTask generateModMetadata
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
-        register('mavenJava', MavenPublication) {
+        maven(MavenPublication) {
+            groupId = mod_group_id
+            artifactId = mod_id
+
             from components.java
+
+            pom {
+                name = mod_id
+                description = mod_description
+                url = "https://${github_link}"
+                inceptionYear = '2025'
+                licenses {
+                    license {
+                        name = mod_license
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'houraisan_kaguya'
+                        name = 'Houraisan Kaguya'
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://${github_link}.git"
+                    developerConnection = "scm:git:ssh://${github_link}.git"
+                    url = "http://${github_link}"
+                }
+            }
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/repo"
+            url = layout.buildDirectory.dir('staging-deploy')
         }
     }
 }
@@ -164,5 +192,28 @@ idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+        }
     }
 }
