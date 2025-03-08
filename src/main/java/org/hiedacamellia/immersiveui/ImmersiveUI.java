@@ -6,8 +6,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import org.hiedacamellia.immersiveui.client.config.ClientConfig;
 import org.slf4j.Logger;
 
 @Mod(value = ImmersiveUI.MODID,dist = Dist.DEDICATED_SERVER)

@@ -11,6 +11,9 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
+import org.hiedacamellia.immersiveui.client.debug.DebugEntry;
+import org.hiedacamellia.immersiveui.client.debug.DebugRegistries;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.debug.DebugTreeEntryWidget;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT,bus = EventBusSubscriber.Bus.GAME)
@@ -33,10 +36,10 @@ public class TestEvent {
 
     public static void registerTestScreen(){
         if(ModList.get().isLoaded("camellialib")) {
-//            DebugTreeEntryWidget testScreen = DebugTreeEntryWidget.create(new DebugEntry(ImmersiveUI.MODID, new TestScreen()), Component.literal("Test Screen"), Minecraft.getInstance().font);
-//            DebugTreeEntryWidget parent = DebugTreeEntryWidget.create(null, Component.literal(ImmersiveUI.MODID), Minecraft.getInstance().font);
-//            parent.addChild(testScreen);
-//            DebugRegistries.registerRoot(parent);
+            DebugTreeEntryWidget testScreen = DebugTreeEntryWidget.create(new DebugEntry(ImmersiveUI.MODID, new TestScreen()), Component.literal("Test Screen"), Minecraft.getInstance().font);
+            DebugTreeEntryWidget parent = DebugTreeEntryWidget.create(null, Component.literal(ImmersiveUI.MODID), Minecraft.getInstance().font);
+            parent.addChild(testScreen);
+            DebugRegistries.registerRoot(parent);
         }
     }
 

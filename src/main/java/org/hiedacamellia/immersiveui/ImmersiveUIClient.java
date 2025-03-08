@@ -7,9 +7,8 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import org.hiedacamellia.immersiveui.client.config.ClientConfig;
+import org.hiedacamellia.immersiveui.client.config.IUIClientConfig;
 import org.hiedacamellia.immersiveui.client.event.IUIClientGameEvent;
-import org.hiedacamellia.immersiveui.test.TestEvent;
 
 @Mod(value = ImmersiveUI.MODID,dist = Dist.CLIENT)
 
@@ -20,7 +19,7 @@ public class ImmersiveUIClient {
         modEventBus.addListener(IUIClientGameEvent::onClientSetup);
 
 
-        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, IUIClientConfig.SPEC);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 
