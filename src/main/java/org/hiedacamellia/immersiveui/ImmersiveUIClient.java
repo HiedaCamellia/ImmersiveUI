@@ -18,7 +18,6 @@ public class ImmersiveUIClient {
 
         modEventBus.addListener(IUIClientGameEvent::onClientSetup);
 
-
         modContainer.registerConfig(ModConfig.Type.CLIENT, IUIClientConfig.SPEC);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }

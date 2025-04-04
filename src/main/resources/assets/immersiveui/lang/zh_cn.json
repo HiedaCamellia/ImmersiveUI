@@ -1,0 +1,7 @@
+{
+  "immersiveui.configuration.debug": "沉浸式UI 调试模式",
+  "immersiveui.configuration.section.immersiveui.client.toml.title": "沉浸式UI 客户端配置",
+  "immersiveui.configuration.debug.tooltip": "",
+  "immersiveui.configuration.section.immersiveui.client.toml": "沉浸式UI 客户端配置",
+  "immersiveui.configuration.title": "沉浸式UI 配置"
+}

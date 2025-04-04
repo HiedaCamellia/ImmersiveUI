@@ -253,6 +253,10 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         }
     }
 
+    public void addWorldPositionObject(World2ScreenWidget widget) {
+        addWorldPositionObject(widget.getId(), widget);
+    }
+
     public void addWorldPositionObject(UUID uuid, World2ScreenWidget widget) {
         if (widget == null) {
             this.toRemove.add(uuid);
@@ -269,6 +273,10 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
 
     public void remove(UUID other) {
         this.toRemove.add(other);
+    }
+
+    public IW2SWidget get(UUID uuid) {
+        return this.objects.get(uuid);
     }
 
     public boolean scroll(double mouseX, double mouseY, double scrollX, double scrollY) {

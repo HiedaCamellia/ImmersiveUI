@@ -3,9 +3,12 @@ package org.hiedacamellia.immersiveui.client.debug;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.common.NeoForge;
+import org.hiedacamellia.immersiveui.api.event.CollectDebugTreeRootEvent;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.debug.DebugTreeEntryWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.debug.DebugTreeWidget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DebugScreen extends Screen {
@@ -18,7 +21,8 @@ public class DebugScreen extends Screen {
 
     @Override
     protected void init() {
-        List<DebugTreeEntryWidget> roots = DebugRegistries.getRoots();
+        List<DebugTreeEntryWidget> roots = new ArrayList<>();
+        NeoForge.EVENT_BUS.post(new CollectDebugTreeRootEvent(roots));
         debugTreeWidget = DebugTreeWidget.create(roots, 0, 0, Component.literal("Debug"), font);
         addRenderableWidget(debugTreeWidget);
     }

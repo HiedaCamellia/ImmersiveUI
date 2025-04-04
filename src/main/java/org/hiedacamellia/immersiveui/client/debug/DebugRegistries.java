@@ -8,13 +8,15 @@ import java.util.List;
 
 public class DebugRegistries {
 
-    private static List<DebugTreeEntryWidget> roots = new ArrayList<>();
+    public static final DebugRegistries INSTANCE = new DebugRegistries();
 
-    public static void registerRoot(DebugTreeEntryWidget root){
+    private List<DebugTreeEntryWidget> roots = new ArrayList<>();
+
+    public void registerRoot(DebugTreeEntryWidget root){
         roots.add(root);
     }
 
-    public static List<DebugTreeEntryWidget> getRoots(){
+    public List<DebugTreeEntryWidget> getRoots(){
         return roots;
     }
 

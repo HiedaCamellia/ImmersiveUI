@@ -1,0 +1,7 @@
+{
+  "immersiveui.configuration.debug": "ImmersiveUI Debug Mode",
+  "immersiveui.configuration.debug.tooltip": "",
+  "immersiveui.configuration.section.immersiveui.client.toml": "ImmersiveUI Client Configuration",
+  "immersiveui.configuration.section.immersiveui.client.toml.title": "ImmersiveUI Client Configuration",
+  "immersiveui.configuration.title": "ImmersiveUI Configuration"
+}
