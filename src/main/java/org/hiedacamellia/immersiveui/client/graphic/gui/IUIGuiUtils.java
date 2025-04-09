@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -53,19 +54,17 @@ public class IUIGuiUtils {
     }
 
     public static void fill(GuiGraphics guiGraphics, float x, float y, float width, float height, int color) {
-        _fill(guiGraphics.pose(), x, y, width, height, color);
-    }
-
-    public static void _fill(PoseStack poseStack, float x, float y, float width, float height, int color) {
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        Matrix4f matrix4f = poseStack.last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        VertexConsumer bufferbuilder = guiGraphics.bufferSource().getBuffer(RenderType.gui());
         bufferbuilder.addVertex(matrix4f, x, y, 0).setColor(color);
         bufferbuilder.addVertex(matrix4f, x, y + height, 0).setColor(color);
         bufferbuilder.addVertex(matrix4f, x + width, y + height, 0).setColor(color);
         bufferbuilder.addVertex(matrix4f, x + width, y, 0).setColor(color);
     }
 
+    public static void fillRoundRectCentered(GuiGraphics guiGraphics,int x, int y, int width, int height, float radius, int color) {
+        fillRoundRect(guiGraphics, x-width / 2, y-height / 2, width, height, radius, color);
+    }
     public static void fillRoundRectCentered(GuiGraphics guiGraphics, int width, int height, float radius, int color) {
         fillRoundRect(guiGraphics, -width / 2, -height / 2, width, height, radius, color);
     }
@@ -79,10 +78,14 @@ public class IUIGuiUtils {
     }
 
     public static void fillRoundRect(PoseStack poseStack, int x, int y, int width, int height, float radius, int color) {
-        int x2 = x + width;
-        int y2 = y + height;
+        _fillRoundRect(poseStack,  x,  y,  width,  height, radius, color);
+    }
 
-        final float ratio = (float) height / (float) width;
+    public static void _fillRoundRect(PoseStack poseStack, float x, float y, float width, float height, float radius, int color) {
+        float x2 = x + width;
+        float y2 = y + height;
+
+        final float ratio =  height /  width;
 
         RenderSystem.setShader(IUIShaders::getRoundRectShader);
         ShaderInstance shader = IUIShaders.getRoundRectShader();
@@ -91,10 +94,39 @@ public class IUIGuiUtils {
 
         Matrix4f matrix4f = poseStack.last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferbuilder.addVertex(matrix4f, (float) x, (float) y, 0).setUv(0, 0).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float) x, (float) y2, 0).setUv(0, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float) x2, (float) y2, 0).setUv(1, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float) x2, (float) y, 0).setUv(1, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x,  y, 0).setUv(0, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x,  y2, 0).setUv(0, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x2,  y2, 0).setUv(1, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x2,  y, 0).setUv(1, 0).setColor(color);
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
+
+    public static void fillBorderRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radius, int color) {
+        _fillBorderRect(guiGraphics.pose(), x, y, width, height, radius, radius, color);
+    }
+    public static void fillBorderRect(PoseStack poseStack, float x, float y, float width, float height, float radius, int color) {
+        _fillBorderRect(poseStack, x, y, width, height, radius, radius, color);
+    }
+    public static void fillBorderRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radiusX,float radiusY, int color) {
+        _fillBorderRect(guiGraphics.pose(), x, y, width, height, radiusX, radiusY, color);
+    }
+    public static void _fillBorderRect(PoseStack poseStack, float x, float y, float width, float height, float radiusX,float radiusY, int color) {
+        float x1 = x - width * radiusX;
+        float y1 = y - height * radiusY;
+        float x2 = x + width + width * radiusX;
+        float y2 = y + height + height * radiusY;
+
+
+        RenderSystem.setShader(IUIShaders::getBorderRectShader);
+        ShaderInstance shader = IUIShaders.getBorderRectShader();
+        shader.safeGetUniform("Radius").set(radiusX,radiusY);
+
+        Matrix4f matrix4f = poseStack.last().pose();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        bufferbuilder.addVertex(matrix4f,  x1,  y1, 0).setUv(0, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x1,  y2, 0).setUv(0, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x2,  y2, 0).setUv(1, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x2,  y1, 0).setUv(1, 0).setColor(color);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
@@ -107,10 +139,13 @@ public class IUIGuiUtils {
     }
 
     public static void borderRoundRect(PoseStack poseStack, int x, int y, int width, int height, float radius, int color, float borderThickness, int borderColor) {
-        int x2 = x + width;
-        int y2 = y + height;
+        _borderRoundRect(poseStack, x, y, width, height, radius, color, borderThickness, borderColor);
+    }
+    public static void _borderRoundRect(PoseStack poseStack, float x, float y, float width, float height, float radius, int color, float borderThickness, int borderColor) {
+        float x2 = x + width;
+        float y2 = y + height;
 
-        final float ratio = (float) height / (float) width;
+        final float ratio =  height /  width;
 
         RenderSystem.setShader(IUIShaders::getBorderRoundRectShader);
         ShaderInstance shader = IUIShaders.getBorderRoundRectShader();
@@ -122,10 +157,10 @@ public class IUIGuiUtils {
 
         Matrix4f matrix4f = poseStack.last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferbuilder.addVertex(matrix4f, (float) x, (float) y, 0).setUv(0, 0).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float) x, (float) y2, 0).setUv(0, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float) x2, (float) y2, 0).setUv(1, 1).setColor(color);
-        bufferbuilder.addVertex(matrix4f, (float) x2, (float) y, 0).setUv(1, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x,  y, 0).setUv(0, 0).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x,  y2, 0).setUv(0, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x2,  y2, 0).setUv(1, 1).setColor(color);
+        bufferbuilder.addVertex(matrix4f,  x2,  y, 0).setUv(1, 0).setColor(color);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
@@ -144,6 +179,10 @@ public class IUIGuiUtils {
 
     public static void blit(PoseStack poseStack, int textureId, int x, int y, int width, int height) {
         blit(poseStack, textureId, (float) x, (float) y, (float) (x + width), (float) (y + height));
+    }
+
+    public static void blit(GuiGraphics guiGraphics, ResourceLocation location, float x1, float y1, float x2, float y2) {
+        blit(guiGraphics.pose(), location, x1, y1, x2, y2, 0, 0, 1, 1);
     }
 
     public static void blit(PoseStack poseStack, ResourceLocation location, float x1, float y1, float x2, float y2) {
@@ -175,8 +214,15 @@ public class IUIGuiUtils {
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
+    public static void blitInUv(PoseStack poseStack, ResourceLocation location, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
+        RenderSystem.setShaderTexture(0, location);
+        _blitInUv(poseStack, x1, y1, x2, y2, u0, v0, u1, v1);
+    }
     public static void blitInUv(PoseStack poseStack, int textureId, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
         RenderSystem.setShaderTexture(0, textureId);
+        _blitInUv(poseStack, x1, y1, x2, y2, u0, v0, u1, v1);
+    }
+    public static void _blitInUv(PoseStack poseStack, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
         RenderSystem.setShader(IUIShaders::getPositionTexShader);
         ShaderInstance shaderInstance = IUIShaders.getPositionTexShader();
         shaderInstance.safeGetUniform("uvCoords").set(u0, v0, u1, v1);
@@ -262,10 +308,10 @@ public class IUIGuiUtils {
     }
 
     public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int innerColor,int outerColor,float smooth) {
-        float x2 = (int) (x + outerRadius);
-        float y2 = (int) (y + outerRadius);
-        float x1 = (int) (x - outerRadius);
-        float y1 = (int) (y - outerRadius);
+        float x2 =  (x + outerRadius);
+        float y2 =  (y + outerRadius);
+        float x1 =  (x - outerRadius);
+        float y1 =  (y - outerRadius);
 
 
         RenderSystem.setShader(IUIShaders::getRingShader);

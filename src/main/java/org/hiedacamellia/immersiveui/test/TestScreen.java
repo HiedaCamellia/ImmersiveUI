@@ -3,10 +3,14 @@ package org.hiedacamellia.immersiveui.test;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.gui.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseBarWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseTexBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeEntryWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeWidget;
 
@@ -43,6 +47,24 @@ public class TestScreen extends Screen {
         treeWidget = TreeWidget.of(subTreeWidget3,0,0,Component.literal("Test"),font1);
 
         addRenderableWidget(treeWidget);
+
+        Button reload = Button.builder(Component.literal("reload"),
+                (button) -> {
+                    Minecraft.getInstance().reloadResourcePacks();
+                }).bounds(100, 0, 30, 10).build();
+        addRenderableWidget(reload);
+
+        BaseBarWidget bar = new BaseBarWidget(100, 50, 100, 10, Component.literal("Test"));
+        bar.setBackColor(0xFF00FF00);
+        bar.setProgress(0.2f);
+        bar.setBorderWidth(2, 2);
+        addRenderableWidget(bar);
+
+        BaseTexBarWidget baseTexBarWidget = new BaseTexBarWidget(100, 150, 100, 20, Component.empty());
+        baseTexBarWidget.setTex(ImmersiveUI.rl("textures/test/test"));
+        baseTexBarWidget.setProgress(0.5f);
+        baseTexBarWidget.vertical();
+        addRenderableWidget(baseTexBarWidget);
     }
 
     @Override

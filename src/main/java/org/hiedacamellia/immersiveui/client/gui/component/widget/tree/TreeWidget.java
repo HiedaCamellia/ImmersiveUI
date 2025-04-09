@@ -120,8 +120,8 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
             return true;
         }else if(child != null && child.isRoot()){
             boolean v = child.mouseClicked(mouseX, mouseY, button);
-            ImmersiveUI.LOGGER.info("Clicked: "+v);
-            ImmersiveUI.LOGGER.info("child: "+child.getMessage().getString());
+            //ImmersiveUI.LOGGER.info("Clicked: "+v);
+            //ImmersiveUI.LOGGER.info("child: "+child.getMessage().getString());
             updateWidget();
             return true;
         }else
