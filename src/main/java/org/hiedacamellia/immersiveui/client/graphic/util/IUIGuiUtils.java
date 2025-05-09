@@ -6,7 +6,7 @@
  * This code is under the MIT License.
  */
 
-package org.hiedacamellia.immersiveui.client.graphic.gui;
+package org.hiedacamellia.immersiveui.client.graphic.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;

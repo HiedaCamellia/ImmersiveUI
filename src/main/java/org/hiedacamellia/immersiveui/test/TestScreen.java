@@ -8,9 +8,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.hiedacamellia.immersiveui.client.graphic.gui.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseTexBarWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.editbox.QuoteEditBox;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeEntryWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeWidget;
 
@@ -46,11 +47,17 @@ public class TestScreen extends Screen {
 
         treeWidget = TreeWidget.of(subTreeWidget3,0,0,Component.literal("Test"),font1);
 
-        addRenderableWidget(treeWidget);
+//        addRenderableWidget(treeWidget);
 
-        Button reload = Button.builder(Component.literal("reload"),
+        QuoteEditBox quoteEditBox = new QuoteEditBox(font,200,20,100,20,Component.empty());
+        addRenderableWidget(quoteEditBox);
+
+        Button reload = Button.builder(Component.literal("添加回复内容"),
                 (button) -> {
-                    Minecraft.getInstance().reloadResourcePacks();
+//                    Minecraft.getInstance().reloadResourcePacks();
+                    quoteEditBox.setQuoted(Component.literal("这是被回复的消息"));
+
+
                 }).bounds(100, 0, 30, 10).build();
         addRenderableWidget(reload);
 
@@ -58,13 +65,14 @@ public class TestScreen extends Screen {
         bar.setBackColor(0xFF00FF00);
         bar.setProgress(0.2f);
         bar.setBorderWidth(2, 2);
-        addRenderableWidget(bar);
+//        addRenderableWidget(bar);
 
         BaseTexBarWidget baseTexBarWidget = new BaseTexBarWidget(100, 150, 100, 20, Component.empty());
         baseTexBarWidget.setTex(ImmersiveUI.rl("textures/test/test"));
         baseTexBarWidget.setProgress(0.5f);
         baseTexBarWidget.vertical();
-        addRenderableWidget(baseTexBarWidget);
+//        addRenderableWidget(baseTexBarWidget);
+
     }
 
     @Override

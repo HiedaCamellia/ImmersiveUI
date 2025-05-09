@@ -3,7 +3,7 @@ package org.hiedacamellia.immersiveui.client.gui.component.widget.component;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import org.hiedacamellia.immersiveui.client.graphic.gui.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 
 public class UnderLineComponentWidget extends ComponentWidget{
 
