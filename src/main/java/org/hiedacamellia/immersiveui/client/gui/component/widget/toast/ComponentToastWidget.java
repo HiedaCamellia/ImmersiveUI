@@ -8,8 +8,6 @@ import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 
 public class ComponentToastWidget extends AbstractToastWidget {
 
-    private float count=0;
-
     public ComponentToastWidget(int x, int y, int width, int height, float time, Component message) {
         super(x-width/2, y-height/2, width, height, message);
         this.setTimeout(time);
@@ -26,6 +24,7 @@ public class ComponentToastWidget extends AbstractToastWidget {
 
         PoseStack pose = guiGraphics.pose();
         pose.translate(getX()+ (double) getWidth() /2,getY()+ (double) getHeight() /2,0);
+        pose.scale(getAlpha(),getAlpha(),0);
 
         IUIGuiUtils.fillRoundRectCentered(guiGraphics,width,height,0.05f,0x80000000);
         IUIGuiUtils.drawCenteredString(guiGraphics, Minecraft.getInstance().font, getMessage(),0,0,0xFFFFFFFF,false);

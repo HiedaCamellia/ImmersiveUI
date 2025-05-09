@@ -20,6 +20,18 @@ public abstract class AbstractToastWidget extends AbstractWidget implements IToa
         this.fadeIn = true;
     }
 
+    protected float getAlpha() {
+        float alpha = 1.0f;
+        if(fadeIn) {
+            if (count < timeout * 0.5f) {
+                alpha = IUIMathUtils.smoothStep(0, timeout * 0.1f, count);
+            } else {
+                alpha = 1 - IUIMathUtils.smoothStep(timeout * 0.9f, timeout, count);
+            }
+        }
+        return alpha;
+    }
+
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 
@@ -31,17 +43,8 @@ public abstract class AbstractToastWidget extends AbstractWidget implements IToa
         pose.pushPose();
         pose.translate(0,0,1000.0);
 
-        float alpha = 1.0f;
-        if(fadeIn) {
-            if (count < timeout * 0.5f) {
-                alpha = IUIMathUtils.smoothStep(0, timeout * 0.1f, count);
-            } else {
-                alpha = 1 - IUIMathUtils.smoothStep(timeout * 0.9f, timeout, count);
-            }
-        }
-        pose.scale(alpha,alpha,0);
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,alpha);
+        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,getAlpha());
 
         renderToast(guiGraphics, mouseX,mouseY,partialTick);
 
