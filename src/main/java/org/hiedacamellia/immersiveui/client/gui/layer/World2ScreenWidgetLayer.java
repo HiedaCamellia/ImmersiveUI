@@ -298,7 +298,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
     }
 
     public boolean click(int button) {
-        if (this.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR)
+        if (this.minecraft.gameMode != null && this.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR)
             return false;
 
         boolean consumed = false;
