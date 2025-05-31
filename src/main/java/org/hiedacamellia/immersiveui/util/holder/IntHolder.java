@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.client.util.holder;
+package org.hiedacamellia.immersiveui.util.holder;
 
 public class IntHolder implements IValueHolder<Integer> {
     private int value;

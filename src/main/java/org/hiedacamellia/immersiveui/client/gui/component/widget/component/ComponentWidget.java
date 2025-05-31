@@ -1,16 +1,15 @@
 package org.hiedacamellia.immersiveui.client.gui.component.widget.component;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractStringWidget;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 
 public class ComponentWidget extends AbstractStringWidget {
 
-    protected static final Font font = Minecraft.getInstance().font;
+    protected static final Font font = IUIGuiUtils.getFont();
     protected Component component;
     protected boolean shadow = true;
 

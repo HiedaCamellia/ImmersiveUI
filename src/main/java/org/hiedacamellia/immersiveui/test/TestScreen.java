@@ -7,11 +7,15 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseTexBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.editbox.QuoteEditBox;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.price.ItemPriceWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.price.SimplePriceWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeEntryWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeWidget;
 
@@ -47,7 +51,7 @@ public class TestScreen extends Screen {
 
         treeWidget = TreeWidget.of(subTreeWidget3,0,0,Component.literal("Test"),font1);
 
-//        addRenderableWidget(treeWidget);
+        addRenderableWidget(treeWidget);
 
         QuoteEditBox quoteEditBox = new QuoteEditBox(font,200,20,100,20,Component.empty());
         addRenderableWidget(quoteEditBox);
@@ -73,6 +77,12 @@ public class TestScreen extends Screen {
         baseTexBarWidget.vertical();
 //        addRenderableWidget(baseTexBarWidget);
 
+
+        SimplePriceWidget simplePriceWidget = new SimplePriceWidget(200, 100,new ItemStack(Items.DIAMOND),10);
+        addRenderableWidget(simplePriceWidget);
+
+        ItemPriceWidget itemPriceWidget = new ItemPriceWidget(200, 130,new ItemStack(Items.DIAMOND),100,new ItemStack(Items.DIRT),1);
+        addRenderableWidget(itemPriceWidget);
     }
 
     @Override

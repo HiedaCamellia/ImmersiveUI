@@ -10,6 +10,7 @@ package org.hiedacamellia.immersiveui.client.graphic.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -30,6 +31,10 @@ import javax.annotation.Nullable;
 @SuppressWarnings("unused")
 @OnlyIn(Dist.CLIENT)
 public class IUIGuiUtils {
+
+    public static Font getFont() {
+        return Minecraft.getInstance().font;
+    }
 
     //Triangle
     public static void fillTriangle(GuiGraphics guiGraphics, float[] vertex, int color) {
@@ -360,6 +365,15 @@ public class IUIGuiUtils {
     }
 
 
+    public static void renderSlotBackground(GuiGraphics guiGraphics, int x, int y) {
+        renderSlotBackground(guiGraphics, x, y, 0xFFf0e0b0, 0xFF8B4513);
+    }
+    public static void renderSlotBackground(GuiGraphics guiGraphics, int x, int y,int bg_color,int border_color) {
+        RenderSystem.enableBlend();
+        IUIGuiUtils.fillRoundRect(guiGraphics, x - 1, y - 1, 18, 18, 0.05f, border_color);
+        IUIGuiUtils.fillRoundRect(guiGraphics, x, y, 16, 16, 0.05f, bg_color);
+        RenderSystem.disableBlend();
+    }
 
     private static Vector4f int2vec4(int color) {
         return new Vector4f((color >> 16 & 255) / 255.0F, (color >> 8 & 255) / 255.0F, (color & 255) / 255.0F, (color >> 24 & 255) / 255.0F);

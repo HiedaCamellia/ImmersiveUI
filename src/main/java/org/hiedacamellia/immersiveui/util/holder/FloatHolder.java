@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.client.util.holder;
+package org.hiedacamellia.immersiveui.util.holder;
 
 public class FloatHolder implements IValueHolder<Float> {
     private float value;

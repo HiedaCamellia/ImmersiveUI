@@ -31,7 +31,7 @@ import org.hiedacamellia.immersiveui.client.gui.component.w2s.IW2SWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenScreen;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenWidget;
 import org.hiedacamellia.immersiveui.client.mixin.accessor.GameRendererAccessor;
-import org.hiedacamellia.immersiveui.client.util.holder.FloatHolder;
+import org.hiedacamellia.immersiveui.util.holder.FloatHolder;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
