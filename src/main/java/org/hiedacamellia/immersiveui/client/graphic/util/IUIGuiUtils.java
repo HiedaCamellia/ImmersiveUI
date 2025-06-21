@@ -8,6 +8,7 @@
 
 package org.hiedacamellia.immersiveui.client.graphic.util;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -35,6 +36,11 @@ public class IUIGuiUtils {
     public static Font getFont() {
         return Minecraft.getInstance().font;
     }
+
+    public static RenderTarget getMainRenderTarget(){
+        return Minecraft.getInstance().getMainRenderTarget();
+    }
+
 
     //Triangle
     public static void fillTriangle(GuiGraphics guiGraphics, float[] vertex, int color) {

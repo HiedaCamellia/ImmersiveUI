@@ -51,10 +51,10 @@ public class TestScreen extends Screen {
 
         treeWidget = TreeWidget.of(subTreeWidget3,0,0,Component.literal("Test"),font1);
 
-        addRenderableWidget(treeWidget);
+        //addRenderableWidget(treeWidget);
 
         QuoteEditBox quoteEditBox = new QuoteEditBox(font,200,20,100,20,Component.empty());
-        addRenderableWidget(quoteEditBox);
+        //addRenderableWidget(quoteEditBox);
 
         Button reload = Button.builder(Component.literal("添加回复内容"),
                 (button) -> {
@@ -63,7 +63,7 @@ public class TestScreen extends Screen {
 
 
                 }).bounds(100, 0, 30, 10).build();
-        addRenderableWidget(reload);
+        //addRenderableWidget(reload);
 
         BaseBarWidget bar = new BaseBarWidget(100, 50, 100, 10, Component.literal("Test"));
         bar.setBackColor(0xFF00FF00);
@@ -79,10 +79,10 @@ public class TestScreen extends Screen {
 
 
         SimplePriceWidget simplePriceWidget = new SimplePriceWidget(200, 100,new ItemStack(Items.DIAMOND),10);
-        addRenderableWidget(simplePriceWidget);
+        //addRenderableWidget(simplePriceWidget);
 
         ItemPriceWidget itemPriceWidget = new ItemPriceWidget(200, 130,new ItemStack(Items.DIAMOND),100,new ItemStack(Items.DIRT),1);
-        addRenderableWidget(itemPriceWidget);
+        //addRenderableWidget(itemPriceWidget);
     }
 
     @Override
@@ -90,7 +90,9 @@ public class TestScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
         //IUIGuiUtils.drawRing(guiGraphics,100,100,20,40,0,720,0xFFFFFFFF);
-        IUIGuiUtils.blitRoundCentered(guiGraphics, ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),100,100,50,0.2f);
+        //IUIGuiUtils.blitRoundCentered(guiGraphics, ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),100,100,50,0.2f);
+
+        IUIGuiUtils.blur(guiGraphics,ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),200,0,300,100,3);
     }
 
     @Override
