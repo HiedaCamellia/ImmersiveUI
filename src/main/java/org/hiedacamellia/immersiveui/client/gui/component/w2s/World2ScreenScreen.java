@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIGraphicUtils;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
 import org.joml.Vector3f;
@@ -114,7 +115,7 @@ public class World2ScreenScreen extends World2ScreenWidget {
         ScreenTempTarget.SCREEN_INSTANCE.use = true;
 
         //将屏幕渲染到临时纹理
-        IUIGuiUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w,h, 0, 1, 1, 0);
+        IUIGraphicUtils.blit(pose, mainRenderTarget.getColorTextureId(), 0, 0, w,h, 0, 1, 1, 0);
 
         //渲染屏幕
         screen.render(guiGraphics, mX, mY, deltaTracker.getGameTimeDeltaTicks());
@@ -133,14 +134,14 @@ public class World2ScreenScreen extends World2ScreenWidget {
         float u1 = x2 / w;
         float v1 = y1 / h;
         RenderSystem.enableBlend();
-        IUIGuiUtils.blitInUv(pose, ScreenTempTarget.BLUR_INSTANCE.getColorTextureId(), 0, 0, w, h,u0, 1-v1, u1, 1-v0);
+        IUIGraphicUtils.blitInUv(pose, ScreenTempTarget.BLUR_INSTANCE.getColorTextureId(), 0, 0, w, h,u0, 1-v1, u1, 1-v0);
         pose.popPose();
 
         //渲染屏幕组件
         pose.pushPose();
         pose.translate(x - (float) w / 2, y - (float) h / 2, 100);
         pose.scale(scale, scale, 1);
-        IUIGuiUtils.blit(pose, ScreenTempTarget.SCREEN_INSTANCE.getColorTextureId(), 0, 0, w, h, 0, 1, 1, 0);
+        IUIGraphicUtils.blit(pose, ScreenTempTarget.SCREEN_INSTANCE.getColorTextureId(), 0, 0, w, h, 0, 1, 1, 0);
         pose.popPose();
 
         //渲染指针

@@ -5,6 +5,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
 import org.hiedacamellia.immersiveui.util.holder.ItemStackHolder;
 import org.lwjgl.glfw.GLFW;
 
@@ -33,7 +34,7 @@ public class FakeItemSlot extends FakeSlot {
         super.renderWidget(guiGraphics, mouseX, mouseY, v);
         guiGraphics.renderFakeItem(holder.get(), getX(), getY());
         if (showDecoration)
-            guiGraphics.renderItemDecorations(IUIGuiUtils.getFont(), holder.get(), getX(), getY());
+            guiGraphics.renderItemDecorations(IUIMinecraftUtil.getFont(), holder.get(), getX(), getY());
     }
 
     @Override

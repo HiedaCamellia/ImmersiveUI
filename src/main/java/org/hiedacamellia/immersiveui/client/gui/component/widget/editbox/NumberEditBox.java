@@ -3,11 +3,12 @@ package org.hiedacamellia.immersiveui.client.gui.component.widget.editbox;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
 
 public class NumberEditBox extends EditBox {
 
     public NumberEditBox(int x, int y, int width, int height, Component message) {
-        super(IUIGuiUtils.getFont(), x, y, width, height, message);
+        super(IUIMinecraftUtil.getFont(), x, y, width, height, message);
     }
 
     public int getInt() {

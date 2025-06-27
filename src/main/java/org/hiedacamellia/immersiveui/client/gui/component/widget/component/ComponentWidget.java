@@ -6,10 +6,11 @@ import net.minecraft.client.gui.components.AbstractStringWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
 
 public class ComponentWidget extends AbstractStringWidget {
 
-    protected static final Font font = IUIGuiUtils.getFont();
+    protected static final Font font = IUIMinecraftUtil.getFont();
     protected Component component;
     protected boolean shadow = true;
 
