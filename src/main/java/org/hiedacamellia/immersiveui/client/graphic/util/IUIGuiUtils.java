@@ -27,8 +27,15 @@ import org.joml.Matrix4f;
 
 import javax.annotation.Nullable;
 
+import static net.minecraft.client.renderer.RenderStateShard.*;
+
 @OnlyIn(Dist.CLIENT)
 public class IUIGuiUtils{
+
+    public static final RenderType GUI_UV = RenderType.create("gui_uv", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 786432,
+            RenderType.CompositeState.builder().setShaderState(RENDERTYPE_GUI_SHADER).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
+    public static final RenderType GUI_UV_COLOR = RenderType.create("gui_uv_color", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 786432,
+            RenderType.CompositeState.builder().setShaderState(RENDERTYPE_GUI_SHADER).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
 
 
     public static void fillSquareCentered(GuiGraphics guiGraphics, float x, float y, float sideLength, int color) {
@@ -257,7 +264,7 @@ public class IUIGuiUtils{
     }
     public static void guiDraw(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1){
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(RenderType.gui());
+        VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(GUI_UV);
         vertexConsumer.addVertex(matrix4f, x1, y1, 0).setUv(u0, v0);
         vertexConsumer.addVertex(matrix4f, x1, y2, 0).setUv(u0, v1);
         vertexConsumer.addVertex(matrix4f, x2, y2, 0).setUv(u1, v1);
@@ -268,7 +275,7 @@ public class IUIGuiUtils{
     }
     public static void guiDraw(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1,int color){
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(RenderType.gui());
+        VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(GUI_UV_COLOR);
         vertexConsumer.addVertex(matrix4f, x1, y1, 0).setUv(u0, v0).setColor(color);
         vertexConsumer.addVertex(matrix4f, x1, y2, 0).setUv(u0, v1).setColor(color);
         vertexConsumer.addVertex(matrix4f, x2, y2, 0).setUv(u1, v1).setColor(color);
