@@ -13,6 +13,16 @@ repositories {
     mavenLocal()
 }
 
+sourceSets {
+    test {
+        java {
+            compileClasspath += main.compileClasspath
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+        }
+    }
+}
+
 base {
     archivesName = "$mod_id-neoforge-$minecraft_version"
 }

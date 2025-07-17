@@ -167,7 +167,7 @@ public class IUIGraphicUtils {
         RenderSystem.setShaderTexture(0, textureId);
         _blur(poseStack, x1, y1, x2, y2, radius, u0, v0, u1, v1);
     }
-    private static void _blur(PoseStack poseStack, float x1, float y1, float x2, float y2, float radius, float u0, float v0, float u1, float v1) {
+    public static void _blur(PoseStack poseStack, float x1, float y1, float x2, float y2, float radius, float u0, float v0, float u1, float v1) {
         RenderSystem.setShader(IUIShaders::getBlurShader);
         ShaderInstance shaderInstance = IUIShaders.getBlurShader();
         shaderInstance.safeGetUniform("Radius").set(radius);

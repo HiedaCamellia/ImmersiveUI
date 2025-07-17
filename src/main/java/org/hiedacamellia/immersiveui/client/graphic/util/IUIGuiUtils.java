@@ -1,5 +1,5 @@
 /*
- * Code from https://github.com/LouisQuepierts/ThatSkyInteractions
+ * Code partly from https://github.com/LouisQuepierts/ThatSkyInteractions
  * net.quepierts.thatskyinteractions.client.util
  * RenderUtils.java
  *
@@ -8,35 +8,22 @@
 
 package org.hiedacamellia.immersiveui.client.graphic.util;
 
-import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.hiedacamellia.immersiveui.client.graphic.shader.IUIShaders;
 import org.joml.Matrix4f;
 
 import javax.annotation.Nullable;
 
-import static net.minecraft.client.renderer.RenderStateShard.*;
-
 @OnlyIn(Dist.CLIENT)
 public class IUIGuiUtils{
-
-    public static final RenderType GUI_UV = RenderType.create("gui_uv", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 786432,
-            RenderType.CompositeState.builder().setShaderState(RENDERTYPE_GUI_SHADER).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
-    public static final RenderType GUI_UV_COLOR = RenderType.create("gui_uv_color", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 786432,
-            RenderType.CompositeState.builder().setShaderState(RENDERTYPE_GUI_SHADER).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
-
 
     public static void fillSquareCentered(GuiGraphics guiGraphics, float x, float y, float sideLength, int color) {
         fillCentered(guiGraphics, x, y, sideLength, sideLength, color);
@@ -61,33 +48,14 @@ public class IUIGuiUtils{
         fillRoundRect(guiGraphics, x, y, width, height, width > height ? (float) radius / width : (float) radius / height, color);
     }
     public static void fillRoundRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radius, int color) {
-        float x2 = x + width;
-        float y2 = y + height;
-
-        final float ratio =  height /  width;
-
-        RenderSystem.setShader(IUIShaders::getRoundRectShader);
-        ShaderInstance shader = IUIShaders.getRoundRectShader();
-        shader.safeGetUniform("Ratio").set(ratio);
-        shader.safeGetUniform("Radius").set(radius);
-
-        guiDraw(guiGraphics, x, y, x2, y2, color);
+        IUIGraphicUtils.fillRoundRect(guiGraphics.pose(), x, y, x + width, y + height, radius, color);
     }
 
     public static void fillBorderRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radius, int color) {
         fillBorderRect(guiGraphics, x, y, width, height, radius, radius, color);
     }
     public static void fillBorderRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radiusX,float radiusY, int color) {
-        float x1 = x - width * radiusX;
-        float y1 = y - height * radiusY;
-        float x2 = x + width + width * radiusX;
-        float y2 = y + height + height * radiusY;
-
-        RenderSystem.setShader(IUIShaders::getBorderRectShader);
-        ShaderInstance shader = IUIShaders.getBorderRectShader();
-        shader.safeGetUniform("Radius").set(radiusX,radiusY);
-
-        guiDraw(guiGraphics, x1, y1, x2, y2, color);
+        IUIGraphicUtils.fillBorderRect(guiGraphics.pose(), x, y, x + width, y + height, radiusX, radiusY, color);
     }
 
     public static void borderRoundRectCentered(GuiGraphics guiGraphics, float x, float y,float width, float height, float radius, int color, float borderThickness, int borderColor) {
@@ -100,15 +68,7 @@ public class IUIGuiUtils{
         _borderRoundRect(guiGraphics, x, y, x+width, y+height, radius, color, borderThickness, borderColor);
     }
     public static void _borderRoundRect(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float radius, int color, float borderThickness, int borderColor) {
-        float ratio =  (y2 - y1) / (x2 - x1);
-        RenderSystem.setShader(IUIShaders::getBorderRoundRectShader);
-        ShaderInstance shader = IUIShaders.getBorderRoundRectShader();
-        shader.safeGetUniform("Ratio").set(ratio);
-        shader.safeGetUniform("Radius").set(radius);
-        shader.safeGetUniform("BorderThickness").set(borderThickness);
-        shader.safeGetUniform("BorderColor").set(IUIMathUtils.int2ARGB(borderColor));
-
-        guiDraw(guiGraphics, x1, y1, x2, y2, color);
+        IUIGraphicUtils._borderRoundRect(guiGraphics.pose(), x1, y1, x2, y2, radius, color, borderThickness, borderColor);
     }
 
 
@@ -137,8 +97,7 @@ public class IUIGuiUtils{
     }
 
     public static void _blit(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        guiDraw(guiGraphics, x1, y1, x2, y2, u0, v0, u1, v1);
+        IUIGraphicUtils._blit(guiGraphics.pose(), x1, y1, x2, y2, u0, v0, u1, v1);
     }
 
     public static void blitInUv(GuiGraphics poseStack, ResourceLocation location, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
@@ -150,10 +109,7 @@ public class IUIGuiUtils{
         _blitInUv(poseStack, x1, y1, x2, y2, u0, v0, u1, v1);
     }
     public static void _blitInUv(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
-        RenderSystem.setShader(IUIShaders::getPositionTexShader);
-        ShaderInstance shaderInstance = IUIShaders.getPositionTexShader();
-        shaderInstance.safeGetUniform("uvCoords").set(u0, v0, u1, v1);
-        guiDraw(guiGraphics, x1, y1, x2, y2,0,1,1,0);
+        IUIGraphicUtils._blitInUv(guiGraphics.pose(), x1, y1, x2, y2, u0, v0, u1, v1);
     }
 
     public static void blur(GuiGraphics guiGraphics, int textureId, float x1, float y1, float x2, float y2, float radius) {
@@ -171,10 +127,7 @@ public class IUIGuiUtils{
         _blur(guiGraphics, x1, y1, x2, y2, radius, u0, v0, u1, v1);
     }
     private static void _blur(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float radius, float u0, float v0, float u1, float v1) {
-        RenderSystem.setShader(IUIShaders::getBlurShader);
-        ShaderInstance shaderInstance = IUIShaders.getBlurShader();
-        shaderInstance.safeGetUniform("Radius").set(radius);
-        guiDraw(guiGraphics, x1, y1, x2, y2, u0, v0, u1, v1);
+        IUIGraphicUtils._blur(guiGraphics.pose(), x1, y1, x2, y2, radius, u0, v0, u1, v1);
     }
 
     public static void drawCenteredString(GuiGraphics guiGraphics, String text, float x, float y, int color,boolean dropShadow) {
@@ -224,63 +177,13 @@ public class IUIGuiUtils{
         drawRing(guiGraphics, x, y, innerRadius, outerRadius, startAngle, endAngle, innerColor, outerColor, 0.5f/outerRadius);
     }
     public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius, float startAngle, float endAngle, int innerColor, int outerColor, float smooth) {
-        float x2 =  (x + outerRadius);
-        float y2 =  (y + outerRadius);
-        float x1 =  (x - outerRadius);
-        float y1 =  (y - outerRadius);
-
-        RenderSystem.setShader(IUIShaders::getRingShader);
-        ShaderInstance shader = IUIShaders.getRingShader();
-        shader.safeGetUniform("innerRadius").set(innerRadius/outerRadius/2);
-        shader.safeGetUniform("outerRadius").set(0.5f);
-        shader.safeGetUniform("innerColor").set(IUIMathUtils.int2RGBA(innerColor));
-        shader.safeGetUniform("outerColor").set(IUIMathUtils.int2RGBA(outerColor));
-        shader.safeGetUniform("startAngle").set(startAngle);
-        shader.safeGetUniform("endAngle").set(endAngle);
-        shader.safeGetUniform("Smooth").set(smooth);
-
-        RenderSystem.enableBlend();
-        guiDraw(guiGraphics, x1, y1, x2, y2);
+        IUIGraphicUtils.drawRing(guiGraphics.pose(), x, y, innerRadius, outerRadius, startAngle, endAngle, innerColor, outerColor, smooth);
     }
 
     public static void blitRoundCentered(GuiGraphics guiGraphics, ResourceLocation resourceLocation, float x, float y, int radius, float smooth) {
-
-        float x1 = x - radius;
-        float y1 = y - radius;
-        float x2 = x + radius;
-        float y2 = y + radius;
-
-        RenderSystem.setShaderTexture(0, resourceLocation);
-        RenderSystem.setShader(IUIShaders::getRoundShader);
-        ShaderInstance shader = IUIShaders.getRoundShader();
-        shader.safeGetUniform("Smooth").set(smooth);
-
-        RenderSystem.enableBlend();
-        guiDraw(guiGraphics, x1, y1, x2, y2);
+        IUIGraphicUtils.blitRoundCentered(guiGraphics.pose(), resourceLocation, x, y, radius, smooth);
     }
 
-    public static void guiDraw(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2){
-        guiDraw(guiGraphics, x1, y1, x2, y2, 0, 0, 1, 1);
-    }
-    public static void guiDraw(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1){
-        Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(GUI_UV);
-        vertexConsumer.addVertex(matrix4f, x1, y1, 0).setUv(u0, v0);
-        vertexConsumer.addVertex(matrix4f, x1, y2, 0).setUv(u0, v1);
-        vertexConsumer.addVertex(matrix4f, x2, y2, 0).setUv(u1, v1);
-        vertexConsumer.addVertex(matrix4f, x2, y1, 0).setUv(u1, v0);
-    }
-    public static void guiDraw(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2,int color){
-        guiDraw(guiGraphics, x1, y1, x2, y2, 0, 0, 1, 1,color);
-    }
-    public static void guiDraw(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1,int color){
-        Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(GUI_UV_COLOR);
-        vertexConsumer.addVertex(matrix4f, x1, y1, 0).setUv(u0, v0).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x1, y2, 0).setUv(u0, v1).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y2, 0).setUv(u1, v1).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y1, 0).setUv(u1, v0).setColor(color);
-    }
     public static void guiFill(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2,int color){
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
         VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(RenderType.gui());
