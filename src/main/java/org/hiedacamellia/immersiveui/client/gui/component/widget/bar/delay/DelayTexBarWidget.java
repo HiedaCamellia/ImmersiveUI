@@ -91,18 +91,18 @@ public class DelayTexBarWidget extends BaseTexBarWidget {
 
     @Override
     public void renderBeforeBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
-        if (delayIncreaseTex!=null&& isIncrease()) {
+        if (delayIncreaseTex != null && isIncrease()) {
             if (isVertical) {
                 if (isReverse) {
-                    guiGraphics.blit(delayIncreaseTex, getX(), (int) (getY() + height - (height * targetProgress)),width, (int) (height*targetProgress),  0,  0,getBarTexWidth(), (int) (getBarTexHeight() * targetProgress),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayIncreaseTex, getX(), (getY() + height - (height * targetProgress)), width, (height * targetProgress), 0, 0, getBarTexWidth(), (getBarTexHeight() * targetProgress), getBarTexWidth(), getBarTexHeight());
                 } else {
-                    guiGraphics.blit(delayIncreaseTex, getX(), getY(),width, (int) (height*targetProgress),  0,  0,getBarTexWidth(), (int) (getBarTexHeight()*targetProgress),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayIncreaseTex, getX(), getY(), width, (height * targetProgress), 0, 0, getBarTexWidth(), (getBarTexHeight() * targetProgress), getBarTexWidth(), getBarTexHeight());
                 }
             } else {
                 if (isReverse) {
-                    guiGraphics.blit(delayIncreaseTex, (int) (getX() +width-  (width * targetProgress)), getY(), (int) (width*targetProgress),height,width-  (width * targetProgress),0,(int) (getBarTexWidth()*targetProgress),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayIncreaseTex, (getX() + width - (width * targetProgress)), getY(), (width * targetProgress), height, width - (width * targetProgress), 0, (getBarTexWidth() * targetProgress), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 } else {
-                    guiGraphics.blit(delayIncreaseTex, getX(), getY(), (int) (width*targetProgress),height,0,0,(int) (getBarTexWidth()*targetProgress),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayIncreaseTex, getX(), getY(), (width * targetProgress), height, 0, 0, (getBarTexWidth() * targetProgress), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 }
             }
         }
@@ -110,18 +110,18 @@ public class DelayTexBarWidget extends BaseTexBarWidget {
 
     @Override
     public void renderAfterBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
-        if (delayDecreaseTex!=null&& isDecrease()) {
+        if (delayDecreaseTex != null && isDecrease()) {
             if (isVertical) {
                 if (isReverse) {
-                    guiGraphics.blit(delayDecreaseTex, getX(), (int) (getY() + height - (height * progress)),width, (int) (height*(progress- targetProgress)),  0,  0,getBarTexWidth(), (int) (getBarTexHeight() * (progress- targetProgress)),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayDecreaseTex, getX(), (getY() + height - (height * progress)), width, (height * (progress - targetProgress)), 0, 0, getBarTexWidth(), (getBarTexHeight() * (progress - targetProgress)), getBarTexWidth(), getBarTexHeight());
                 } else {
-                    guiGraphics.blit(delayDecreaseTex,  getX(), getY()+(int) (height*targetProgress),width, (int) (height*(progress- targetProgress)),  0,  0,getBarTexWidth(), (int) (getBarTexHeight()*(progress- targetProgress)),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayDecreaseTex, getX(), getY() + (height * targetProgress), width, (height * (progress - targetProgress)), 0, 0, getBarTexWidth(), (getBarTexHeight() * (progress - targetProgress)), getBarTexWidth(), getBarTexHeight());
                 }
             } else {
                 if (isReverse) {
-                    guiGraphics.blit(delayDecreaseTex, (int) (getX() +width-  (width * progress)), getY(), (int) (width*(progress- targetProgress)),height,width-  (width * targetProgress),0,(int) (getBarTexWidth()*(progress- targetProgress)),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayDecreaseTex, (getX() + width - (width * progress)), getY(), (width * (progress - targetProgress)), height, width - (width * targetProgress), 0, (getBarTexWidth() * (progress - targetProgress)), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 } else {
-                    guiGraphics.blit(delayDecreaseTex,  (getX()+(int)(width*targetProgress)), getY(), (int) (width*(progress- targetProgress)),height,0,0,(int) (getBarTexWidth()*(progress- targetProgress)),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayDecreaseTex, (getX() + (width * targetProgress)), getY(), (width * (progress - targetProgress)), height, 0, 0, (getBarTexWidth() * (progress - targetProgress)), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 }
             }
         }

@@ -71,7 +71,9 @@ public class IUIGuiUtils{
         IUIGraphicUtils._borderRoundRect(guiGraphics.pose(), x1, y1, x2, y2, radius, color, borderThickness, borderColor);
     }
 
-
+    public static void blit(GuiGraphics guiGraphics,ResourceLocation location, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight) {
+        _blit(guiGraphics,location, x, x + width, y, y + height, uWidth, vHeight, uOffset, vOffset, textureWidth, textureHeight);
+    }
     public static void blit(GuiGraphics guiGraphics, ResourceLocation location, int x, int y, int width, int height) {
         blit(guiGraphics, location, (float) x, (float) y, (float) (x + width), (float) (y + height));
     }
@@ -84,8 +86,8 @@ public class IUIGuiUtils{
     public static void blit(GuiGraphics guiGraphics, int textureId, float x1, float y1, float x2, float y2) {
         blit(guiGraphics, textureId, x1, y1, x2, y2, 0, 0, 1, 1);
     }
-    public static void blit(GuiGraphics guiGraphics,ResourceLocation location, float x1, float y1, float x2, float y2,int uWidth, int vHeight, float uOffset, float vOffset, int textureWidth, int textureHeight) {
-        blit(guiGraphics,location, x1, y1, x2, y2, (uOffset + 0.0F) / (float)textureWidth, (uOffset + (float)uWidth) / (float)textureWidth, (vOffset + 0.0F) / (float)textureHeight, (vOffset + (float)vHeight) / (float)textureHeight);
+    public static void _blit(GuiGraphics guiGraphics,ResourceLocation location, float x1, float y1, float x2, float y2,float uWidth, float vHeight, float uOffset, float vOffset, float textureWidth, float textureHeight) {
+        blit(guiGraphics,location, x1, y1, x2, y2, (uOffset + 0.0F) / textureWidth, (uOffset + uWidth) / textureWidth, (vOffset + 0.0F) / textureHeight, (vOffset + vHeight) / textureHeight);
     }
     public static void blit(GuiGraphics guiGraphics, ResourceLocation location, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
         RenderSystem.setShaderTexture(0, location);

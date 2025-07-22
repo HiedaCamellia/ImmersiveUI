@@ -22,8 +22,8 @@ public class BaseTexBarWidget extends AbstractBarWidget {
     protected float progress = 0f;
 
     protected ResourceLocation barTex = null;
-    protected ResourceLocation backTex= null;
-    protected ResourceLocation borderTex= null;
+    protected ResourceLocation backTex = null;
+    protected ResourceLocation borderTex = null;
 
     public void setTex(ResourceLocation tex) {
         String namespace = tex.getNamespace();
@@ -37,9 +37,11 @@ public class BaseTexBarWidget extends AbstractBarWidget {
     public void setBarTex(ResourceLocation barTex) {
         this.barTex = barTex;
     }
+
     public void setBackTex(ResourceLocation backTex) {
         this.backTex = backTex;
     }
+
     public void setBorderTex(ResourceLocation borderTex) {
         this.borderTex = borderTex;
     }
@@ -47,9 +49,11 @@ public class BaseTexBarWidget extends AbstractBarWidget {
     public void vertical() {
         this.isVertical = true;
     }
+
     public void reverse() {
         this.isReverse = true;
     }
+
     public void setProgress(float progress) {
         this.progress = Mth.clamp(progress, 0f, 1f);
     }
@@ -64,56 +68,56 @@ public class BaseTexBarWidget extends AbstractBarWidget {
     }
 
     public void renderBorder(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
-        if(borderTex!=null) {
+        if (borderTex != null) {
             IUIGuiUtils.blit(guiGraphics, borderTex, getX(), getY(), getBorderTexWidth(), getBorderTexHeight());
         }
     }
 
     public void renderBack(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
-        if(backTex!=null) {
+        if (backTex != null) {
             IUIGuiUtils.blit(guiGraphics, backTex, getX(), getY(), getBackTexWidth(), getBackTexHeight());
         }
     }
 
     public void renderBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
-        if(barTex!=null) {
+        if (barTex != null) {
             if (isVertical) {
                 if (isReverse) {
-                    guiGraphics.blit(barTex, getX(), (int) (getY() + height - (height * progress)),width, (int) (height*progress),  0,  0,getBarTexWidth(), (int) (getBarTexHeight() * progress),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, barTex, getX(), (getY() + height - (height * progress)), width, (height * progress), 0, 0, getBarTexWidth(), (getBarTexHeight() * progress), getBarTexWidth(), getBarTexHeight());
                 } else {
-                    guiGraphics.blit(barTex, getX(), getY(),width, (int) (height*progress),  0,  0,getBarTexWidth(), (int) (getBarTexHeight()*progress),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, barTex, getX(), getY(), width, (height * progress), 0, 0, getBarTexWidth(), (getBarTexHeight() * progress), getBarTexWidth(), getBarTexHeight());
                 }
             } else {
                 if (isReverse) {
-                    guiGraphics.blit(barTex, (int) (getX() +width-  (width * progress)), getY(), (int) (width*progress),height,width-  (width * progress),0,(int) (getBarTexWidth()*progress),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, barTex, (getX() + width - (width * progress)), (float) getY(), (width * progress), (float) height, width - (width * progress), (float) 0, (int) (getBarTexWidth() * progress), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 } else {
-                    guiGraphics.blit(barTex, getX(), getY(), (int) (width*progress),height,0,0,(int) (getBarTexWidth()*progress),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, barTex, getX(), getY(), (width * progress), height, 0, 0, (getBarTexWidth() * progress), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 }
             }
         }
     }
 
-    protected int getBarTexHeight(){
+    protected int getBarTexHeight() {
         return height;
     }
 
-    protected int getBarTexWidth(){
+    protected int getBarTexWidth() {
         return width;
     }
 
-    protected int getBackTexHeight(){
+    protected int getBackTexHeight() {
         return height;
     }
 
-    protected int getBackTexWidth(){
+    protected int getBackTexWidth() {
         return width;
     }
 
-    protected int getBorderTexHeight(){
+    protected int getBorderTexHeight() {
         return height;
     }
 
-    protected int getBorderTexWidth(){
+    protected int getBorderTexWidth() {
         return width;
     }
 
