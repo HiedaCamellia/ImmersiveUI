@@ -6,14 +6,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseBarWidget;
-import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseTexBarWidget;
-import org.hiedacamellia.immersiveui.client.gui.component.widget.editbox.QuoteEditBox;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.delay.DelayBarWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.delay.DelayTexBarWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.editbox.NumberEditBox;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.price.ItemPriceWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.price.SimplePriceWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeEntryWidget;
@@ -29,7 +28,8 @@ public class TestScreen extends Screen {
         super(Component.empty());
     }
 
-
+    DelayBarWidget bar;
+    DelayTexBarWidget texBarWidget;
     @Override
     public void init() {
         super.init();
@@ -53,29 +53,41 @@ public class TestScreen extends Screen {
 
         //addRenderableWidget(treeWidget);
 
-        QuoteEditBox quoteEditBox = new QuoteEditBox(font,200,20,100,20,Component.empty());
-        //addRenderableWidget(quoteEditBox);
+        NumberEditBox numberEditBox = new NumberEditBox(200,20,100,20,Component.empty());
+        addRenderableWidget(numberEditBox);
 
         Button reload = Button.builder(Component.literal("添加回复内容"),
                 (button) -> {
-//                    Minecraft.getInstance().reloadResourcePacks();
-                    quoteEditBox.setQuoted(Component.literal("这是被回复的消息"));
+
+                    double aDouble = numberEditBox.getDouble();
+                    bar.setProgress((float) aDouble);
+                    texBarWidget.setProgress( (float) aDouble);
 
 
                 }).bounds(100, 0, 30, 10).build();
-        //addRenderableWidget(reload);
+        addRenderableWidget(reload);
 
-        BaseBarWidget bar = new BaseBarWidget(100, 50, 100, 10, Component.literal("Test"));
+        bar = new DelayBarWidget(100, 50, 100, 10, Component.literal("Test"));
         bar.setBackColor(0xFF00FF00);
+        bar.setDelayIncreaseColor(0xFF0000FF);
+        bar.setDelayDecreaseColor(0xFFFF0000);
         bar.setProgress(0.2f);
         bar.setBorderWidth(2, 2);
-//        addRenderableWidget(bar);
+        addRenderableWidget(bar);
 
-        BaseTexBarWidget baseTexBarWidget = new BaseTexBarWidget(100, 150, 100, 20, Component.empty());
-        baseTexBarWidget.setTex(ImmersiveUI.rl("textures/test/test"));
-        baseTexBarWidget.setProgress(0.5f);
-        baseTexBarWidget.vertical();
-//        addRenderableWidget(baseTexBarWidget);
+
+        BaseBarWidget barw = new BaseBarWidget(100, 100, 100, 10, Component.literal("Test"));
+        barw.setBackColor(0xFF00FF00);
+        barw.setProgress(0.2f);
+        barw.setBorderWidth(2, 2);
+        addRenderableWidget(barw);
+
+        texBarWidget = new DelayTexBarWidget(100, 150, 100, 20, Component.empty());
+        texBarWidget.setTex(ImmersiveUI.rl("textures/test/test"));
+        texBarWidget.setProgress(0.5f);
+        texBarWidget.reverse();
+        texBarWidget.vertical();
+        addRenderableWidget(texBarWidget);
 
 
         SimplePriceWidget simplePriceWidget = new SimplePriceWidget(200, 100,new ItemStack(Items.DIAMOND),10);
@@ -92,7 +104,7 @@ public class TestScreen extends Screen {
         //IUIGuiUtils.drawRing(guiGraphics,100,100,20,40,0,720,0xFFFFFFFF);
         //IUIGuiUtils.blitRoundCentered(guiGraphics, ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),100,100,50,0.2f);
 
-        IUIGuiUtils.blur(guiGraphics,ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),200,0,300,100,3);
+        //IUIGuiUtils.blur(guiGraphics,ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),200,0,300,100,3);
     }
 
     @Override

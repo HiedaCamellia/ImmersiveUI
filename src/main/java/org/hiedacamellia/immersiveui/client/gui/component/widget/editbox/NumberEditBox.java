@@ -34,7 +34,7 @@ public class NumberEditBox extends EditBox {
 
     @Override
     public boolean charTyped(char codePoint, int modifiers) {
-        if (Character.isDigit(codePoint)) {
+        if (Character.isDigit(codePoint)||Character.isISOControl(codePoint) || codePoint == '.' || codePoint == '-') {
             return super.charTyped(codePoint, modifiers);
         }
         return false;

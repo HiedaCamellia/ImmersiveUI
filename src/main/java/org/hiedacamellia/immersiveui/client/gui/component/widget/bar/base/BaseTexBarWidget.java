@@ -7,8 +7,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.AbstractBarWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.IBarWidget;
 
-public class BaseTexBarWidget extends AbstractWidget implements IBarWidget{
+public class BaseTexBarWidget extends AbstractBarWidget {
 
     protected float borderX = 1f;
     protected float borderY = 1f;
@@ -61,31 +63,58 @@ public class BaseTexBarWidget extends AbstractWidget implements IBarWidget{
         super(x, y, width, height, message);
     }
 
-    @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int i, int i1, float v) {
-        int x = getX();
-        int y = getY();
-        if(backTex!=null) {
-            IUIGuiUtils.blit(guiGraphics, backTex, x, y, width, height);
+    public void renderBorder(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
+        if(borderTex!=null) {
+            IUIGuiUtils.blit(guiGraphics, borderTex, getX(), getY(), getBorderTexWidth(), getBorderTexHeight());
         }
+    }
+
+    public void renderBack(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
+        if(backTex!=null) {
+            IUIGuiUtils.blit(guiGraphics, backTex, getX(), getY(), getBackTexWidth(), getBackTexHeight());
+        }
+    }
+
+    public void renderBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
         if(barTex!=null) {
             if (isVertical) {
                 if (isReverse) {
-                    guiGraphics.blit(barTex,x, (int) (y + height - (height * progress)),width, (int) (height*progress),  0,  0,width, (int) (height * progress),width,height);
+                    guiGraphics.blit(barTex, getX(), (int) (getY() + height - (height * progress)),width, (int) (height*progress),  0,  0,getBarTexWidth(), (int) (getBarTexHeight() * progress),getBarTexWidth(),getBarTexHeight());
                 } else {
-                    guiGraphics.blit(barTex,x,y,width, (int) (height*progress),  0,  0,width, (int) (height*progress),width,height);
+                    guiGraphics.blit(barTex, getX(), getY(),width, (int) (height*progress),  0,  0,getBarTexWidth(), (int) (getBarTexHeight()*progress),getBarTexWidth(),getBarTexHeight());
                 }
             } else {
                 if (isReverse) {
-                    guiGraphics.blit(barTex, (int) (x+width-  (width * progress)),y, (int) (width*progress),height,width-  (width * progress),0,(int) (width*progress),height,width,height);
+                    guiGraphics.blit(barTex, (int) (getX() +width-  (width * progress)), getY(), (int) (width*progress),height,width-  (width * progress),0,(int) (getBarTexWidth()*progress),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
                 } else {
-                    guiGraphics.blit(barTex,x,y, (int) (width*progress),height,0,0,(int) (width*progress),height,width,height);
+                    guiGraphics.blit(barTex, getX(), getY(), (int) (width*progress),height,0,0,(int) (getBarTexWidth()*progress),getBarTexHeight(),getBarTexWidth(),getBarTexHeight());
                 }
             }
         }
-        if(borderTex!=null) {
-            IUIGuiUtils.blit(guiGraphics, borderTex, x, y, width, height);
-        }
+    }
+
+    protected int getBarTexHeight(){
+        return height;
+    }
+
+    protected int getBarTexWidth(){
+        return width;
+    }
+
+    protected int getBackTexHeight(){
+        return height;
+    }
+
+    protected int getBackTexWidth(){
+        return width;
+    }
+
+    protected int getBorderTexHeight(){
+        return height;
+    }
+
+    protected int getBorderTexWidth(){
+        return width;
     }
 
     @Override

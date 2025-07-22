@@ -55,7 +55,7 @@ public class IUIGuiUtils{
         fillBorderRect(guiGraphics, x, y, width, height, radius, radius, color);
     }
     public static void fillBorderRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radiusX,float radiusY, int color) {
-        IUIGraphicUtils.fillBorderRect(guiGraphics.pose(), x, y, x + width, y + height, radiusX, radiusY, color);
+        IUIGraphicUtils.fillBorderRect(guiGraphics.pose(), x, y, width, height, radiusX, radiusY, color);
     }
 
     public static void borderRoundRectCentered(GuiGraphics guiGraphics, float x, float y,float width, float height, float radius, int color, float borderThickness, int borderColor) {

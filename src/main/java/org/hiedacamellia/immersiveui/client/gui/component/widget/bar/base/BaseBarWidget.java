@@ -6,8 +6,10 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.AbstractBarWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.IBarWidget;
 
-public class BaseBarWidget extends AbstractWidget implements IBarWidget{
+public class BaseBarWidget extends AbstractBarWidget {
 
     protected float borderX = 1f;
     protected float borderY = 1f;
@@ -53,29 +55,30 @@ public class BaseBarWidget extends AbstractWidget implements IBarWidget{
         super(x, y, width, height, message);
     }
 
-    @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int i, int i1, float v) {
-        int x = getX();
-        int y = getY();
+    public void renderBorder(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if (border) {
+            IUIGuiUtils.fillBorderRect(guiGraphics,getX(), getY(), width, height, borderX/width/2,borderY/height/2, borderColor);
+        }
+    }
 
-        IUIGuiUtils.fill(guiGraphics,x, y, width, height, backColor);
+    public void renderBack(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        IUIGuiUtils.fill(guiGraphics,getX(), getY(), width, height, backColor);
+    }
+
+    public void renderBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (isVertical) {
             if (isReverse) {
-                IUIGuiUtils.fill(guiGraphics,x, y + height - (height * progress), width, (height * progress), barColor);
+                IUIGuiUtils.fill(guiGraphics, getX(), getY() + height - (height * progress), width, (height * progress), barColor);
             } else {
-                IUIGuiUtils.fill(guiGraphics,x, y, width, (height * progress), barColor);
+                IUIGuiUtils.fill(guiGraphics, getX(), getY(), width, (height * progress), barColor);
             }
         } else {
             if (isReverse) {
-                IUIGuiUtils.fill(guiGraphics,x +width-  (width * progress), y, (width * progress), height, barColor);
+                IUIGuiUtils.fill(guiGraphics, getX() +width-  (width * progress), getY(), (width * progress), height, barColor);
             } else {
-                IUIGuiUtils.fill(guiGraphics,x, y,   (width * progress), height, barColor);
+                IUIGuiUtils.fill(guiGraphics, getX(), getY(),   (width * progress), height, barColor);
             }
         }
-        if (border) {
-            IUIGuiUtils.fillBorderRect(guiGraphics, x, y, width, height, borderX/width/2,borderY/height/2, borderColor);
-        }
-
     }
 
     @Override
