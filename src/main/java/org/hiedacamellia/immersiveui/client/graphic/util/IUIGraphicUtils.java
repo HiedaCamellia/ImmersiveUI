@@ -1,11 +1,3 @@
-/*
- * Code from https://github.com/LouisQuepierts/ThatSkyInteractions
- * net.quepierts.thatskyinteractions.client.util
- * RenderUtils.java
- *
- * This code is under the MIT License.
- */
-
 package org.hiedacamellia.immersiveui.client.graphic.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
