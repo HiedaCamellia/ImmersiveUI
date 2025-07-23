@@ -14,7 +14,7 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
 
     protected Font font;
 
-    protected List<V> root;
+    protected List<? extends V> root;
 
     protected TreeEntryWidget<T> onDrag;
     protected TreeEntryWidget<T> select;
@@ -65,7 +65,7 @@ public class TreeWidget<T,V extends TreeEntryWidget<T>> extends AbstractContaine
         updateWidget();
     }
 
-    public TreeWidget(List<V> root,int x, int y, Component component, Font font) {
+    public TreeWidget(List<? extends V> root,int x, int y, Component component, Font font) {
         super(x, y, 0, 0, component);
         this.font = font;
         this.root = root;

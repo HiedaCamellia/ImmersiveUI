@@ -59,7 +59,7 @@ public class WheelTreeEntryWidget extends TreeEntryWidget<ActionData> {
 
         float midAngle = (startAngle + endAngle) / 2 -90;
         float midRadius = (innerRadius + outerRadius) / 2;
-        IUIGuiUtils.drawCenteredString(guiGraphics,font,getMessage(), (int) (centerX+(float)Math.cos(Math.toRadians(midAngle))*midRadius), (int) (centerY+(float)Math.sin(Math.toRadians(midAngle))*midRadius),0xFFFFFFFF,false);
+        IUIGuiUtils.drawCenteredString(guiGraphics,font,getMessage(),  (centerX+(float)Math.cos(Math.toRadians(midAngle))*midRadius),  (centerY+(float)Math.sin(Math.toRadians(midAngle))*midRadius),0xFFFFFFFF,false);
 
 
         if(fold) return;

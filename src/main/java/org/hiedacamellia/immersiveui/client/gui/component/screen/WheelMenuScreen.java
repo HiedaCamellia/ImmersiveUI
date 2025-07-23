@@ -25,11 +25,12 @@ public abstract class WheelMenuScreen extends Screen {
 
     @Override
     public void init(){
+        super.init();
         wheelTreeWidget = WheelTreeWidget.create(getWheelEntries(),0,0, getTitle(), font);
         addRenderableWidget(wheelTreeWidget);
     }
 
-    public abstract List<WheelTreeEntryWidget> getWheelEntries();
+    public abstract List<? extends WheelTreeEntryWidget> getWheelEntries();
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
