@@ -98,6 +98,15 @@ public class WheelTreeEntryWidget extends TreeEntryWidget<ActionData> {
         }else if(angle>360){
             angle -= 360;
         }
+        if (startAngle < 0 && endAngle > 0) {
+            boolean left = angle > startAngle+360 && angle < 360;
+            boolean reght = angle < endAngle && angle > 0;
+            return r >= (double)this.innerRadius && r <= (double)this.outerRadius && (left || reght);
+        }
+        if (startAngle < 0 && endAngle < 0) {
+            startAngle += 360;
+            endAngle += 360;
+        }
         return r >= innerRadius && r <= outerRadius && angle >= startAngle && angle <= endAngle;
     }
 
