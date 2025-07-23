@@ -101,7 +101,7 @@ public class IUIGraphicUtils {
 
 
     public static void blit(PoseStack poseStack ,ResourceLocation location, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight) {
-        _blit(poseStack,location, x, x + width, y, y + height, uWidth, vHeight, uOffset, vOffset, textureWidth, textureHeight);
+        _blit(poseStack,location, x,  y,x + width, y + height, uWidth, vHeight, uOffset, vOffset, textureWidth, textureHeight);
     }
     public static void blit(PoseStack poseStack, ResourceLocation location, int x, int y, int width, int height) {
         blit(poseStack, location, (float) x, (float) y, (float) (x + width), (float) (y + height));

@@ -64,7 +64,7 @@ public class IUIGuiUtils{
     }
 
     public static void blit(GuiGraphics guiGraphics,ResourceLocation location, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight) {
-        _blit(guiGraphics,location, x, x + width, y, y + height, uWidth, vHeight, uOffset, vOffset, textureWidth, textureHeight);
+        _blit(guiGraphics,location, x,  y,x + width, y + height, uWidth, vHeight, uOffset, vOffset, textureWidth, textureHeight);
     }
     public static void blit(GuiGraphics guiGraphics, ResourceLocation location, int x, int y, int width, int height) {
         blit(guiGraphics, location, (float) x, (float) y, (float) (x + width), (float) (y + height));
