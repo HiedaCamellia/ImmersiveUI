@@ -116,7 +116,7 @@ public class IUIGraphicUtils {
         blit(poseStack, textureId, x1, y1, x2, y2, 0, 0, 1, 1);
     }
     public static void _blit(PoseStack poseStack,ResourceLocation location, float x1, float y1, float x2, float y2,float uWidth, float vHeight, float uOffset, float vOffset, float textureWidth, float textureHeight) {
-        blit(poseStack,location, x1, y1, x2, y2, (uOffset + 0.0F) / textureWidth, (uOffset + uWidth) / textureWidth, (vOffset + 0.0F) / textureHeight, (vOffset + vHeight) / textureHeight);
+        blit(poseStack,location, x1, y1, x2, y2, (uOffset + 0.0F) / textureWidth, (vOffset + 0.0F) / textureHeight,(uOffset + uWidth) / textureWidth,  (vOffset + vHeight) / textureHeight);
     }
     public static void blit(PoseStack poseStack, ResourceLocation location, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
         RenderSystem.setShaderTexture(0, location);

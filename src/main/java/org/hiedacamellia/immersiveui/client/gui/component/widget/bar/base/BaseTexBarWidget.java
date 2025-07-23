@@ -83,13 +83,13 @@ public class BaseTexBarWidget extends AbstractBarWidget {
         if (barTex != null) {
             if (isVertical) {
                 if (isReverse) {
-                    IUIGuiUtils.blit(guiGraphics, barTex, getX(), (getY() + height - (height * progress)), width, (height * progress), 0, 0, getBarTexWidth(), (getBarTexHeight() * progress), getBarTexWidth(), getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, barTex, getX(), (getY() + height - (height * progress)), width, (height * progress), 0, height - (height * progress), getBarTexWidth(), (getBarTexHeight() * progress), getBarTexWidth(), getBarTexHeight());
                 } else {
                     IUIGuiUtils.blit(guiGraphics, barTex, getX(), getY(), width, (height * progress), 0, 0, getBarTexWidth(), (getBarTexHeight() * progress), getBarTexWidth(), getBarTexHeight());
                 }
             } else {
                 if (isReverse) {
-                    IUIGuiUtils.blit(guiGraphics, barTex, (getX() + width - (width * progress)), (float) getY(), (width * progress), (float) height, width - (width * progress), (float) 0, (int) (getBarTexWidth() * progress), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, barTex, (getX() + width - (width * progress)),  getY(), (width * progress),  height, width - (width * progress),  0, (getBarTexWidth() * progress), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 } else {
                     IUIGuiUtils.blit(guiGraphics, barTex, getX(), getY(), (width * progress), height, 0, 0, (getBarTexWidth() * progress), getBarTexHeight(), getBarTexWidth(), getBarTexHeight());
                 }

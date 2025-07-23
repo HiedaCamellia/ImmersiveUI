@@ -94,7 +94,7 @@ public class DelayTexBarWidget extends BaseTexBarWidget {
         if (delayIncreaseTex != null && isIncrease()) {
             if (isVertical) {
                 if (isReverse) {
-                    IUIGuiUtils.blit(guiGraphics, delayIncreaseTex, getX(), (getY() + height - (height * targetProgress)), width, (height * targetProgress), 0, 0, getBarTexWidth(), (getBarTexHeight() * targetProgress), getBarTexWidth(), getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayIncreaseTex, getX(), (getY() + height - (height * targetProgress)), width, (height * targetProgress), 0, height - (height * targetProgress), getBarTexWidth(), (getBarTexHeight() * targetProgress), getBarTexWidth(), getBarTexHeight());
                 } else {
                     IUIGuiUtils.blit(guiGraphics, delayIncreaseTex, getX(), getY(), width, (height * targetProgress), 0, 0, getBarTexWidth(), (getBarTexHeight() * targetProgress), getBarTexWidth(), getBarTexHeight());
                 }
@@ -113,7 +113,7 @@ public class DelayTexBarWidget extends BaseTexBarWidget {
         if (delayDecreaseTex != null && isDecrease()) {
             if (isVertical) {
                 if (isReverse) {
-                    IUIGuiUtils.blit(guiGraphics, delayDecreaseTex, getX(), (getY() + height - (height * progress)), width, (height * (progress - targetProgress)), 0, 0, getBarTexWidth(), (getBarTexHeight() * (progress - targetProgress)), getBarTexWidth(), getBarTexHeight());
+                    IUIGuiUtils.blit(guiGraphics, delayDecreaseTex, getX(), (getY() + height - (height * progress)), width, (height * (progress - targetProgress)), 0, height - (height * targetProgress), getBarTexWidth(), (getBarTexHeight() * (progress - targetProgress)), getBarTexWidth(), getBarTexHeight());
                 } else {
                     IUIGuiUtils.blit(guiGraphics, delayDecreaseTex, getX(), getY() + (height * targetProgress), width, (height * (progress - targetProgress)), 0, 0, getBarTexWidth(), (getBarTexHeight() * (progress - targetProgress)), getBarTexWidth(), getBarTexHeight());
                 }
