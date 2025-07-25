@@ -1,14 +1,11 @@
 package org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.AbstractBarWidget;
-import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.IBarWidget;
 
 public class BaseTexBarWidget extends AbstractBarWidget {
 
@@ -16,10 +13,6 @@ public class BaseTexBarWidget extends AbstractBarWidget {
     protected float borderY = 1f;
     protected boolean isVertical = false;
     protected boolean isReverse = false;
-    /**
-     * Progress from 0 to 1
-     */
-    protected float progress = 0f;
 
     protected ResourceLocation barTex = null;
     protected ResourceLocation backTex = null;
@@ -52,10 +45,6 @@ public class BaseTexBarWidget extends AbstractBarWidget {
 
     public void reverse() {
         this.isReverse = true;
-    }
-
-    public void setProgress(float progress) {
-        this.progress = Mth.clamp(progress, 0f, 1f);
     }
 
     public void setBorderWidth(float borderX, float borderY) {

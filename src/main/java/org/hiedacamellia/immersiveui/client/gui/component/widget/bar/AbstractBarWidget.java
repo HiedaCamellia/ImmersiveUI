@@ -6,6 +6,18 @@ import net.minecraft.network.chat.Component;
 
 public abstract class AbstractBarWidget extends AbstractWidget implements IBarWidget {
 
+    /**
+     * Progress from 0 to 1
+     */
+    protected float progress = 0f;
+
+    public void setProgress(float progress) {
+        this.progress = Math.max(0f, Math.min(progress, 1f));
+    }
+
+    public float getProgress() {
+        return progress;
+    }
 
 
     public AbstractBarWidget(int x, int y, int width, int height, Component message) {
