@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
+import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.delay.DelayBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.delay.DelayTexBarWidget;
@@ -101,6 +102,7 @@ public class TestScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
+
         //IUIGuiUtils.drawRing(guiGraphics,100,100,20,40,0,720,0xFFFFFFFF);
         //IUIGuiUtils.blitRoundCentered(guiGraphics, ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),100,100,50,0.2f);
 
@@ -109,6 +111,8 @@ public class TestScreen extends Screen {
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick){
-        guiGraphics.fill(0,0,this.width,this.height,0xFF000000);
+//        guiGraphics.fill(0,0,this.width,this.height,0xFF000000);
+        ScreenTempTarget.BLUR_INSTANCE.unbindWrite();
+        ScreenTempTarget.SCREEN_INSTANCE.bindWrite(false);
     }
 }

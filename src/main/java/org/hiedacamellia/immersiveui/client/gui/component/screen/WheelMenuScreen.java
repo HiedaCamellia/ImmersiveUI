@@ -26,8 +26,12 @@ public abstract class WheelMenuScreen extends Screen {
     @Override
     public void init(){
         super.init();
-        wheelTreeWidget = WheelTreeWidget.create(getWheelEntries(),0,0, getTitle(), font);
+        wheelTreeWidget = createWheelTreeWidget();
         addRenderableWidget(wheelTreeWidget);
+    }
+
+    public WheelTreeWidget createWheelTreeWidget(){
+        return WheelTreeWidget.create(getWheelEntries(),0,0, getTitle(), font);
     }
 
     public abstract List<? extends WheelTreeEntryWidget> getWheelEntries();

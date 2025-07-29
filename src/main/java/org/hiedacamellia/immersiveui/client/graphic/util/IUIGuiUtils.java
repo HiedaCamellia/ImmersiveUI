@@ -161,16 +161,16 @@ public class IUIGuiUtils{
         return guiGraphics.drawString(font, text, x, y, color, dropShadow);
     }
 
-    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color) {
+    public static void drawRing(GuiGraphics guiGraphics, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color) {
         drawRing(guiGraphics, x, y, innerRadius, outerRadius, startAngle, endAngle, color, color);
     }
-    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color,float smooth) {
+    public static void drawRing(GuiGraphics guiGraphics, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color,float smooth) {
         drawRing(guiGraphics, x, y, innerRadius, outerRadius, startAngle, endAngle, color, color,smooth);
     }
-    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int innerColor,int outerColor) {
+    public static void drawRing(GuiGraphics guiGraphics, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int innerColor,int outerColor) {
         drawRing(guiGraphics, x, y, innerRadius, outerRadius, startAngle, endAngle, innerColor, outerColor, 0.5f/outerRadius);
     }
-    public static void drawRing(GuiGraphics guiGraphics, int x, int y, float innerRadius, float outerRadius, float startAngle, float endAngle, int innerColor, int outerColor, float smooth) {
+    public static void drawRing(GuiGraphics guiGraphics, float x, float y, float innerRadius, float outerRadius, float startAngle, float endAngle, int innerColor, int outerColor, float smooth) {
         IUIGraphicUtils.drawRing(guiGraphics.pose(), x, y, innerRadius, outerRadius, startAngle, endAngle, innerColor, outerColor, smooth);
     }
 

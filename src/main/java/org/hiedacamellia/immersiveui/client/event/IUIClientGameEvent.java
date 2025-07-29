@@ -11,6 +11,7 @@ import net.neoforged.neoforge.client.event.ScreenEvent;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.wheel.action.BuiltInWheelActions;
+import org.hiedacamellia.immersiveui.client.gui.layer.ScreenWidgetLayer;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
 import org.lwjgl.glfw.GLFW;
 
@@ -43,6 +44,8 @@ public class IUIClientGameEvent {
                 event.setCanceled(consumed);
             }
         }
+
+        event.setCanceled(ScreenWidgetLayer.INSTANCE.click(event.getButton(),event.getAction()));
     }
 
     @SubscribeEvent

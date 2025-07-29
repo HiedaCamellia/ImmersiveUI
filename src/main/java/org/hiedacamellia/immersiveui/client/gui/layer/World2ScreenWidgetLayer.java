@@ -17,6 +17,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -63,8 +64,13 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
     public UUID screenUUID;
 
     private double scroll = 0;
+
     World2ScreenWidgetLayer() {
         reset();
+    }
+
+    public boolean hasScreen() {
+        return this.activeScreen != null;
     }
 
     public void setActiveScreen(World2ScreenScreen activeScreen) {

@@ -33,4 +33,20 @@ public class IUIMinecraftUtil {
     public static int getGuiScaledHeight() {
         return getWindow().getGuiScaledHeight();
     }
+
+    public static int screenWidth() {
+        return getWindow().getGuiScaledWidth();
+    }
+
+    public static int screenHeight() {
+        return getWindow().getGuiScaledHeight();
+    }
+
+    public static int screenCenterX() {
+        return screenWidth() / 2;
+    }
+
+    public static int screenCenterY() {
+        return screenHeight() / 2;
+    }
 }

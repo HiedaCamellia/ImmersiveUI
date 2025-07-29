@@ -210,19 +210,19 @@ public class IUIGraphicUtils {
         return font.drawInBatch(component, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtil.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
 
-    public static void drawRing(PoseStack poseStack, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color) {
+    public static void drawRing(PoseStack poseStack, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color) {
         drawRing(poseStack, x, y, innerRadius, outerRadius, startAngle, endAngle, color, color);
     }
 
-    public static void drawRing(PoseStack poseStack, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color,float smooth) {
+    public static void drawRing(PoseStack poseStack, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color,float smooth) {
         drawRing(poseStack, x, y, innerRadius, outerRadius, startAngle, endAngle, color, color,smooth);
     }
 
-    public static void drawRing(PoseStack poseStack, int x, int y, float innerRadius, float outerRadius,float startAngle,float endAngle, int innerColor,int outerColor) {
+    public static void drawRing(PoseStack poseStack, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int innerColor,int outerColor) {
         drawRing(poseStack, x, y, innerRadius, outerRadius, startAngle, endAngle, innerColor, outerColor, 0.5f/outerRadius);
     }
 
-    public static void drawRing(PoseStack poseStack, int x, int y, float innerRadius, float outerRadius, float startAngle, float endAngle, int innerColor, int outerColor, float smooth) {
+    public static void drawRing(PoseStack poseStack, float x, float y, float innerRadius, float outerRadius, float startAngle, float endAngle, int innerColor, int outerColor, float smooth) {
         float x2 =  (x + outerRadius);
         float y2 =  (y + outerRadius);
         float x1 =  (x - outerRadius);

@@ -26,12 +26,16 @@ public class World2ScreenScreen extends World2ScreenWidget {
     protected Player player;
     protected int w;
     protected int h;
-    private Vec3 pos;
-    private final RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
+    protected Vec3 pos;
+    protected final RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
 
     public void setScreen(Screen screen) {
         this.screen = screen;
         screen.init(minecraft, w, h);
+    }
+
+    public Screen getScreen() {
+        return screen;
     }
 
     @Override
