@@ -118,6 +118,7 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer{
             double offsetY = enableOffset ? -andResetCapturedDeltaY / offsetFactor : 0;
 
             PoseStack pose = guiGraphics.pose();
+            pose.pushPose();
 
 
             ScreenTempTarget.SCREEN_INSTANCE.setClearColor(0, 0, 0, 0);

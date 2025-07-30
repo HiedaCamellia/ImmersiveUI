@@ -98,7 +98,6 @@ neoForge {
         // but multi mod projects should define one per mod
         "${mod_id}" {
             sourceSet(sourceSets.main)
-            sourceSet(sourceSets.test)
         }
     }
 }
