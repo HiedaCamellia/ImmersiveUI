@@ -11,45 +11,115 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * QuoteEditBox 是一个扩展自 EditBox 的文本框组件，
+ * 支持显示附加的引用文本，并根据引用文本动态调整高度和渲染逻辑。
+ */
 public class QuoteEditBox extends EditBox {
 
+    /**
+     * 获取当前的引用文本。
+     *
+     * @return 当前的引用文本
+     */
     public Component getQuoted() {
         return quoted;
     }
 
+    /**
+     * 当前的引用文本，默认为空。
+     */
     protected Component quoted = Component.empty();
 
+    /**
+     * 设置引用文本。
+     *
+     * @param quoted 要设置的引用文本
+     */
     public void setQuoted(Component quoted) {
         this.quoted = quoted;
     }
 
+    /**
+     * 检查是否存在引用文本。
+     *
+     * @return 如果存在引用文本，则返回 true；否则返回 false
+     */
     protected boolean hasQuote() {
         return !quoted.equals(Component.empty());
     }
 
+    /**
+     * 获取文本框的高度。
+     * 如果存在引用文本，则高度会增加以容纳引用文本。
+     *
+     * @return 文本框的高度
+     */
     @Override
     public int getHeight() {
-        return super.getHeight() + (!hasQuote()? 0 : font.lineHeight+1);
+        return super.getHeight() + (!hasQuote() ? 0 : font.lineHeight + 1);
     }
 
+    /**
+     * 获取文本框的 Y 坐标。
+     * 如果存在引用文本，则 Y 坐标会向上调整以容纳引用文本。
+     *
+     * @return 文本框的 Y 坐标
+     */
     @Override
     public int getY() {
-        return super.getY() - (!hasQuote()? 0 : font.lineHeight+1);
+        return super.getY() - (!hasQuote() ? 0 : font.lineHeight + 1);
     }
 
+    /**
+     * 构造一个 QuoteEditBox 实例。
+     *
+     * @param font    字体对象
+     * @param width   文本框的宽度
+     * @param height  文本框的高度
+     * @param message 文本框的提示信息
+     */
     public QuoteEditBox(Font font, int width, int height, Component message) {
         super(font, width, height, message);
     }
 
+    /**
+     * 构造一个 QuoteEditBox 实例。
+     *
+     * @param font    字体对象
+     * @param x       文本框的 X 坐标
+     * @param y       文本框的 Y 坐标
+     * @param width   文本框的宽度
+     * @param height  文本框的高度
+     * @param message 文本框的提示信息
+     */
     public QuoteEditBox(Font font, int x, int y, int width, int height, Component message) {
         super(font, x, y, width, height, message);
     }
 
+    /**
+     * 构造一个 QuoteEditBox 实例。
+     *
+     * @param font     字体对象
+     * @param x        文本框的 X 坐标
+     * @param y        文本框的 Y 坐标
+     * @param width    文本框的宽度
+     * @param height   文本框的高度
+     * @param editBox  可选的父文本框
+     * @param message  文本框的提示信息
+     */
     public QuoteEditBox(Font font, int x, int y, int width, int height, @Nullable EditBox editBox, Component message) {
         super(font, x, y, width, height, editBox, message);
     }
 
-
+    /**
+     * 渲染文本框组件，包括引用文本和其他内容。
+     *
+     * @param guiGraphics 渲染上下文
+     * @param mouseX      鼠标的 X 坐标
+     * @param mouseY      鼠标的 Y 坐标
+     * @param partialTick 渲染的部分时间
+     */
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (this.isVisible()) {
             if (this.isBordered()) {
@@ -80,11 +150,10 @@ public class QuoteEditBox extends EditBox {
                 --l;
             }
 
-            if(hasQuote()){
-                guiGraphics.drawString(this.font,quoted, j+4, k - font.lineHeight-3, 0xFFC4C4C4, false);
-                guiGraphics.hLine(RenderType.gui(), j+4, j+4+this.font.width(quoted), k - 3, 0xFFC4C4C4);
+            if (hasQuote()) {
+                guiGraphics.drawString(this.font, quoted, j + 4, k - font.lineHeight - 3, 0xFFC4C4C4, false);
+                guiGraphics.hLine(RenderType.gui(), j + 4, j + 4 + this.font.width(quoted), k - 3, 0xFFC4C4C4);
             }
-
 
             if (!s.isEmpty() && flag && i < s.length()) {
                 guiGraphics.drawString(this.font, (FormattedCharSequence)this.formatter.apply(s.substring(i), this.cursorPos), l, k, l1, this.textShadow);
@@ -111,6 +180,5 @@ public class QuoteEditBox extends EditBox {
                 this.renderHighlight(guiGraphics, j1, k - 1, k1 - 1, k + 1 + 9);
             }
         }
-
     }
 }
