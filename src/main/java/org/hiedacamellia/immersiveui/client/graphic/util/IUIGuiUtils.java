@@ -40,7 +40,7 @@ public class IUIGuiUtils{
         fillRoundRect(guiGraphics, x, y, width, height, width > height ? (float) radius / width : (float) radius / height, color);
     }
     public static void fillRoundRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radius, int color) {
-        IUIGraphicUtils.fillRoundRect(guiGraphics.pose(), x, y, x + width, y + height, radius, color);
+        IUIGraphicUtils.fillRoundRect(guiGraphics.pose(), x, y, width, height, radius, color);
     }
 
     public static void fillBorderRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radius, int color) {
