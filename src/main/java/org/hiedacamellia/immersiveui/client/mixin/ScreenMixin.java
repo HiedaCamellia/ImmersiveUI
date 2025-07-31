@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ScreenMixin {
 
     @Inject(method = "renderBlurredBackground", at = @At(target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V", value = "INVOKE"), cancellable = true)
-    private void onBindWrite(float partialTick, CallbackInfo ci){
+    private void onBindWrite(CallbackInfo ci){
         if(ScreenTempTarget.SCREEN_INSTANCE ==null)return;
         if(ScreenTempTarget.SCREEN_INSTANCE.use) {
             ScreenTempTarget.BLUR_INSTANCE.unbindWrite();

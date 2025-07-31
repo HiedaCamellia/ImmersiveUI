@@ -264,6 +264,16 @@ public class TreeWidget<T, V extends TreeEntryWidget<T>> extends AbstractContain
     }
 
     @Override
+    protected int contentHeight() {
+        return getHeight() - (showTitle ? titleHeight : 0);
+    }
+
+    @Override
+    protected double scrollRate() {
+        return 0;
+    }
+
+    @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
         renderBg(guiGraphics, mouseX, mouseY, v);
         if (showTitle) {

@@ -11,8 +11,7 @@
     "KeyboardHandlerMixin",
     "MinecraftMixin",
     "MouseHandlerMixin_MouseCapture",
-    "ScreenMixin",
-    "accessor.GameRendererAccessor"
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

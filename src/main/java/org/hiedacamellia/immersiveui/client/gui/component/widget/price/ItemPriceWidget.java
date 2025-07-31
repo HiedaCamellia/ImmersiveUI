@@ -179,4 +179,14 @@ public class ItemPriceWidget extends AbstractContainerWidget {
     public List<? extends GuiEventListener> children() {
         return List.of(slot1, editBox1, slot2, editBox2);
     }
+
+    @Override
+    protected int contentHeight() {
+        return getHeight();
+    }
+
+    @Override
+    protected double scrollRate() {
+        return 0;
+    }
 }

@@ -24,10 +24,9 @@ public class MinecraftMixin {
     public void resizeDisplay(CallbackInfo ci){
         Window window = Minecraft.getInstance().getWindow();
         if(ScreenTempTarget.BLUR_INSTANCE ==null)return;
-        ScreenTempTarget.BLUR_INSTANCE.resize(window.getWidth(), window.getHeight(),true);
+        ScreenTempTarget.BLUR_INSTANCE.resize(window.getWidth(), window.getHeight());
         if(ScreenTempTarget.SCREEN_INSTANCE ==null)return;
-        ScreenTempTarget.SCREEN_INSTANCE.resize(window.getWidth(), window.getHeight(),true);
-        ScreenTempTarget.getBlurEffect().resize(window.getWidth(), window.getHeight());
+        ScreenTempTarget.SCREEN_INSTANCE.resize(window.getWidth(), window.getHeight());
         World2ScreenWidgetLayer.INSTANCE.resize();
     }
 }

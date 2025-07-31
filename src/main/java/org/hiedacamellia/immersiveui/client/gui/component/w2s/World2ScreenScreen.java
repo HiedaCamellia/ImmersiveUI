@@ -193,9 +193,9 @@ public class World2ScreenScreen extends World2ScreenWidget {
     public void render(GuiGraphics guiGraphics, boolean highlight, float value, DeltaTracker deltaTracker) {
 
         ScreenTempTarget.SCREEN_INSTANCE.setClearColor(0, 0, 0, 0);
-        ScreenTempTarget.SCREEN_INSTANCE.clear(ON_OSX);
+        ScreenTempTarget.SCREEN_INSTANCE.clear();
         ScreenTempTarget.BLUR_INSTANCE.setClearColor(0, 0, 0, 0);
-        ScreenTempTarget.BLUR_INSTANCE.clear(ON_OSX);
+        ScreenTempTarget.BLUR_INSTANCE.clear();
 
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();

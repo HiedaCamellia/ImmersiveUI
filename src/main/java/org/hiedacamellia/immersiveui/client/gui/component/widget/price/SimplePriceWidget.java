@@ -141,4 +141,14 @@ public class SimplePriceWidget extends AbstractContainerWidget {
     public List<? extends GuiEventListener> children() {
         return List.of(slot, editBox);
     }
+
+    @Override
+    protected int contentHeight() {
+        return height;
+    }
+
+    @Override
+    protected double scrollRate() {
+        return 0;
+    }
 }

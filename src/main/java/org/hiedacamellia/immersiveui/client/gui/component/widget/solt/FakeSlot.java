@@ -60,7 +60,7 @@ public class FakeSlot extends AbstractWidget {
      * @return 始终返回 false
      */
     @Override
-    protected boolean clicked(double mouseX, double mouseY) {
+    public boolean mouseClicked(double mouseX, double mouseY,int button) {
         return false;
     }
 

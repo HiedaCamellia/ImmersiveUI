@@ -52,7 +52,7 @@ public class TestScreen extends Screen {
 
         treeWidget = TreeWidget.of(subTreeWidget3,0,0,Component.literal("Test"),font1);
 
-        //addRenderableWidget(treeWidget);
+        addRenderableWidget(treeWidget);
 
         NumberEditBox numberEditBox = new NumberEditBox(200,20,100,20,Component.empty());
         addRenderableWidget(numberEditBox);
@@ -92,10 +92,10 @@ public class TestScreen extends Screen {
 
 
         SimplePriceWidget simplePriceWidget = new SimplePriceWidget(200, 100,new ItemStack(Items.DIAMOND),10);
-        //addRenderableWidget(simplePriceWidget);
+        addRenderableWidget(simplePriceWidget);
 
         ItemPriceWidget itemPriceWidget = new ItemPriceWidget(200, 130,new ItemStack(Items.DIAMOND),100,new ItemStack(Items.DIRT),1);
-        //addRenderableWidget(itemPriceWidget);
+        addRenderableWidget(itemPriceWidget);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class TestScreen extends Screen {
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick){
-//        guiGraphics.fill(0,0,this.width,this.height,0xFF000000);
+        guiGraphics.fill(0,0,this.width,this.height,0xFF000000);
         ScreenTempTarget.BLUR_INSTANCE.unbindWrite();
         ScreenTempTarget.SCREEN_INSTANCE.bindWrite(false);
     }

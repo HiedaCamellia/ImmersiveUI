@@ -4,8 +4,8 @@
         "srcrgb": "srcalpha",
         "dstrgb": "1-srcalpha"
     },
-    "vertex": "immersiveui:uv_color",
-    "fragment": "immersiveui:border_round_rect",
+    "vertex": "immersiveui:core/uv_color",
+    "fragment": "immersiveui:core/border_round_rect",
     "attributes": [
         "Color",
         "UV0"

@@ -13,6 +13,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @OnlyIn(Dist.CLIENT)
 public class IUIGuiUtils{
@@ -40,7 +41,7 @@ public class IUIGuiUtils{
         fillRoundRect(guiGraphics, x, y, width, height, width > height ? (float) radius / width : (float) radius / height, color);
     }
     public static void fillRoundRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radius, int color) {
-        IUIGraphicUtils.fillRoundRect(guiGraphics.pose(), x, y, x + width, y + height, radius, color);
+        IUIGraphicUtils.fillRoundRect(guiGraphics.pose(), x, y, width, height, radius, color);
     }
 
     public static void fillBorderRect(GuiGraphics guiGraphics, float x, float y, float width, float height, float radius, int color) {
@@ -152,7 +153,9 @@ public class IUIGuiUtils{
         return drawString(guiGraphics,IUIMinecraftUtil.getFont(), component, x, y, color, dropShadow);
     }
     public static int drawString(GuiGraphics guiGraphics,Font font, Component component, float x, float y, int color,boolean dropShadow) {
-        return font.drawInBatch(component, x, y, color, dropShadow, guiGraphics.pose().last().pose(), guiGraphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
+        AtomicInteger width = new AtomicInteger();
+        guiGraphics.drawSpecial(multiBufferSource -> width.set(font.drawInBatch(component, x, y, color, dropShadow, guiGraphics.pose().last().pose(), multiBufferSource, Font.DisplayMode.NORMAL, 0, 15728880)));
+        return width.get();
     }
     public static int drawString(GuiGraphics guiGraphics, @Nullable String text, float x, float y, int color,boolean dropShadow) {
         return drawString(guiGraphics,IUIMinecraftUtil.getFont(), text, x, y, color, dropShadow);
@@ -180,11 +183,13 @@ public class IUIGuiUtils{
 
     public static void guiFill(GuiGraphics guiGraphics, float x1, float y1, float x2, float y2,int color){
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        VertexConsumer vertexConsumer = guiGraphics.bufferSource().getBuffer(RenderType.gui());
-        vertexConsumer.addVertex(matrix4f, x1, y1, 0).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x1, y2, 0).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y2, 0).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y1, 0).setColor(color);
+        guiGraphics.drawSpecial(multiBufferSource -> {
+            VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.gui());
+            vertexConsumer.addVertex(matrix4f, x1, y1, 0).setColor(color);
+            vertexConsumer.addVertex(matrix4f, x1, y2, 0).setColor(color);
+            vertexConsumer.addVertex(matrix4f, x2, y2, 0).setColor(color);
+            vertexConsumer.addVertex(matrix4f, x2, y1, 0).setColor(color);
+        });
     }
 
 

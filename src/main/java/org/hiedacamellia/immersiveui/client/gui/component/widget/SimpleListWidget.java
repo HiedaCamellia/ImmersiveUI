@@ -21,10 +21,6 @@ public class SimpleListWidget extends ContainerObjectSelectionList<SimpleListWid
         return 400;
     }
 
-    protected int getScrollbarPosition() {
-        return super.getScrollbarPosition() + 32;
-    }
-
     protected static class WidgetEntry extends Entry<WidgetEntry> {
 
         final List<AbstractWidget> widgets;

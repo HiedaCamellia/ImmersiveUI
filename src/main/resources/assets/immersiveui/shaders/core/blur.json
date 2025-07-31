@@ -1,6 +1,6 @@
 {
-    "vertex": "immersiveui:blur",
-    "fragment": "immersiveui:blur",
+    "vertex": "immersiveui:core/blur",
+    "fragment": "immersiveui:core/blur",
     "samplers": [
         { "name": "Sampler0" }
     ],

@@ -3,8 +3,9 @@ package org.hiedacamellia.immersiveui.client.graphic.util;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -31,7 +32,7 @@ public class IUIGraphicUtils {
     }
 
     public static void fill(PoseStack poseStack, float x, float y, float width, float height, int color) {
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
         BufferBuilder bufferbuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         poseFill(poseStack, bufferbuilder, x, y, width, height, color);
     }
@@ -51,8 +52,8 @@ public class IUIGraphicUtils {
 
         final float ratio =  height /  width;
 
-        RenderSystem.setShader(IUIShaders::getRoundRectShader);
-        ShaderInstance shader = IUIShaders.getRoundRectShader();
+        RenderSystem.setShader(IUIShaders.getRoundRectShader());
+        CompiledShaderProgram shader = IUIShaders.getRoundRectShader();
         shader.safeGetUniform("Ratio").set(ratio);
         shader.safeGetUniform("Radius").set(radius);
 
@@ -69,8 +70,8 @@ public class IUIGraphicUtils {
         float x2 = x + width + width * radiusX;
         float y2 = y + height + height * radiusY;
         
-        RenderSystem.setShader(IUIShaders::getBorderRectShader);
-        ShaderInstance shader = IUIShaders.getBorderRectShader();
+        RenderSystem.setShader(IUIShaders.getBorderRectShader());
+        CompiledShaderProgram shader = IUIShaders.getBorderRectShader();
         shader.safeGetUniform("Radius").set(radiusX,radiusY);
 
         BufferBuilder bufferbuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
@@ -88,8 +89,8 @@ public class IUIGraphicUtils {
     }
     public static void _borderRoundRect(PoseStack poseStack, float x1, float y1, float x2, float y2,float radius, int color, float borderThickness, int borderColor) {
         final float ratio =  (y2 - y1) / (x2 - x1);
-        RenderSystem.setShader(IUIShaders::getBorderRoundRectShader);
-        ShaderInstance shader = IUIShaders.getBorderRoundRectShader();
+        RenderSystem.setShader(IUIShaders.getBorderRoundRectShader());
+        CompiledShaderProgram shader = IUIShaders.getBorderRoundRectShader();
         shader.safeGetUniform("Ratio").set(ratio);
         shader.safeGetUniform("Radius").set(radius);
         shader.safeGetUniform("BorderThickness").set(borderThickness);
@@ -126,7 +127,7 @@ public class IUIGraphicUtils {
         _blit(poseStack, x1, y1, x2, y2, u0, v0, u1, v1);
     }
     public static void _blit(PoseStack poseStack, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(CoreShaders.POSITION_TEX);
         BufferBuilder bufferbuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2, u0, v0, u1, v1);
     }
@@ -140,8 +141,8 @@ public class IUIGraphicUtils {
         _blitInUv(poseStack, x1, y1, x2, y2, u0, v0, u1, v1);
     }
     public static void _blitInUv(PoseStack poseStack, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
-        RenderSystem.setShader(IUIShaders::getPositionTexShader);
-        ShaderInstance shaderInstance = IUIShaders.getPositionTexShader();
+        RenderSystem.setShader(IUIShaders.getPositionTexShader());
+        CompiledShaderProgram shaderInstance = IUIShaders.getPositionTexShader();
         shaderInstance.safeGetUniform("uvCoords").set(u0, v0, u1, v1);
         BufferBuilder bufferbuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2, 0,1,1,0);
@@ -162,8 +163,8 @@ public class IUIGraphicUtils {
         _blur(poseStack, x1, y1, x2, y2, radius, u0, v0, u1, v1);
     }
     public static void _blur(PoseStack poseStack, float x1, float y1, float x2, float y2, float radius, float u0, float v0, float u1, float v1) {
-        RenderSystem.setShader(IUIShaders::getBlurShader);
-        ShaderInstance shaderInstance = IUIShaders.getBlurShader();
+        RenderSystem.setShader(IUIShaders.getBlurShader());
+        CompiledShaderProgram shaderInstance = IUIShaders.getBlurShader();
         shaderInstance.safeGetUniform("Radius").set(radius);
         BufferBuilder bufferbuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2, u0, v0, u1, v1);
@@ -228,8 +229,8 @@ public class IUIGraphicUtils {
         float y1 =  (y - outerRadius);
 
 
-        RenderSystem.setShader(IUIShaders::getRingShader);
-        ShaderInstance shader = IUIShaders.getRingShader();
+        RenderSystem.setShader(IUIShaders.getRingShader());
+        CompiledShaderProgram shader = IUIShaders.getRingShader();
         shader.safeGetUniform("innerRadius").set(innerRadius/outerRadius/2);
         shader.safeGetUniform("outerRadius").set(0.5f);
         shader.safeGetUniform("innerColor").set(IUIMathUtils.int2RGBA(innerColor));
@@ -249,8 +250,8 @@ public class IUIGraphicUtils {
         float x2 = x + radius;
         float y2 = y + radius;
         RenderSystem.setShaderTexture(0, resourceLocation);
-        RenderSystem.setShader(IUIShaders::getRoundShader);
-        ShaderInstance shader = IUIShaders.getRoundShader();
+        RenderSystem.setShader(IUIShaders.getRoundShader());
+        CompiledShaderProgram shader = IUIShaders.getRoundShader();
         shader.safeGetUniform("Smooth").set(smooth);
 
         RenderSystem.enableBlend();

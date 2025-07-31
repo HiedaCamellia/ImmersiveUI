@@ -4,8 +4,8 @@
         "srcrgb": "srcalpha",
         "dstrgb": "1-srcalpha"
     },
-    "vertex": "immersiveui:uv",
-    "fragment": "immersiveui:ring",
+    "vertex": "immersiveui:core/uv",
+    "fragment": "immersiveui:core/ring",
     "attributes": [
         "UV0"
     ],

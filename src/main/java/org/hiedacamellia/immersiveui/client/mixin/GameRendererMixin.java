@@ -15,16 +15,16 @@ public class GameRendererMixin {
 
     @Final
     @Shadow
-    Minecraft minecraft;
+    private Minecraft minecraft;
 
-    @Inject(method = "processBlurEffect(F)V",at = @At("HEAD"),cancellable = true)
-    private void processBlurEffect(float partialTick, CallbackInfo ci){
+    @Inject(method = "processBlurEffect()V",at = @At("HEAD"),cancellable = true)
+    private void processBlurEffect(CallbackInfo ci){
         float f = (float)this.minecraft.options.getMenuBackgroundBlurriness();
         if(ScreenTempTarget.BLUR_INSTANCE ==null)return;
         if(ScreenTempTarget.BLUR_INSTANCE.use){
             if (ScreenTempTarget.getBlurEffect() != null && f >= 1.0F) {
                 ScreenTempTarget.getBlurEffect().setUniform("Radius", f);
-                ScreenTempTarget.getBlurEffect().process(partialTick);
+                ScreenTempTarget.getBlurEffect().process(ScreenTempTarget.BLUR_INSTANCE,((GameRenderer)(Object)this).resourcePool);
                 ci.cancel();
             }
         }

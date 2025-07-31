@@ -5,7 +5,10 @@ import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.renderer.ShaderManager;
+import net.minecraft.client.renderer.ShaderProgram;
 import net.minecraft.world.phys.HitResult;
 
 /**
@@ -15,12 +18,40 @@ import net.minecraft.world.phys.HitResult;
 public class IUIMinecraftUtil {
 
     /**
+     * 获取当前的着色器程序。
+     *
+     * @param program 着色器程序实例
+     * @return 编译后的着色器程序
+     */
+    public static CompiledShaderProgram getShaderProgram(ShaderProgram program) {
+        return getShaderManager().getProgram(program);
+    }
+
+    /**
+     * 获取当前的着色器管理器。
+     *
+     * @return 着色器管理器实例
+     */
+    public static ShaderManager getShaderManager() {
+        return getMinecraft().getShaderManager();
+    }
+    
+    /**
+     * 获取当前的 Minecraft 客户端实例。
+     *
+     * @return Minecraft 实例
+     */
+    public static Minecraft getMinecraft() {
+        return Minecraft.getInstance();
+    }
+
+    /**
      * 获取 Minecraft 客户端的字体渲染器。
      *
      * @return 字体渲染器实例
      */
     public static Font getFont() {
-        return Minecraft.getInstance().font;
+        return getMinecraft().font;
     }
 
     /**
@@ -29,7 +60,7 @@ public class IUIMinecraftUtil {
      * @return 碰撞检测结果
      */
     public static HitResult getHit() {
-        return Minecraft.getInstance().hitResult;
+        return getMinecraft().hitResult;
     }
 
     /**
@@ -38,7 +69,7 @@ public class IUIMinecraftUtil {
      * @return 主渲染目标实例
      */
     public static RenderTarget getMainRenderTarget() {
-        return Minecraft.getInstance().getMainRenderTarget();
+        return getMinecraft().getMainRenderTarget();
     }
 
     /**
@@ -47,7 +78,7 @@ public class IUIMinecraftUtil {
      * @return 渲染缓冲区实例
      */
     public static RenderBuffers getRenderBuffers() {
-        return Minecraft.getInstance().renderBuffers();
+        return getMinecraft().renderBuffers();
     }
 
     /**
@@ -56,7 +87,7 @@ public class IUIMinecraftUtil {
      * @return 窗口实例
      */
     public static Window getWindow() {
-        return Minecraft.getInstance().getWindow();
+        return getMinecraft().getWindow();
     }
 
     /**
@@ -65,7 +96,7 @@ public class IUIMinecraftUtil {
      * @return 鼠标处理器实例
      */
     public static MouseHandler getMouseHandler() {
-        return Minecraft.getInstance().mouseHandler;
+        return getMinecraft().mouseHandler;
     }
 
     /**

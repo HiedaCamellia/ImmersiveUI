@@ -1,6 +1,6 @@
 {
-    "vertex": "immersiveui:uv",
-    "fragment": "immersiveui:position_tex",
+    "vertex": "immersiveui:core/uv",
+    "fragment": "immersiveui:core/position_tex",
     "samplers": [
         { "name": "Sampler0" }
     ],

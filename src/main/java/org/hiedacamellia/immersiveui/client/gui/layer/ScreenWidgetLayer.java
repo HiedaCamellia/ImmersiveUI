@@ -189,9 +189,9 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer {
             pose.pushPose();
 
             ScreenTempTarget.SCREEN_INSTANCE.setClearColor(0, 0, 0, 0);
-            ScreenTempTarget.SCREEN_INSTANCE.clear(ON_OSX);
+            ScreenTempTarget.SCREEN_INSTANCE.clear();
             ScreenTempTarget.BLUR_INSTANCE.setClearColor(0, 0, 0, 0);
-            ScreenTempTarget.BLUR_INSTANCE.clear(ON_OSX);
+            ScreenTempTarget.BLUR_INSTANCE.clear();
 
             RenderTarget mainRenderTarget = IUIMinecraftUtil.getMainRenderTarget();
 

@@ -124,7 +124,7 @@ public class QuoteEditBox extends EditBox {
         if (this.isVisible()) {
             if (this.isBordered()) {
                 ResourceLocation resourcelocation = SPRITES.get(this.isActive(), this.isFocused());
-                guiGraphics.blitSprite(resourcelocation, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                guiGraphics.blitSprite(RenderType::guiTextured, resourcelocation, this.getX(), this.getY(), this.getWidth(), this.getHeight());
             }
 
             int l1 = this.isEditable ? this.textColor : this.textColorUneditable;
