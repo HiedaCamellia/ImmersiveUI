@@ -19,7 +19,7 @@ import org.lwjgl.glfw.GLFW;
  * IUIClientGameEvent 是一个客户端事件处理类。
  * 它监听并处理与客户端相关的各种事件，例如键盘输入、鼠标操作和屏幕事件。
  */
-@EventBusSubscriber(modid = ImmersiveUI.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = ImmersiveUI.MODID, value = Dist.CLIENT)
 public class IUIClientGameEvent {
 
     /**

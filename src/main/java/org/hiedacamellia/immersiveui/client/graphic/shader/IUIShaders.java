@@ -27,7 +27,7 @@ import java.util.Objects;
  * 它负责注册和提供各种着色器实例，用于渲染不同的图形效果。
  */
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(value = Dist.CLIENT, modid = ImmersiveUI.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ImmersiveUI.MODID)
 public class IUIShaders {
 
     /** 圆角矩形着色器实例。 */

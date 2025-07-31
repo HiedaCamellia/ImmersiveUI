@@ -8,7 +8,7 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import org.hiedacamellia.immersiveui.client.gui.layer.ScreenWidgetLayer;
 import org.hiedacamellia.immersiveui.client.gui.layer.World2ScreenWidgetLayer;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class IUILayer {
     @SubscribeEvent
     public static void registerOverlay(RegisterGuiLayersEvent event) {

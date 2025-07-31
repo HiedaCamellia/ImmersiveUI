@@ -14,7 +14,7 @@ import org.lwjgl.glfw.GLFW;
  * 它监听键盘输入事件，并在特定按键被按下时打开调试屏幕。
  */
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class IUIClientDebugEvent {
 
     /**
