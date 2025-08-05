@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.util;
+package org.hiedacamellia.immersiveui.client.util;
 
 /**
  * CapturableMouseHandler 是一个接口，用于处理可捕获的鼠标操作。

@@ -20,6 +20,11 @@ public class IUIClientConfig {
             .comment("\u8bbe\u7f6e\u4e3atrue\u4ee5\u542f\u7528\u8c03\u8bd5\u4fe1\u606f") // 中文注释
             .define("debug", false);
 
+    public static final ModConfigSpec.DoubleValue RENDER_SCALE = BUILDER
+            .comment("Set the render scale for the UI, default is 1.0") // 英文注释
+            .comment("设置IUI的渲染缩放倍率") // 中文注释
+            .defineInRange("render_scale", 1.0, 0.1, 10.0); // 定义渲染缩放范围为0.1到10
+
     /** 配置规范实例，用于存储所有定义的配置选项。 */
     public static final ModConfigSpec SPEC = BUILDER.build();
 

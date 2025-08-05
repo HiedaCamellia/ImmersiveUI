@@ -1,7 +1,6 @@
-package org.hiedacamellia.immersiveui.util;
+package org.hiedacamellia.immersiveui.client.util;
 
-import net.minecraft.client.Minecraft;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
 
 /**
  * MouseCaptureUtil 是一个便捷的工具类，用于处理没有屏幕的鼠标捕获操作。
@@ -22,7 +21,7 @@ public class MouseCaptureUtil {
 	 * @return 当前的 {@link CapturableMouseHandler} 实例
 	 */
 	private static CapturableMouseHandler getHandler() {
-		return (CapturableMouseHandler) IUIMinecraftUtil.getMouseHandler();
+		return (CapturableMouseHandler) IUIMinecraftUtils.getMouseHandler();
 	}
 
 	/**

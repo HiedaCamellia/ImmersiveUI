@@ -2,8 +2,7 @@ package org.hiedacamellia.immersiveui.client.gui.component.widget.editbox;
 
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
 
 /**
  * NumberEditBox 是一个扩展自 EditBox 的文本框组件，
@@ -21,7 +20,7 @@ public class NumberEditBox extends EditBox {
      * @param message 文本框的提示信息
      */
     public NumberEditBox(int x, int y, int width, int height, Component message) {
-        super(IUIMinecraftUtil.getFont(), x, y, width, height, message);
+        super(IUIMinecraftUtils.getFont(), x, y, width, height, message);
     }
 
     /**

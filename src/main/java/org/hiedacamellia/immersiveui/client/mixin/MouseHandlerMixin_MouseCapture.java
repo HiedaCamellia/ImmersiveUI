@@ -2,7 +2,7 @@ package org.hiedacamellia.immersiveui.client.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
-import org.hiedacamellia.immersiveui.util.CapturableMouseHandler;
+import org.hiedacamellia.immersiveui.client.util.CapturableMouseHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

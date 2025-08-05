@@ -125,37 +125,37 @@ public class IUIGuiUtils{
     }
 
     public static void drawCenteredString(GuiGraphics guiGraphics, String text, float x, float y, int color,boolean dropShadow) {
-        drawCenteredString(guiGraphics, IUIMinecraftUtil.getFont(), text, x, y, color, dropShadow);
+        drawCenteredString(guiGraphics, IUIMinecraftUtils.getFont(), text, x, y, color, dropShadow);
     }
     public static void drawCenteredString(GuiGraphics guiGraphics,Font font, String text, float x, float y, int color,boolean dropShadow) {
         drawString(guiGraphics,font, text, x - (float) font.width(text) / 2, y- (float) font.lineHeight /2, color,dropShadow);
     }
     public static void drawCenteredString(GuiGraphics guiGraphics, Component component, float x, float y, int color,boolean dropShadow) {
-        drawCenteredString(guiGraphics, IUIMinecraftUtil.getFont(), component, x, y, color, dropShadow);
+        drawCenteredString(guiGraphics, IUIMinecraftUtils.getFont(), component, x, y, color, dropShadow);
     }
     public static void drawCenteredString(GuiGraphics guiGraphics,Font font, Component component, float x, float y, int color,boolean dropShadow) {
         drawString(guiGraphics,font, component, x - (float) font.width(component) / 2, y- (float) font.lineHeight /2, color,dropShadow);
     }
     public static void drawCenteredString(GuiGraphics guiGraphics, FormattedCharSequence charSequence, float x, float y, int color,boolean dropShadow) {
-        drawCenteredString(guiGraphics, IUIMinecraftUtil.getFont(), charSequence, x, y, color, dropShadow);
+        drawCenteredString(guiGraphics, IUIMinecraftUtils.getFont(), charSequence, x, y, color, dropShadow);
     }
     public static void drawCenteredString(GuiGraphics guiGraphics,Font font, FormattedCharSequence charSequence, float x, float y, int color,boolean dropShadow) {
         drawString(guiGraphics,font, charSequence, x - (float) font.width(charSequence) / 2, y- (float) font.lineHeight /2, color,dropShadow);
     }
     public static int drawString(GuiGraphics guiGraphics, FormattedCharSequence charSequence, float x, float y, int color,boolean dropShadow) {
-        return drawString(guiGraphics,IUIMinecraftUtil.getFont(), charSequence, x, y, color, dropShadow);
+        return drawString(guiGraphics, IUIMinecraftUtils.getFont(), charSequence, x, y, color, dropShadow);
     }
     public static int drawString(GuiGraphics guiGraphics,Font font, FormattedCharSequence charSequence, float x, float y, int color,boolean dropShadow) {
         return guiGraphics.drawString(font, charSequence, x, y, color, dropShadow);
     }
     public static int drawString(GuiGraphics guiGraphics, Component component, float x, float y, int color,boolean dropShadow) {
-        return drawString(guiGraphics,IUIMinecraftUtil.getFont(), component, x, y, color, dropShadow);
+        return drawString(guiGraphics, IUIMinecraftUtils.getFont(), component, x, y, color, dropShadow);
     }
     public static int drawString(GuiGraphics guiGraphics,Font font, Component component, float x, float y, int color,boolean dropShadow) {
         return font.drawInBatch(component, x, y, color, dropShadow, guiGraphics.pose().last().pose(), guiGraphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
     public static int drawString(GuiGraphics guiGraphics, @Nullable String text, float x, float y, int color,boolean dropShadow) {
-        return drawString(guiGraphics,IUIMinecraftUtil.getFont(), text, x, y, color, dropShadow);
+        return drawString(guiGraphics, IUIMinecraftUtils.getFont(), text, x, y, color, dropShadow);
     }
     public static int drawString(GuiGraphics guiGraphics,Font font, @Nullable String text, float x, float y, int color,boolean dropShadow) {
         return guiGraphics.drawString(font, text, x, y, color, dropShadow);

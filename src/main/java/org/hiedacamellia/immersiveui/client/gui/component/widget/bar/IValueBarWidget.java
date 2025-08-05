@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
 
 import java.text.DecimalFormat;
 
@@ -63,7 +63,7 @@ public interface IValueBarWidget extends IBarWidget {
      * @return 字体对象
      */
     default Font getFont() {
-        return IUIMinecraftUtil.getFont();
+        return IUIMinecraftUtils.getFont();
     }
 
     /**
