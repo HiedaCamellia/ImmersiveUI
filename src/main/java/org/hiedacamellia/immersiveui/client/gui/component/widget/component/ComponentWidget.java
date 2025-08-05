@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractStringWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
 
 /**
  * ComponentWidget 是一个自定义的 GUI 组件，继承自 AbstractStringWidget。
@@ -14,7 +14,7 @@ import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
 public class ComponentWidget extends AbstractStringWidget {
 
     // 静态字体实例，用于渲染文本
-    protected static final Font font = IUIMinecraftUtil.getFont();
+    protected static final Font font = IUIMinecraftUtils.getFont();
     // 要显示的文本组件
     protected Component component;
     // 是否启用文本阴影

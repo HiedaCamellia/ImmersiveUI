@@ -17,8 +17,8 @@ import org.hiedacamellia.immersiveui.ImmersiveUI;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGraphicUtils;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
-import org.hiedacamellia.immersiveui.util.MouseCaptureUtil;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
+import org.hiedacamellia.immersiveui.client.util.MouseCaptureUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -59,9 +59,9 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer {
      */
     public void setScreen(@NotNull Screen screen) {
         this.screen = screen;
-        this.screen.init(Minecraft.getInstance(), IUIMinecraftUtil.getGuiScaledWidth(), IUIMinecraftUtil.getGuiScaledHeight());
-        mouseX = IUIMinecraftUtil.getGuiScaledCenterX();
-        mouseY = IUIMinecraftUtil.getGuiScaledCenterY();
+        this.screen.init(Minecraft.getInstance(), IUIMinecraftUtils.getGuiScaledWidth(), IUIMinecraftUtils.getGuiScaledHeight());
+        mouseX = IUIMinecraftUtils.getGuiScaledCenterX();
+        mouseY = IUIMinecraftUtils.getGuiScaledCenterY();
         MouseCaptureUtil.startMouseCapture();
     }
 
@@ -121,8 +121,8 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer {
      * @param mouseY 鼠标 Y 坐标的增量
      */
     public void addPos(double mouseX, double mouseY) {
-        this.mouseX = Mth.clamp(this.mouseX + mouseX, 0, IUIMinecraftUtil.getGuiScaledWidth());
-        this.mouseY = Mth.clamp(this.mouseY + mouseY, 0, IUIMinecraftUtil.getGuiScaledHeight());
+        this.mouseX = Mth.clamp(this.mouseX + mouseX, 0, IUIMinecraftUtils.getGuiScaledWidth());
+        this.mouseY = Mth.clamp(this.mouseY + mouseY, 0, IUIMinecraftUtils.getGuiScaledHeight());
     }
 
     /**
@@ -175,8 +175,8 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer {
         }
 
         if (screen != null) {
-            int w = IUIMinecraftUtil.getGuiScaledWidth();
-            int h = IUIMinecraftUtil.getGuiScaledHeight();
+            int w = IUIMinecraftUtils.getGuiScaledWidth();
+            int h = IUIMinecraftUtils.getGuiScaledHeight();
 
             double andResetCapturedDeltaX = MouseCaptureUtil.getAndResetCapturedDeltaX();
             double andResetCapturedDeltaY = MouseCaptureUtil.getAndResetCapturedDeltaY();
@@ -193,7 +193,7 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer {
             ScreenTempTarget.BLUR_INSTANCE.setClearColor(0, 0, 0, 0);
             ScreenTempTarget.BLUR_INSTANCE.clear();
 
-            RenderTarget mainRenderTarget = IUIMinecraftUtil.getMainRenderTarget();
+            RenderTarget mainRenderTarget = IUIMinecraftUtils.getMainRenderTarget();
 
             mainRenderTarget.unbindWrite();
             ScreenTempTarget.BLUR_INSTANCE.bindWrite(true);

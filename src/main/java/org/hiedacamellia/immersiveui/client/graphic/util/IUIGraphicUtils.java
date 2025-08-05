@@ -171,43 +171,43 @@ public class IUIGraphicUtils {
     }
 
     public static void drawCenteredString(PoseStack poseStack, String text, float x, float y, int color,boolean dropShadow) {
-        drawCenteredString(poseStack, IUIMinecraftUtil.getFont(), text, x, y, color, dropShadow);
+        drawCenteredString(poseStack, IUIMinecraftUtils.getFont(), text, x, y, color, dropShadow);
     }
     public static void drawCenteredString(PoseStack poseStack,Font font, String text, float x, float y, int color,boolean dropShadow) {
         drawString(poseStack,font, text, x - (float) font.width(text) / 2, y- (float) font.lineHeight /2, color,dropShadow);
     }
     public static void drawCenteredString(PoseStack poseStack, Component component, float x, float y, int color,boolean dropShadow) {
-        drawCenteredString(poseStack, IUIMinecraftUtil.getFont(), component, x, y, color, dropShadow);
+        drawCenteredString(poseStack, IUIMinecraftUtils.getFont(), component, x, y, color, dropShadow);
     }
     public static void drawCenteredString(PoseStack poseStack,Font font, Component component, float x, float y, int color,boolean dropShadow) {
         drawString(poseStack,font, component, x - (float) font.width(component) / 2, y- (float) font.lineHeight /2, color,dropShadow);
     }
     public static void drawCenteredString(PoseStack poseStack, FormattedCharSequence charSequence, float x, float y, int color,boolean dropShadow) {
-        drawCenteredString(poseStack, IUIMinecraftUtil.getFont(), charSequence, x, y, color, dropShadow);
+        drawCenteredString(poseStack, IUIMinecraftUtils.getFont(), charSequence, x, y, color, dropShadow);
     }
     public static void drawCenteredString(PoseStack poseStack,Font font, FormattedCharSequence text, float x, float y, int color,boolean dropShadow) {
         drawString(poseStack,font, text, x - (float) font.width(text) / 2, y- (float) font.lineHeight /2, color,dropShadow);
     }
     public static int drawString(PoseStack poseStack, FormattedCharSequence charSequence, float x, float y, int color,boolean dropShadow) {
-        return drawString(poseStack,IUIMinecraftUtil.getFont(), charSequence, x, y, color, dropShadow);
+        return drawString(poseStack, IUIMinecraftUtils.getFont(), charSequence, x, y, color, dropShadow);
     }
     public static int drawString(PoseStack poseStack,Font font, @Nullable String text, float x, float y, int color,boolean dropShadow) {
         if (text == null || text.isEmpty()) {
             return 0;
         }
-        return font.drawInBatch(text, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtil.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
+        return font.drawInBatch(text, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtils.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
     public static int drawString(PoseStack poseStack, Component component, float x, float y, int color,boolean dropShadow) {
-        return drawString(poseStack,IUIMinecraftUtil.getFont(), component, x, y, color, dropShadow);
+        return drawString(poseStack, IUIMinecraftUtils.getFont(), component, x, y, color, dropShadow);
     }
     public static int drawString(PoseStack poseStack, Font font, FormattedCharSequence charSequence, float x, float y, int color, boolean dropShadow) {
-        return font.drawInBatch(charSequence, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtil.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
+        return font.drawInBatch(charSequence, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtils.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
     public static int drawString(PoseStack poseStack, @Nullable String text, float x, float y, int color, boolean dropShadow) {
-        return drawString(poseStack,IUIMinecraftUtil.getFont(), text, x, y, color, dropShadow);
+        return drawString(poseStack, IUIMinecraftUtils.getFont(), text, x, y, color, dropShadow);
     }
     public static int drawString(PoseStack poseStack, Font font, Component component, float x, float y, int color, boolean dropShadow) {
-        return font.drawInBatch(component, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtil.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
+        return font.drawInBatch(component, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtils.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
 
     public static void drawRing(PoseStack poseStack, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color) {

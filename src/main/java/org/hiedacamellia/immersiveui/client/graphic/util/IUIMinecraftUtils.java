@@ -15,7 +15,7 @@ import net.minecraft.world.phys.HitResult;
  * IUIMinecraftUtil 是一个工具类，提供了对 Minecraft 客户端实例的常用方法封装。
  * 这些方法用于获取字体、渲染目标、窗口信息以及鼠标处理器等。
  */
-public class IUIMinecraftUtil {
+public class IUIMinecraftUtils {
 
     /**
      * 获取当前的着色器程序。
@@ -106,6 +106,15 @@ public class IUIMinecraftUtil {
      */
     public static double getGuiScale() {
         return getWindow().getGuiScale();
+    }
+
+    /**
+     * 设置 GUI 的缩放比例。
+     *
+     * @param scaleFactor 缩放比例
+     */
+    public void setGuiScale(double scaleFactor) {
+        getWindow().setGuiScale(scaleFactor);
     }
 
     /**
