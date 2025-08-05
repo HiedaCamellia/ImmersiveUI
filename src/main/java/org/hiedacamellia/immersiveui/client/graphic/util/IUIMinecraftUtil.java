@@ -149,8 +149,8 @@ public class IUIMinecraftUtil {
      *
      * @return 屏幕宽度
      */
-    public static int screenWidth() {
-        return getWindow().getGuiScaledWidth();
+    public static int getWidth() {
+        return getWindow().getWidth();
     }
 
     /**
@@ -158,8 +158,8 @@ public class IUIMinecraftUtil {
      *
      * @return 屏幕高度
      */
-    public static int screenHeight() {
-        return getWindow().getGuiScaledHeight();
+    public static int getHeight() {
+        return getWindow().getHeight();
     }
 
     /**
@@ -167,8 +167,8 @@ public class IUIMinecraftUtil {
      *
      * @return 屏幕中心 X 坐标
      */
-    public static int screenCenterX() {
-        return screenWidth() / 2;
+    public static int getCenterX() {
+        return getWidth() / 2;
     }
 
     /**
@@ -176,7 +176,7 @@ public class IUIMinecraftUtil {
      *
      * @return 屏幕中心 Y 坐标
      */
-    public static int screenCenterY() {
-        return screenHeight() / 2;
+    public static int getCenterY() {
+        return getHeight() / 2;
     }
 }

@@ -59,9 +59,9 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer {
      */
     public void setScreen(@NotNull Screen screen) {
         this.screen = screen;
-        this.screen.init(Minecraft.getInstance(), IUIMinecraftUtil.screenWidth(), IUIMinecraftUtil.screenHeight());
-        mouseX = IUIMinecraftUtil.screenCenterX();
-        mouseY = IUIMinecraftUtil.screenCenterY();
+        this.screen.init(Minecraft.getInstance(), IUIMinecraftUtil.getGuiScaledWidth(), IUIMinecraftUtil.getGuiScaledHeight());
+        mouseX = IUIMinecraftUtil.getGuiScaledCenterX();
+        mouseY = IUIMinecraftUtil.getGuiScaledCenterY();
         MouseCaptureUtil.startMouseCapture();
     }
 
@@ -175,8 +175,8 @@ public class ScreenWidgetLayer implements LayeredDraw.Layer {
         }
 
         if (screen != null) {
-            int w = IUIMinecraftUtil.screenWidth();
-            int h = IUIMinecraftUtil.screenHeight();
+            int w = IUIMinecraftUtil.getGuiScaledWidth();
+            int h = IUIMinecraftUtil.getGuiScaledHeight();
 
             double andResetCapturedDeltaX = MouseCaptureUtil.getAndResetCapturedDeltaX();
             double andResetCapturedDeltaY = MouseCaptureUtil.getAndResetCapturedDeltaY();
