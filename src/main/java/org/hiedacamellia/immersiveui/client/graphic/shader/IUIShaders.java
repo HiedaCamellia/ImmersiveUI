@@ -11,7 +11,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -80,7 +80,7 @@ public class IUIShaders {
      * @throws NullPointerException 如果着色器尚未加载完成
      */
     public static CompiledShaderProgram getRoundRectShader() {
-        return Objects.requireNonNull(IUIMinecraftUtil.getShaderProgram(roundRect), "Round Rect Shader not loaded");
+        return Objects.requireNonNull(IUIMinecraftUtils.getShaderProgram(roundRect), "Round Rect Shader not loaded");
     }
 
     /**
@@ -90,7 +90,7 @@ public class IUIShaders {
      * @throws NullPointerException 如果着色器尚未加载完成
      */
     public static CompiledShaderProgram getBorderRoundRectShader() {
-        return Objects.requireNonNull(IUIMinecraftUtil.getShaderProgram(borderRoundRect), "Border Round Rect Shader not loaded");
+        return Objects.requireNonNull(IUIMinecraftUtils.getShaderProgram(borderRoundRect), "Border Round Rect Shader not loaded");
     }
 
     /**
@@ -100,7 +100,7 @@ public class IUIShaders {
      * @throws NullPointerException 如果着色器尚未加载完成
      */
     public static CompiledShaderProgram getPositionTexShader() {
-        return Objects.requireNonNull(IUIMinecraftUtil.getShaderProgram(positionTexShader), "Position Tex Shader not loaded");
+        return Objects.requireNonNull(IUIMinecraftUtils.getShaderProgram(positionTexShader), "Position Tex Shader not loaded");
     }
 
     /**
@@ -110,7 +110,7 @@ public class IUIShaders {
      * @throws NullPointerException 如果着色器尚未加载完成
      */
     public static CompiledShaderProgram getBlurShader() {
-        return Objects.requireNonNull(IUIMinecraftUtil.getShaderProgram(blurShader), "Blur Shader not loaded");
+        return Objects.requireNonNull(IUIMinecraftUtils.getShaderProgram(blurShader), "Blur Shader not loaded");
     }
 
     /**
@@ -120,7 +120,7 @@ public class IUIShaders {
      * @throws NullPointerException 如果着色器尚未加载完成
      */
     public static CompiledShaderProgram getRingShader() {
-        return Objects.requireNonNull(IUIMinecraftUtil.getShaderProgram(ringShader), "Ring Shader not loaded");
+        return Objects.requireNonNull(IUIMinecraftUtils.getShaderProgram(ringShader), "Ring Shader not loaded");
     }
 
     /**
@@ -130,7 +130,7 @@ public class IUIShaders {
      * @throws NullPointerException 如果着色器尚未加载完成
      */
     public static CompiledShaderProgram getRoundShader() {
-        return Objects.requireNonNull(IUIMinecraftUtil.getShaderProgram(roundShader), "Round Shader not loaded");
+        return Objects.requireNonNull(IUIMinecraftUtils.getShaderProgram(roundShader), "Round Shader not loaded");
     }
 
     /**
@@ -140,7 +140,7 @@ public class IUIShaders {
      * @throws NullPointerException 如果着色器尚未加载完成
      */
     public static CompiledShaderProgram getBorderRectShader() {
-        return Objects.requireNonNull(IUIMinecraftUtil.getShaderProgram(borderRect), "Border Rect Shader not loaded");
+        return Objects.requireNonNull(IUIMinecraftUtils.getShaderProgram(borderRect), "Border Rect Shader not loaded");
     }
 
     /**

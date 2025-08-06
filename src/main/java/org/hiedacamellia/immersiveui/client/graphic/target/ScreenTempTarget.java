@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtil;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
 
 import java.util.Set;
 
@@ -55,6 +55,6 @@ public class ScreenTempTarget extends RenderTarget {
      * @return 模糊效果的 PostChain 实例
      */
     public static PostChain getBlurEffect() {
-        return IUIMinecraftUtil.getShaderManager().getPostChain(ResourceLocation.withDefaultNamespace("blur"), Set.of(BLUR_INSTANCE_ID));
+        return IUIMinecraftUtils.getShaderManager().getPostChain(ResourceLocation.withDefaultNamespace("blur"), Set.of(BLUR_INSTANCE_ID));
     }
 }
