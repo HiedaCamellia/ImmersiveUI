@@ -14,9 +14,30 @@ import org.hiedacamellia.immersiveui.client.graphic.util.IUIMathUtils;
  */
 public abstract class AbstractToastWidget extends AbstractWidget implements IToastWidget {
 
-    protected float timeout; // Toast 的超时时间（以秒为单位）
-    protected float count = 0; // 当前计数器，用于跟踪显示时间
     protected boolean fadeIn; // 是否启用淡入淡出效果
+
+    protected long startTime = 0; // 动画开始时间
+    protected long duration = 500; // 动画持续时间
+
+    @Override
+    public long getAnimationStartTime() {
+        return this.startTime;
+    }
+
+    @Override
+    public void setAnimationStartTime(long time) {
+        this.startTime = time;
+    }
+
+    @Override
+    public long getAnimationDuration() {
+        return this.duration;
+    }
+
+    @Override
+    public void setAnimationDuration(long duration) {
+        this.duration = duration;
+    }
 
     /**
      * 构造一个 AbstractToastWidget 实例。
@@ -41,11 +62,7 @@ public abstract class AbstractToastWidget extends AbstractWidget implements IToa
     protected float getAlpha() {
         float alpha = 1.0f;
         if (fadeIn) {
-            if (count < timeout * 0.5f) {
-                alpha = IUIMathUtils.smoothStep(0, timeout * 0.1f, count);
-            } else {
-                alpha = 1 - IUIMathUtils.smoothStep(timeout * 0.9f, timeout, count);
-            }
+            alpha = IUIMathUtils.smoothPulse(getElapsedTime(), duration, 0.1f, 0.1f);
         }
         return alpha;
     }
@@ -61,10 +78,10 @@ public abstract class AbstractToastWidget extends AbstractWidget implements IToa
      */
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        if (count > timeout) return;
+        if (isAnimationEnd()) return;
         if (getMessage().getString().isEmpty()) return;
 
-        count += partialTick;
+
         PoseStack pose = guiGraphics.pose();
         pose.pushPose();
         pose.translate(0, 0, 1000.0);
@@ -90,13 +107,4 @@ public abstract class AbstractToastWidget extends AbstractWidget implements IToa
         // 未实现旁白更新逻辑
     }
 
-    /**
-     * 设置 Toast 的超时时间。
-     *
-     * @param timeout 超时时间（以秒为单位）
-     */
-    @Override
-    public void setTimeout(float timeout) {
-        this.timeout = timeout;
-    }
 }

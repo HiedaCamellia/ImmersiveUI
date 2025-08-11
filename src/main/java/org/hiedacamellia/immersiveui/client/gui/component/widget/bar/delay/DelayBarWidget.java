@@ -4,13 +4,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.animate.IAnimatable;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseBarWidget;
 
 /**
  * DelayBarWidget 是一个带有延迟效果的进度条组件，继承自 BaseBarWidget。
  * 它支持在进度变化时添加延迟动画，并根据进度增加或减少显示不同的颜色。
  */
-public class DelayBarWidget extends BaseBarWidget {
+public class DelayBarWidget extends BaseBarWidget implements IAnimatable {
 
     // 进度增加时的颜色
     protected int delayIncreaseColor = 0xFFFF1111;
@@ -46,7 +47,7 @@ public class DelayBarWidget extends BaseBarWidget {
      * @param delay 延迟时间（毫秒）
      */
     public void setDelay(long delay) {
-        this.delay = delay;
+        setAnimationDuration(delay);
     }
 
     /**
@@ -94,32 +95,7 @@ public class DelayBarWidget extends BaseBarWidget {
     public void setProgress(float progress) {
         targetProgress = Mth.clamp(progress, 0, 1);
         startProgress = this.progress;
-        delayStartTime = System.currentTimeMillis();
-    }
-
-    /**
-     * 执行延迟动画逻辑，逐步更新当前进度值。
-     */
-    protected void runDelay() {
-        long currentTime = System.currentTimeMillis();
-        if (delayStartTime == 0) {
-            return; // 没有延迟动画
-        }
-        long elapsedTime = currentTime - delayStartTime;
-        float progressDelta = (elapsedTime / (float) delay);
-        if (isIncrease()) {
-            progress = Mth.lerp(progressDelta, startProgress, targetProgress);
-            if (progress >= targetProgress) {
-                progress = targetProgress;
-                delayStartTime = 0; // 重置延迟
-            }
-        } else if (isDecrease()) {
-            progress = Mth.lerp(progressDelta, startProgress, targetProgress);
-            if (progress <= targetProgress) {
-                progress = targetProgress;
-                delayStartTime = 0; // 重置延迟
-            }
-        }
+        startAnimation();
     }
 
     /**
@@ -132,7 +108,7 @@ public class DelayBarWidget extends BaseBarWidget {
      */
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int i, int i1, float v) {
-        runDelay();
+        runningTime();
         super.renderWidget(guiGraphics, i, i1, v);
     }
 
@@ -186,6 +162,45 @@ public class DelayBarWidget extends BaseBarWidget {
                 } else {
                     IUIGuiUtils.fill(guiGraphics, getX() + (width * targetProgress), getY(), (width * (progress - targetProgress)), height, delayDecreaseColor);
                 }
+            }
+        }
+    }
+
+    @Override
+    public long getAnimationStartTime() {
+        return this.delayStartTime;
+    }
+
+    @Override
+    public void setAnimationStartTime(long time) {
+        this.delayStartTime = time;
+    }
+
+    @Override
+    public long getAnimationDuration() {
+        return this.delay;
+    }
+
+    @Override
+    public void setAnimationDuration(long duration) {
+        this.delay = duration;
+    }
+
+    @Override
+    public void runningTime() {
+        if (isAnimationEnd()) {
+            return; // 没有延迟动画
+        }
+        float progressDelta = getElapsedRatio();
+        if (isIncrease()) {
+            progress = Mth.lerp(progressDelta, startProgress, targetProgress);
+            if (progress >= targetProgress) {
+                progress = targetProgress;
+            }
+        } else if (isDecrease()) {
+            progress = Mth.lerp(progressDelta, startProgress, targetProgress);
+            if (progress <= targetProgress) {
+                progress = targetProgress;
             }
         }
     }
