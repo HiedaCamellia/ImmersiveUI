@@ -22,20 +22,19 @@ public class ComponentToastWidget extends AbstractToastWidget {
      * @param time    Toast 的显示时间（以秒为单位）
      * @param message Toast 显示的消息
      */
-    public ComponentToastWidget(int x, int y, int width, int height, float time, Component message) {
+    public ComponentToastWidget(int x, int y, int width, int height, long time, Component message) {
         super(x - width / 2, y - height / 2, width, height, message);
         this.setTimeout(time);
     }
 
     /**
-     * 重置 Toast 的消息内容。
-     * 如果当前计数超过超时时间，则重置计数并更新消息。
+     * 等待或更新 Toast 的消息。
+     * 如果当前时间超过了设置的超时时间，则重置时间。
      *
      * @param message 新的消息内容
      */
-    public void reset(Component message) {
-        if (count > timeout)
-            count = 0;
+    public void waitOrUpdate(Component message) {
+        waitOrUpdate();
         this.setMessage(message);
     }
 
@@ -59,4 +58,5 @@ public class ComponentToastWidget extends AbstractToastWidget {
         IUIGuiUtils.drawCenteredString(guiGraphics, Minecraft.getInstance().font, getMessage(), 0, 0, 0xFFFFFFFF, false);
 
     }
+
 }

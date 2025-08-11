@@ -14,7 +14,7 @@ import org.lwjgl.glfw.GLFW;
  */
 public class FakeItemSlot extends FakeSlot {
 
-    private ItemStackHolder holder = new ItemStackHolder(); // 持有物品堆的对象
+    private final ItemStackHolder holder = new ItemStackHolder(); // 持有物品堆的对象
     private boolean showDecoration = false; // 是否显示装饰效果
 
     /**

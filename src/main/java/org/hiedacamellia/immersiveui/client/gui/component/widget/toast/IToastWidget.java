@@ -1,19 +1,26 @@
 package org.hiedacamellia.immersiveui.client.gui.component.widget.toast;
 
 import net.minecraft.client.gui.GuiGraphics;
+import org.hiedacamellia.immersiveui.client.animate.IAnimatable;
 
 /**
  * IToastWidget 是一个接口，定义了用于显示和管理自定义 Toast 组件的基本方法。
  */
-public interface IToastWidget {
+public interface IToastWidget extends IAnimatable {
 
     /**
      * 设置 Toast 的超时时间。
      *
-     * @param timeout 超时时间（以秒为单位）
+     * @param timeout 超时时间 (以毫秒为单位)
      */
-    void setTimeout(float timeout);
+    default void setTimeout(long timeout){
+        setAnimationDuration(timeout);
+    }
 
+    default void waitOrUpdate(){
+        if (isAnimationEnd())
+            setAnimationStartTime(System.currentTimeMillis());
+    }
     /**
      * 渲染 Toast 组件。
      *

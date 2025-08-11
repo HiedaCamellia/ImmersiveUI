@@ -1,4 +1,4 @@
-package org.hiedacamellia.immersiveui.client.gui.component.widget;
+package org.hiedacamellia.immersiveui.client.gui.component.widget.list;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

@@ -24,13 +24,13 @@ public class ItemPriceWidget extends AbstractContainerWidget {
     private static final int width = 120; // 组件的宽度
     private static final int height = 20; // 组件的高度
 
-    private FakeItemSlot slot1; // 第一个物品槽
-    private FakeItemSlot slot2; // 第二个物品槽
-    private NumberEditBox editBox1; // 第一个数值输入框
-    private NumberEditBox editBox2; // 第二个数值输入框
-    private ComponentWidget componentWidget; // 等号组件
+    private final FakeItemSlot slot1; // 第一个物品槽
+    private final FakeItemSlot slot2; // 第二个物品槽
+    private final NumberEditBox editBox1; // 第一个数值输入框
+    private final NumberEditBox editBox2; // 第二个数值输入框
+    private final ComponentWidget componentWidget; // 等号组件
 
-    private LinearLayout layout; // 用于管理子组件的布局
+    private final LinearLayout layout; // 用于管理子组件的布局
 
     /**
      * 使用默认参数构造一个 ItemPriceWidget 实例。

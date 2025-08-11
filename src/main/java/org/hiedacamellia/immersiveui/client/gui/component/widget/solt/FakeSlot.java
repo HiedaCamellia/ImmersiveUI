@@ -9,13 +9,14 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import org.hiedacamellia.immersiveui.client.graphic.util.IUIGuiUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMinecraftUtils;
 
 /**
  * FakeSlot 是一个自定义的 GUI 组件，表示一个虚拟的物品槽。
  * 它支持渲染背景和提示信息，并提供基本的交互功能。
  */
 public class FakeSlot extends AbstractWidget {
-    private static final Font font = Minecraft.getInstance().font; // 字体对象，用于渲染文本
+    private static final Font font = IUIMinecraftUtils.getFont(); // 字体对象，用于渲染文本
 
     /**
      * 设置是否渲染背景。

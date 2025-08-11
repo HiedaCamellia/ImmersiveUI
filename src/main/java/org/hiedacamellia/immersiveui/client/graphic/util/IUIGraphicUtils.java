@@ -3,7 +3,9 @@ package org.hiedacamellia.immersiveui.client.graphic.util;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -256,6 +258,66 @@ public class IUIGraphicUtils {
         RenderSystem.enableBlend();
         BufferBuilder bufferbuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2);
+    }
+
+    public static void hLine(PoseStack poseStack, float minX, float maxX, float minY, float maxY, int color) {
+        if (maxX < minX) {
+            float i = minX;
+            minX = maxX;
+            maxX = i;
+        }
+        if (maxY < minY) {
+            float i = minY;
+            minY = maxY;
+            maxY = i;
+        }
+        Matrix4f matrix4f = poseStack.last().pose();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        BufferBuilder bufferBuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        bufferBuilder.addVertex(matrix4f, minX, minY, 0).setColor(color);
+        bufferBuilder.addVertex(matrix4f, maxX, maxY, 0).setColor(color);
+        bufferBuilder.addVertex(matrix4f, maxX + 1, maxY, 0).setColor(color);
+        bufferBuilder.addVertex(matrix4f, minX+1, minY, 0).setColor(color);
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+    }
+
+    public static void vLine(PoseStack poseStack, float minX, float maxX, float minY, float maxY, int color) {
+        if (maxX < minX) {
+            float i = minX;
+            minX = maxX;
+            maxX = i;
+        }
+        if (maxY < minY) {
+            float i = minY;
+            minY = maxY;
+            maxY = i;
+        }
+        Matrix4f matrix4f = poseStack.last().pose();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        BufferBuilder bufferBuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        bufferBuilder.addVertex(matrix4f, minX, minY + 1, 0).setColor(color);
+        bufferBuilder.addVertex(matrix4f, maxX, maxY + 1, 0).setColor(color);
+        bufferBuilder.addVertex(matrix4f, maxX, maxY, 0).setColor(color);
+        bufferBuilder.addVertex(matrix4f, minX, minY, 0).setColor(color);
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+    }
+
+    public static void hLine(PoseStack poseStack, float minX, float maxX, float y, int color) {
+        if (maxX < minX) {
+            float i = minX;
+            minX = maxX;
+            maxX = i;
+        }
+        fill(poseStack, minX, y, maxX - minX, 1, color);
+    }
+
+    public static void vLine(PoseStack poseStack, float x, float minY, float maxY, int color) {
+        if (maxY < minY) {
+            float i = minY;
+            minY = maxY;
+            maxY = i;
+        }
+        fill(poseStack, x, minY, 1, maxY - minY, color);
     }
 
     public static void poseDraw(PoseStack poseStack,BufferBuilder bufferbuilder, float x1, float y1, float x2, float y2){

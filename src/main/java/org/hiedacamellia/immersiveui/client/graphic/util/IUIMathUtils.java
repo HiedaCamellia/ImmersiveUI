@@ -34,6 +34,63 @@ public class IUIMathUtils {
     }
 
     /**
+     * 生成一个平滑的脉冲曲线。
+     * <p>
+     * 曲线从 0 开始，在上升阶段平滑升至 1，在保持阶段维持 1，
+     * 在下降阶段平滑降至 0。内部使用 {@link #smoothStep(float, float, float)} 实现平滑过渡。
+     * </p>
+     *
+     * @param time         当前时间（>= 0）
+     * @param duration     脉冲总时长（> 0）
+     * @param riseFraction 上升阶段占总时长的比例（0 < riseFraction < 1）
+     * @param fallFraction 下降阶段占总时长的比例（0 < fallFraction < 1）
+     * @return 0~1 之间的曲线值
+     */
+    public static float smoothPulse(float time, float duration, float riseFraction, float fallFraction) {
+        if (time < 0 || duration <= 0) return 0f;
+
+        float riseEnd = duration * riseFraction;
+        float fallStart = duration * (1f - fallFraction);
+
+        if (time < riseEnd) {
+            return smoothStep(0f, riseEnd, time);
+        } else if (time > fallStart) {
+            return 1f - smoothStep(fallStart, duration, time);
+        } else {
+            return 1f;
+        }
+    }
+
+    /**
+     * 生成一个平滑的脉冲曲线。
+     * <p>
+     * 曲线从 0 开始，在上升阶段平滑升至 1，在保持阶段维持 1，
+     * 在下降阶段平滑降至 0。内部使用{@link #smoothStep(double, double, double)}  实现平滑过渡。
+     * </p>
+     *
+     * @param time         当前时间（>= 0）
+     * @param duration     脉冲总时长（> 0）
+     * @param riseFraction 上升阶段占总时长的比例（0 < riseFraction < 1）
+     * @param fallFraction 下降阶段占总时长的比例（0 < fallFraction < 1）
+     * @return 0~1 之间的曲线值
+     */
+    public static double smoothPulse(double time, double duration, double riseFraction, double fallFraction) {
+        if (time < 0 || duration <= 0) return 0d;
+
+        double riseEnd = duration * riseFraction;
+        double fallStart = duration * (1d - fallFraction);
+
+        if (time < riseEnd) {
+            return smoothStep(0d, riseEnd, time);
+        } else if (time > fallStart) {
+            return 1d - smoothStep(fallStart, duration, time);
+        } else {
+            return 1d;
+        }
+    }
+
+
+    /**
      * 将整数颜色值转换为 RGBA 格式的向量。
      *
      * @param color 整数颜色值

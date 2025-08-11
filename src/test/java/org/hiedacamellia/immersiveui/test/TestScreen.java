@@ -9,11 +9,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.base.BaseBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.delay.DelayBarWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.bar.delay.DelayTexBarWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.component.ComponentWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.editbox.NumberEditBox;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.guide.EmphasizeDescriptionWidget;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.layout.ILayoutExtension;
+import org.hiedacamellia.immersiveui.client.gui.component.widget.layout.LayoutLocation;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.price.ItemPriceWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.price.SimplePriceWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.TreeEntryWidget;
@@ -96,6 +99,30 @@ public class TestScreen extends Screen {
 
         ItemPriceWidget itemPriceWidget = new ItemPriceWidget(200, 130,new ItemStack(Items.DIAMOND),100,new ItemStack(Items.DIRT),1);
         //addRenderableWidget(itemPriceWidget);
+
+        ComponentWidget componentWidget = new ComponentWidget(300, 200, Component.literal("这是需要解释的内容"));
+        addRenderableWidget(componentWidget);
+        EmphasizeDescriptionWidget emphasizeDescriptionWidget = new EmphasizeDescriptionWidget(200, 130, Component.literal("这是解释")){
+            @Override
+            public boolean mouseClicked(double mouseX, double mouseY, int button) {
+                if(show){
+                    hide();
+                }else {
+                    show();
+                }
+                return false;
+            }
+        };
+        if(componentWidget instanceof ILayoutExtension extension){
+            extension.setLayoutLocation(LayoutLocation.BOTTOM_LEFT);
+            emphasizeDescriptionWidget.setTargetWidget(extension);
+        }
+        emphasizeDescriptionWidget.setEmphasizeLocation(LayoutLocation.BOTTOM_RIGHT);
+        emphasizeDescriptionWidget.setEmphasizeColor(0xFFFF0000);
+        addRenderableWidget(emphasizeDescriptionWidget);
+        emphasizeDescriptionWidget.show();
+
+
     }
 
     @Override
@@ -103,7 +130,7 @@ public class TestScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
 
-        //IUIGuiUtils.drawRing(guiGraphics,100,100,20,40,0,720,0xFFFFFFFF);
+//        IUIGuiUtils.drawRing(guiGraphics,100,100,20,40,0,720,0xFFFFFFFF);
         //IUIGuiUtils.blitRoundCentered(guiGraphics, ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),100,100,50,0.2f);
 
         //IUIGuiUtils.blur(guiGraphics,ResourceLocation.withDefaultNamespace("textures/misc/unknown_pack.png"),200,0,300,100,3);
@@ -111,8 +138,9 @@ public class TestScreen extends Screen {
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick){
+        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
 //        guiGraphics.fill(0,0,this.width,this.height,0xFF000000);
-        ScreenTempTarget.BLUR_INSTANCE.unbindWrite();
-        ScreenTempTarget.SCREEN_INSTANCE.bindWrite(false);
+//        ScreenTempTarget.BLUR_INSTANCE.unbindWrite();
+//        ScreenTempTarget.SCREEN_INSTANCE.bindWrite(false);
     }
 }

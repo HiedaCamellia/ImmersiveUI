@@ -15,7 +15,7 @@ import java.util.UUID;
 public class CreateIngameScreenScreen extends Screen {
 
     /** 要显示的屏幕对象。 */
-    private Screen screen;
+    private final Screen screen;
 
     /**
      * 构造函数，初始化 CreateIngameScreenScreen 实例。
