@@ -42,8 +42,8 @@ public class IUIMathUtils {
      *
      * @param time         当前时间（>= 0）
      * @param duration     脉冲总时长（> 0）
-     * @param riseFraction 上升阶段占总时长的比例（0 < riseFraction < 1）
-     * @param fallFraction 下降阶段占总时长的比例（0 < fallFraction < 1）
+     * @param riseFraction 上升阶段占总时长的比例（0 ~ 1）
+     * @param fallFraction 下降阶段占总时长的比例（0 ~ 1）
      * @return 0~1 之间的曲线值
      */
     public static float smoothPulse(float time, float duration, float riseFraction, float fallFraction) {
@@ -70,8 +70,8 @@ public class IUIMathUtils {
      *
      * @param time         当前时间（>= 0）
      * @param duration     脉冲总时长（> 0）
-     * @param riseFraction 上升阶段占总时长的比例（0 < riseFraction < 1）
-     * @param fallFraction 下降阶段占总时长的比例（0 < fallFraction < 1）
+     * @param riseFraction 上升阶段占总时长的比例（0 ~ 1）
+     * @param fallFraction 下降阶段占总时长的比例（0 ~ 1）
      * @return 0~1 之间的曲线值
      */
     public static double smoothPulse(double time, double duration, double riseFraction, double fallFraction) {
