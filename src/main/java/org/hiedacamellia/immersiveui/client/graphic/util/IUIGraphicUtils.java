@@ -271,7 +271,7 @@ public class IUIGraphicUtils {
             maxY = i;
         }
         Matrix4f matrix4f = poseStack.last().pose();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
         BufferBuilder bufferBuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         bufferBuilder.addVertex(matrix4f, minX, minY, 0).setColor(color);
         bufferBuilder.addVertex(matrix4f, maxX, maxY, 0).setColor(color);
@@ -292,7 +292,7 @@ public class IUIGraphicUtils {
             maxY = i;
         }
         Matrix4f matrix4f = poseStack.last().pose();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
         BufferBuilder bufferBuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         bufferBuilder.addVertex(matrix4f, minX, minY + 1, 0).setColor(color);
         bufferBuilder.addVertex(matrix4f, maxX, maxY + 1, 0).setColor(color);
