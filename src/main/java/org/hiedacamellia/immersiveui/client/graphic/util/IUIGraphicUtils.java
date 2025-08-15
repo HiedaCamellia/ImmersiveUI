@@ -16,33 +16,54 @@ import org.joml.Matrix4f;
 
 import javax.annotation.Nullable;
 
+/**
+ * 图形绘制相关的工具类，提供基础形状、纹理、文本等渲染方法。
+ */
 @OnlyIn(Dist.CLIENT)
 public class IUIGraphicUtils {
 
+    /**
+     * 绘制以(x, y)为中心的正方形。
+     */
     public static void fillSquareCentered(PoseStack poseStack, float x, float y, float sideLength, int color) {
         fillCentered(poseStack, x, y, sideLength, sideLength, color);
     }
 
+    /**
+     * 绘制正方形。
+     */
     public static void fillSquare(PoseStack poseStack, float x, float y, float sideLength, int color) {
         fill(poseStack, x, y, sideLength, sideLength, color);
     }
 
+    /**
+     * 绘制以(x, y)为中心的矩形。
+     */
     public static void fillCentered(PoseStack poseStack, float x, float y, float width, float height, int color) {
         fill(poseStack, x - width / 2, y - height / 2, width, height, color);
     }
 
+    /**
+     * 绘制矩形。
+     */
     public static void fill(PoseStack poseStack, float x, float y, float width, float height, int color) {
         RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
         BufferBuilder bufferbuilder = getBufferBuilder(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         poseFill(poseStack, bufferbuilder, x, y, width, height, color);
     }
 
+    /**
+     * 绘制以(x, y)为中心的圆角矩形。
+     */
     public static void fillRoundRectCentered(PoseStack poseStack,float x, float y, float width, float height, float radius, int color) {
         fillRoundRect(poseStack, x-width / 2, y-height / 2, width, height, radius, color);
     }
     public static void fillRoundRectCentered(PoseStack poseStack, float width, float height, float radius, int color) {
         fillRoundRect(poseStack, -width / 2, -height / 2, width, height, radius, color);
     }
+    /**
+     * 绘制圆角矩形。
+     */
     public static void fillRoundRect(PoseStack poseStack, float x, float y, float width, float height, int radius, int color) {
         fillRoundRect(poseStack, x, y, width, height, width > height ? (float) radius / width : (float) radius / height, color);
     }
@@ -61,9 +82,15 @@ public class IUIGraphicUtils {
         poseDraw(poseStack, bufferbuilder, x, y, x2, y2, color);
     }
 
+    /**
+     * 绘制带边框的圆角矩形。
+     */
     public static void fillBorderRect(PoseStack poseStack, float x, float y, float width, float height, float radius, int color) {
         fillBorderRect(poseStack, x, y, width, height, radius, radius, color);
     }
+    /**
+     * 绘制带边框的圆角矩形（可分别指定X/Y半径）。
+     */
     public static void fillBorderRect(PoseStack poseStack, float x, float y, float width, float height, float radiusX, float radiusY, int color) {
         float x1 = x - width * radiusX;
         float y1 = y - height * radiusY;
@@ -78,7 +105,10 @@ public class IUIGraphicUtils {
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2, color);
     }
 
-    public static void borderRoundRectCentered(PoseStack poseStack, float x, float y,float width, float height, float radius, int color, float borderThickness, int borderColor) {
+    /**
+     * 绘制带边框的圆角矩形（可指定边框厚度和颜色）。
+     */
+    public static void borderRoundRectCentered(PoseStack poseStack, float x, float y, float width, float height, float radius, int color, float borderThickness, int borderColor) {
         borderRoundRect(poseStack, x-width / 2, y-height / 2, width, height, radius, color, borderThickness, borderColor);
     }
     public static void borderRoundRectCentered(PoseStack poseStack, float width, float height, float radius, int color, float borderThickness, int borderColor) {
@@ -100,6 +130,9 @@ public class IUIGraphicUtils {
     }
 
 
+    /**
+     * 绘制纹理贴图。
+     */
     public static void blit(PoseStack poseStack ,ResourceLocation location, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight) {
         _blit(poseStack,location, x,  y,x + width, y + height, uWidth, vHeight, uOffset, vOffset, textureWidth, textureHeight);
     }
@@ -132,6 +165,9 @@ public class IUIGraphicUtils {
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2, u0, v0, u1, v1);
     }
 
+    /**
+     * 绘制带有UV坐标的纹理贴图。
+     */
     public static void blitInUv(PoseStack poseStack, ResourceLocation location, float x1, float y1, float x2, float y2, float u0, float v0, float u1, float v1) {
         RenderSystem.setShaderTexture(0, location);
         _blitInUv(poseStack, x1, y1, x2, y2, u0, v0, u1, v1);
@@ -148,6 +184,9 @@ public class IUIGraphicUtils {
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2, 0,1,1,0);
     }
 
+    /**
+     * 绘制模糊效果。
+     */
     public static void blur(PoseStack poseStack, int textureId, float x1, float y1, float x2, float y2, float radius) {
         blur(poseStack, textureId, x1, y1, x2, y2, radius, 0, 0, 1, 1);
     }
@@ -170,6 +209,9 @@ public class IUIGraphicUtils {
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2, u0, v0, u1, v1);
     }
 
+    /**
+     * 居中绘制字符串。
+     */
     public static void drawCenteredString(PoseStack poseStack, String text, float x, float y, int color,boolean dropShadow) {
         drawCenteredString(poseStack, IUIMinecraftUtils.getFont(), text, x, y, color, dropShadow);
     }
@@ -210,6 +252,9 @@ public class IUIGraphicUtils {
         return font.drawInBatch(component, x, y, color, dropShadow, poseStack.last().pose(), IUIMinecraftUtils.getRenderBuffers().bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
 
+    /**
+     * 绘制圆环。
+     */
     public static void drawRing(PoseStack poseStack, float x, float y, float innerRadius, float outerRadius,float startAngle,float endAngle, int color) {
         drawRing(poseStack, x, y, innerRadius, outerRadius, startAngle, endAngle, color, color);
     }
@@ -244,6 +289,9 @@ public class IUIGraphicUtils {
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2);
     }
 
+    /**
+     * 居中绘制圆形纹理。
+     */
     public static void blitRoundCentered(PoseStack poseStack, ResourceLocation resourceLocation, float x, float y, int radius, float smooth) {
         float x1 = x - radius;
         float y1 = y - radius;
@@ -259,6 +307,9 @@ public class IUIGraphicUtils {
         poseDraw(poseStack, bufferbuilder, x1, y1, x2, y2);
     }
 
+    /**
+     * 绘制水平线。
+     */
     public static void hLine(PoseStack poseStack, float minX, float maxX, float minY, float maxY, int color) {
         if (maxX < minX) {
             float i = minX;
@@ -280,6 +331,9 @@ public class IUIGraphicUtils {
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
     }
 
+    /**
+     * 绘制垂直线。
+     */
     public static void vLine(PoseStack poseStack, float minX, float maxX, float minY, float maxY, int color) {
         if (maxX < minX) {
             float i = minX;
@@ -301,6 +355,9 @@ public class IUIGraphicUtils {
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
     }
 
+    /**
+     * 绘制水平线（单Y坐标）。
+     */
     public static void hLine(PoseStack poseStack, float minX, float maxX, float y, int color) {
         if (maxX < minX) {
             float i = minX;
@@ -310,6 +367,9 @@ public class IUIGraphicUtils {
         fill(poseStack, minX, y, maxX - minX, 1, color);
     }
 
+    /**
+     * 绘制垂直线（单X坐标）。
+     */
     public static void vLine(PoseStack poseStack, float x, float minY, float maxY, int color) {
         if (maxY < minY) {
             float i = minY;
@@ -318,7 +378,9 @@ public class IUIGraphicUtils {
         }
         fill(poseStack, x, minY, 1, maxY - minY, color);
     }
-
+    /**
+     * 用于顶点缓冲区的绘制（带UV）。
+     */
     public static void poseDraw(PoseStack poseStack,BufferBuilder bufferbuilder, float x1, float y1, float x2, float y2){
         poseDraw(poseStack,bufferbuilder, x1, y1, x2, y2, 0, 0, 1, 1);
     }
@@ -330,6 +392,9 @@ public class IUIGraphicUtils {
         bufferbuilder.addVertex(matrix4f, x2, y1, 0).setUv(u1, v0);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
+    /**
+     * 用于顶点缓冲区的绘制（带颜色）。
+     */
     public static void poseDraw(PoseStack poseStack,BufferBuilder bufferbuilder, float x1, float y1, float x2, float y2,int color){
         poseDraw(poseStack,bufferbuilder, x1, y1, x2, y2, 0, 0, 1, 1,color);
     }
@@ -351,6 +416,9 @@ public class IUIGraphicUtils {
     }
 
 
+    /**
+     * 获取BufferBuilder实例。
+     */
     private static BufferBuilder getBufferBuilder(VertexFormat.Mode mode, VertexFormat format) {
         return Tesselator.getInstance().begin(mode, format);
     }

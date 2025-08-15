@@ -408,6 +408,14 @@ public class TreeEntryWidget<T> extends AbstractWidget {
         renderChildren(guiGraphics, mouseX, mouseY, v);
     }
 
+    /**
+     * 渲染当前节点的子节点。
+     *
+     * @param guiGraphics 渲染上下文
+     * @param mouseX      鼠标的 X 坐标
+     * @param mouseY      鼠标的 Y 坐标
+     * @param v           渲染的部分时间
+     */
     protected void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
         for (TreeEntryWidget<T> child : children) {
             child.renderWidget(guiGraphics, mouseX, mouseY, v);
