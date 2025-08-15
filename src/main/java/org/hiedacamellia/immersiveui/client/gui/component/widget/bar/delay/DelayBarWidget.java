@@ -166,26 +166,41 @@ public class DelayBarWidget extends BaseBarWidget implements IAnimatable {
         }
     }
 
+    /**
+     * 获取动画起始时间。
+     */
     @Override
     public long getAnimationStartTime() {
         return this.delayStartTime;
     }
 
+    /**
+     * 设置动画起始时间。
+     */
     @Override
     public void setAnimationStartTime(long time) {
         this.delayStartTime = time;
     }
 
+    /**
+     * 获取动画持续时间。
+     */
     @Override
     public long getAnimationDuration() {
         return this.delay;
     }
 
+    /**
+     * 设置动画持续时间。
+     */
     @Override
     public void setAnimationDuration(long duration) {
         this.delay = duration;
     }
 
+    /**
+     * 处理进度动画的时间推进。
+     */
     @Override
     public void runningTime() {
         if (isAnimationEnd()) {
