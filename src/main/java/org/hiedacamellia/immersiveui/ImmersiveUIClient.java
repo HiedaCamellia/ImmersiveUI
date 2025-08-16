@@ -15,9 +15,6 @@ import org.hiedacamellia.immersiveui.client.event.IUIClientGameEvent;
 public class ImmersiveUIClient {
 
     public ImmersiveUIClient(IEventBus modEventBus, ModContainer modContainer) {
-
-        modEventBus.addListener(IUIClientGameEvent::onClientSetup);
-
         modContainer.registerConfig(ModConfig.Type.CLIENT, IUIClientConfig.SPEC);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }

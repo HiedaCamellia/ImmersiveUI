@@ -25,7 +25,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.hiedacamellia.immersiveui.client.gui.animate.AnimateUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMathUtils;
 import org.hiedacamellia.immersiveui.client.gui.animate.LerpNumberAnimation;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.IW2SWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenScreen;
@@ -53,7 +53,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
     private final List<IW2SWidget> inRange = new ObjectArrayList<>();
     //private final World2ScreenButton[] grid = new World2ScreenButton[64 * 64];
     private final FloatHolder click = new FloatHolder(0.0f);
-    private final LerpNumberAnimation animation = new LerpNumberAnimation(this.click, AnimateUtils.Lerp::smooth, 0, 1, 0.5f);
+    private final LerpNumberAnimation animation = new LerpNumberAnimation(this.click, IUIMathUtils::smoothLerp, 0, 1, 0.5f);
 
     private IW2SWidget highlight;
     private IW2SWidget locked;
