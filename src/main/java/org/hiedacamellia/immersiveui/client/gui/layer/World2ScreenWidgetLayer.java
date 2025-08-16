@@ -30,7 +30,6 @@ import org.hiedacamellia.immersiveui.client.gui.animate.LerpNumberAnimation;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.IW2SWidget;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenScreen;
 import org.hiedacamellia.immersiveui.client.gui.component.w2s.World2ScreenWidget;
-import org.hiedacamellia.immersiveui.client.mixin.accessor.GameRendererAccessor;
 import org.hiedacamellia.immersiveui.util.holder.FloatHolder;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -188,7 +187,7 @@ public class World2ScreenWidgetLayer implements LayeredDraw.Layer {
         final Camera camera = gameRenderer.getMainCamera();
         final Vec3 cameraPos = camera.getPosition();
 
-        final double fov = ((GameRendererAccessor) gameRenderer).tsi$getFov(camera, deltaTicks, true);
+        final double fov = gameRenderer.getFov(camera, deltaTicks, true);
         final Matrix4f projectionMatrix = gameRenderer.getProjectionMatrix(fov);
 
         final Matrix4f viewMatrix = new Matrix4f()
