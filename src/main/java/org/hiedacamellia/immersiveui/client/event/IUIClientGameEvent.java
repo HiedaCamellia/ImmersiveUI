@@ -1,7 +1,10 @@
 package org.hiedacamellia.immersiveui.client.event;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
+import net.minecraft.client.gui.screens.options.OptionsSubScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -9,6 +12,8 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import org.hiedacamellia.immersiveui.ImmersiveUI;
+import org.hiedacamellia.immersiveui.api.event.ResizeDisplayEvent;
+import org.hiedacamellia.immersiveui.api.event.SetScreenEvent;
 import org.hiedacamellia.immersiveui.client.graphic.target.ScreenTempTarget;
 import org.hiedacamellia.immersiveui.client.gui.component.widget.tree.wheel.action.BuiltInWheelActions;
 import org.hiedacamellia.immersiveui.client.gui.layer.ScreenWidgetLayer;
@@ -28,6 +33,7 @@ public class IUIClientGameEvent {
      *
      * @param event 客户端设置事件
      */
+    @SubscribeEvent
     public static void onClientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ScreenTempTarget.SCREEN_INSTANCE = new ScreenTempTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
@@ -102,5 +108,23 @@ public class IUIClientGameEvent {
         //         event.setCanceled(true);
         //     }
         // }
+    }
+
+    @SubscribeEvent
+    public static void onResize(ResizeDisplayEvent event){
+        Window window = Minecraft.getInstance().getWindow();
+        if(ScreenTempTarget.BLUR_INSTANCE ==null)return;
+        ScreenTempTarget.BLUR_INSTANCE.resize(window.getWidth(), window.getHeight(),true);
+        if(ScreenTempTarget.SCREEN_INSTANCE ==null)return;
+        ScreenTempTarget.SCREEN_INSTANCE.resize(window.getWidth(), window.getHeight(),true);
+        ScreenTempTarget.getBlurEffect().resize(window.getWidth(), window.getHeight());
+        World2ScreenWidgetLayer.INSTANCE.resize();
+    }
+
+    @SubscribeEvent
+    public static void onSetScreen(SetScreenEvent event){
+        if(event.getScreen()==null&&World2ScreenWidgetLayer.INSTANCE.activeScreen !=null){
+            World2ScreenWidgetLayer.INSTANCE.remove(World2ScreenWidgetLayer.INSTANCE.activeScreen.getId());
+        }
     }
 }

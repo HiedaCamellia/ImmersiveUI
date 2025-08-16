@@ -1,13 +1,10 @@
 package org.hiedacamellia.immersiveui.client.gui.component.w2s;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.hiedacamellia.immersiveui.ImmersiveUI;
-import org.hiedacamellia.immersiveui.client.gui.animate.AnimateUtils;
+import org.hiedacamellia.immersiveui.client.graphic.util.IUIMathUtils;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 import java.util.UUID;
 
@@ -82,7 +79,7 @@ public abstract class World2ScreenWidget implements IW2SWidget {
 
     @Override
     public void calculateRenderScale(float distance) {
-        this.scale = (float) AnimateUtils.Lerp.smooth(0, 1, 1.0f - Math.max(distance - FADE_BEGIN_DISTANCE, 0) / FADE_DISTANCE);
+        this.scale = IUIMathUtils.smoothLerp(0, 1, 1.0f - Math.max(distance - FADE_BEGIN_DISTANCE, 0) / FADE_DISTANCE);
     }
 
     /**

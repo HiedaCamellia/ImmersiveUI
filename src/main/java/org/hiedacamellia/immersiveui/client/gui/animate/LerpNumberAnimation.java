@@ -3,6 +3,7 @@ package org.hiedacamellia.immersiveui.client.gui.animate;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.hiedacamellia.immersiveui.util.holder.FloatHolder;
 import org.hiedacamellia.immersiveui.util.holder.IValueHolder;
 
 /**
@@ -10,7 +11,7 @@ import org.hiedacamellia.immersiveui.util.holder.IValueHolder;
  */
 @OnlyIn(Dist.CLIENT)
 public class LerpNumberAnimation extends AbstractScreenAnimation {
-    private final IValueHolder<Float> holder;
+    private final FloatHolder holder;
     private final LerpFunction lerp;
     private final boolean cancelable;
     private double src;
@@ -24,7 +25,7 @@ public class LerpNumberAnimation extends AbstractScreenAnimation {
      * @param dest 目标值
      * @param length 动画时长
      */
-    public LerpNumberAnimation(IValueHolder<Float> holder, LerpFunction lerp, double src, double dest, float length) {
+    public LerpNumberAnimation(FloatHolder holder, LerpFunction lerp, double src, double dest, float length) {
         super(length);
         this.holder = holder;
         this.lerp = lerp;
@@ -42,7 +43,7 @@ public class LerpNumberAnimation extends AbstractScreenAnimation {
      * @param length 动画时长
      * @param cancelable 是否可取消
      */
-    public LerpNumberAnimation(IValueHolder<Float> holder, LerpFunction lerp, double src, double dest, float length, boolean cancelable) {
+    public LerpNumberAnimation(FloatHolder holder, LerpFunction lerp, double src, double dest, float length, boolean cancelable) {
         super(length);
         this.holder = holder;
         this.lerp = lerp;

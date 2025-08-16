@@ -91,6 +91,73 @@ public class IUIMathUtils {
 
 
     /**
+     * 平滑时间函数。
+     */
+    public static double smoothTime(double time) {
+        return 2 * time - time * time;
+    }
+    public static float smoothTime(float time) {
+        return 2 * time - time * time;
+    }
+
+    /**
+     * 弹跳时间函数。
+     */
+    public static double bounceTime(double time) {
+        return 4 * (time - time * time);
+    }
+    public static float bounceTime(float time) {
+        return 4 * (time - time * time);
+    }
+
+    /**
+     * 线性插值。
+     */
+    public static double linearLerp(double src, double dest, float time) {
+        return src * (1.0 - time) + dest * time;
+    }
+    public static float linearLerp(float src, float dest, float time) {
+        return src * (1.0F - time) + dest * time;
+    }
+
+    /**
+     * 平滑插值（加速-减速）。
+     */
+    public static double smoothLerp(double src, double dest, double time) {
+        time = 2 * time - time * time;
+        return src * (1.0 - time) + dest * time;
+    }
+    public static float smoothLerp(float src, float dest, float time) {
+        time = 2 * time - time * time;
+        return src * (1.0F - time) + dest * time;
+    }
+
+    /**
+     * S曲线插值。
+     */
+    public static double sCurveLerp(double src, double dest, double time) {
+        double sqr = time * time;
+        time = 3 * sqr - 2 * sqr * time;
+        return src * (1.0F - time) + dest * time;
+    }
+    public static float sCurveLerp(float src, float dest, float time) {
+        float sqr = time * time;
+        time = 3 * sqr - 2 * sqr * time;
+        return src * (1.0F - time) + dest * time;
+    }
+
+    /**
+     * 弹跳插值。
+     */
+    public static double bounceLerp(double src, double dest, double time) {
+        time = 2 * (time - time * time);
+        return src * (1.0F - time) + dest * time;
+    }
+    public static float bounceLerp(float src, float dest, float time) {
+        time = 2 * (time - time * time);
+        return src * (1.0F - time) + dest * time;
+    }
+    /**
      * 将整数颜色值转换为 RGBA 格式的向量。
      *
      * @param color 整数颜色值
