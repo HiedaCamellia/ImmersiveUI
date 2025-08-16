@@ -263,14 +263,6 @@ public class TreeWidget<T, V extends TreeEntryWidget<T>> extends AbstractContain
         return false;
     }
 
-    /**
-     * 渲染组件，包括背景、标题和子节点。
-     *
-     * @param guiGraphics 渲染上下文
-     * @param mouseX      鼠标的 X 坐标
-     * @param mouseY      鼠标的 Y 坐标
-     * @param v           渲染的部分时间
-     */
     @Override
     protected int contentHeight() {
         return getHeight() - (showTitle ? titleHeight : 0);
@@ -281,6 +273,14 @@ public class TreeWidget<T, V extends TreeEntryWidget<T>> extends AbstractContain
         return 0;
     }
 
+    /**
+     * 渲染组件，包括背景、标题和子节点。
+     *
+     * @param guiGraphics 渲染上下文
+     * @param mouseX      鼠标的 X 坐标
+     * @param mouseY      鼠标的 Y 坐标
+     * @param v           渲染的部分时间
+     */
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float v) {
         renderBg(guiGraphics, mouseX, mouseY, v);
