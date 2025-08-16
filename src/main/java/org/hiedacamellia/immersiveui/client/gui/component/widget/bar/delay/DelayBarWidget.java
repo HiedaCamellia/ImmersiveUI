@@ -204,7 +204,7 @@ public class DelayBarWidget extends BaseBarWidget implements IAnimatable {
     @Override
     public void runningTime() {
         if (isAnimationEnd()) {
-            return; // 没有延迟动画
+            progress = targetProgress;
         }
         float progressDelta = getElapsedRatio();
         if (isIncrease()) {
